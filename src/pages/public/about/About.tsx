@@ -11,7 +11,7 @@ export function About() {
       {/* Header */}
       <header className="bg-primary py-20 text-center px-4 relative overflow-hidden border-b border-line shadow-sm">
         <h1 className="text-4xl sm:text-5xl font-black text-content-inverse mb-6 font-display uppercase tracking-tight">About Our Academy</h1>
-        <p className="text-content-inverse/80 font-semibold max-w-2xl mx-auto text-sm sm:text-base mb-4">A legacy of excellence in education, nurturing the leaders of tomorrow.</p>
+        <p className="text-content-inverse/80 font-semibold max-w-7xl mx-auto text-sm sm:text-base mb-4">A legacy of excellence in education, nurturing the leaders of tomorrow.</p>
         <div className="flex flex-col items-center justify-center gap-1.5 mt-4 text-accent">
           <p className="font-display font-black text-lg tracking-widest uppercase">Learn • Lead • Serve</p>
           <p className="font-display font-black text-lg tracking-widest" dir="rtl">سیکھیں • قیادت کریں • خدمت کریں</p>

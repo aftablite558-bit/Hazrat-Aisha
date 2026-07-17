@@ -28,7 +28,7 @@ export function Layout() {
         <Topbar onMenuClick={() => setSidebarOpen(true)} onSearchClick={() => setCommandPaletteOpen(true)} />
         
         <main id="main-content" tabIndex={-1} className="relative flex-1 overflow-y-auto focus:outline-none scrollbar-none">
-          <div className="container mx-auto p-4 md:p-8 max-w-7xl h-full">
+          <div className="container mx-auto p-4 md:p-8 max-w-full h-full">
             <AnimatePresence mode="wait">
               <motion.div
                 key={location.pathname}

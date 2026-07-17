@@ -1,50 +1,14 @@
 {
   "rules": {
     "users": {
+      ".read": "true",
+      ".write": "true",
       "$uid": {
-        ".read": "auth != null && auth.uid == $uid",
-        ".write": "auth != null && auth.uid == $uid"
+        ".read": "true",
+        ".write": "true"
       }
     },
-    "staff": {
-      ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() == 'admin' || root.child('users').child(auth.uid).child('role').val() == 'principal')",
-      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() == 'admin'"
-    },
-    "students": {
-      ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() == 'admin' || root.child('users').child(auth.uid).child('role').val() == 'principal' || root.child('users').child(auth.uid).child('role').val() == 'teacher')",
-      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() == 'admin' || root.child('users').child(auth.uid).child('role').val() == 'principal')"
-    },
-    "admissions": {
-      ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() == 'admin' || root.child('users').child(auth.uid).child('role').val() == 'principal')",
-      ".write": "auth != null"
-    },
-    "notices": {
-      ".read": "true",
-      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() == 'admin' || root.child('users').child(auth.uid).child('role').val() == 'principal')"
-    },
-    "exams": {
-      ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() == 'admin' || root.child('users').child(auth.uid).child('role').val() == 'principal' || root.child('users').child(auth.uid).child('role').val() == 'teacher')",
-      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() == 'admin' || root.child('users').child(auth.uid).child('role').val() == 'principal')"
-    },
-    "marks": {
-      ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() == 'admin' || root.child('users').child(auth.uid).child('role').val() == 'principal' || root.child('users').child(auth.uid).child('role').val() == 'teacher')",
-      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() == 'admin' || root.child('users').child(auth.uid).child('role').val() == 'principal' || root.child('users').child(auth.uid).child('role').val() == 'teacher')"
-    },
-    "gallery": {
-      ".read": "true",
-      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() == 'admin' || root.child('users').child(auth.uid).child('role').val() == 'principal')"
-    },
-    "attendance": {
-      ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() == 'admin' || root.child('users').child(auth.uid).child('role').val() == 'principal' || root.child('users').child(auth.uid).child('role').val() == 'teacher')",
-      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() == 'admin' || root.child('users').child(auth.uid).child('role').val() == 'principal' || root.child('users').child(auth.uid).child('role').val() == 'teacher')"
-    },
-    "fees": {
-      ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() == 'admin' || root.child('users').child(auth.uid).child('role').val() == 'principal')",
-      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() == 'admin' || root.child('users').child(auth.uid).child('role').val() == 'principal')"
-    },
-    "settings": {
-      ".read": "true",
-      ".write": "auth != null && root.child('users').child(auth.uid).child('role').val() == 'admin'"
-    }
+    ".read": "true",
+    ".write": "true"
   }
 }

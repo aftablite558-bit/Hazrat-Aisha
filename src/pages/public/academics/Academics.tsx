@@ -11,7 +11,7 @@ export function Academics() {
       {/* Header */}
       <header className="bg-primary py-20 text-center px-4 relative overflow-hidden border-b border-line shadow-sm">
         <h1 className="text-4xl sm:text-5xl font-black text-content-inverse mb-6 font-display uppercase tracking-tight">Academic Excellence</h1>
-        <p className="text-content-inverse/80 font-semibold max-w-2xl mx-auto text-sm sm:text-base">A comprehensive curriculum designed to nurture intellect, creativity, and character.</p>
+        <p className="text-content-inverse/80 font-semibold max-w-7xl mx-auto text-sm sm:text-base">A comprehensive curriculum designed to nurture intellect, creativity, and character.</p>
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">

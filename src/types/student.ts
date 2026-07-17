@@ -1,5 +1,6 @@
 export interface Student {
   id: string; // Internal Firebase key
+  uid?: string | null;
   admissionNumber: string;
   rollNumber: string;
   firstName: string;
@@ -22,12 +23,14 @@ export interface Student {
   class: string;
   section: string;
   session: string;
+  email?: string;
   createdAt: number;
   updatedAt: number;
 }
 
 export type CreateStudentInput = Omit<Student, 'id' | 'createdAt' | 'updatedAt' | 'photoUrl'> & {
   photoFile?: File;
+  password?: string;
 };
 
 export type UpdateStudentInput = Partial<CreateStudentInput>;

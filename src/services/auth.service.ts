@@ -15,9 +15,9 @@ import { UserRole } from "../types";
 
 export const authService = {
   /**
-   * Register a new user with email and password
+   * Create a new user in Firebase Auth and database
    */
-  async register(email: string, password: string, displayName: string, role: UserRole = "teacher") {
+  async createUser(email: string, password: string, displayName: string, role: UserRole = "teacher") {
     if (!isConfigured || !auth || !database) throw new Error("Firebase Auth is not configured");
     
     // Create the user in Firebase Auth
@@ -36,6 +36,15 @@ export const authService = {
       createdAt: Date.now(),
     });
 
+    return user;
+  },
+
+  /**
+   * Register a new user with email and password
+   */
+  async register(email: string, password: string, displayName: string, role: UserRole = "teacher") {
+    const user = await this.createUser(email, password, displayName, role);
+    
     // Send verification email
     await sendEmailVerification(user);
 

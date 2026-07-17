@@ -3,6 +3,7 @@ import { ref, push, set, get, update, remove } from 'firebase/database';
 import { ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { Staff, CreateStaffInput, UpdateStaffInput } from '../types/staff';
 import { v4 as uuidv4 } from 'uuid';
+import { authService } from './auth.service';
 
 class StaffService {
   private getDbRef(path: string) {
@@ -27,11 +28,20 @@ class StaffService {
       photoUrl = await getDownloadURL(sRef);
     }
 
-    const { photoFile, ...staffData } = input;
+    // Create Firebase Auth user if password is provided
+    let uid = null;
+    if (input.password) {
+      const role = input.designation === 'Principal' ? 'principal' : 'teacher';
+      const user = await authService.createUser(input.email, input.password, `${input.firstName} ${input.lastName}`, role);
+      uid = user.uid;
+    }
+
+    const { photoFile, password, ...staffData } = input;
     const now = Date.now();
     
     const newStaffData = {
       ...staffData,
+      uid,
       photoUrl,
       createdAt: now,
       updatedAt: now,

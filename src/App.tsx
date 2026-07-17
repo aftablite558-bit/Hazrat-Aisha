@@ -8,6 +8,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
+import { ToastContainer } from './components/ui/toast-container';
 import { Layout } from './components/layout/Layout';
 import { Loader2 } from 'lucide-react';
 import { OfflineIndicator } from './components/ui/OfflineIndicator';
@@ -31,6 +32,8 @@ const LoadingFallback = () => (
 
 // Lazy Loaded Pages
 const Home = lazy(() => import('./pages/Home').then(m => ({ default: m.Home })));
+const LayoutDebug = lazy(() => import('./pages/debug/LayoutDebug'));
+const StaffLogin = lazy(() => import('./pages/auth/StaffLogin').then(m => ({ default: m.StaffLogin })));
 const Login = lazy(() => import('./pages/auth/Login').then(m => ({ default: m.Login })));
 const Register = lazy(() => import('./pages/auth/Register').then(m => ({ default: m.Register })));
 const ForgotPassword = lazy(() => import('./pages/auth/ForgotPassword').then(m => ({ default: m.ForgotPassword })));
@@ -85,11 +88,13 @@ export default function App() {
   return (
     <ThemeProvider defaultTheme="obsidian">
       <ToastProvider>
+        <ToastContainer />
         <AuthProvider>
           <OfflineIndicator />
           <BrowserRouter>
             <Suspense fallback={<LoadingFallback />}>
               <Routes>
+              <Route path="/debug" element={<LayoutDebug />} />
               {/* Public Website */}
               <Route path="/" element={<PublicLayout />}>
                 <Route index element={<PublicHome />} />
@@ -109,6 +114,7 @@ export default function App() {
               <Route element={<GuestRoute />}>
                 <Route element={<AuthLayout />}>
                   <Route path="/login" element={<Login />} />
+                  <Route path="/staff-login" element={<StaffLogin />} />
                   <Route path="/register" element={<Register />} />
                   <Route path="/forgot-password" element={<ForgotPassword />} />
                 </Route>

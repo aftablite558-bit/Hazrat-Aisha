@@ -13,10 +13,10 @@ export function AuthLayout() {
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary/10 blur-[120px] pointer-events-none z-0" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-accent/10 blur-[120px] pointer-events-none z-0" />
 
-      {/* Centering and sizing container - strictly 100% width on mobile up to max-w-md on desktop */}
-      <div className="w-full max-w-lg mx-auto relative z-10 space-y-6 min-w-0">
+      {/* Centering and sizing container - explicitly set to 100% width, max-w-7xl, and forced min-width to prevent squashing */}
+      <div className="w-full max-w-7xl mx-auto relative z-10 space-y-6">
         
-        {/* Branding section at the top, width:100% */}
+        {/* Branding section at the top */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -26,17 +26,17 @@ export function AuthLayout() {
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-[#04120D] shadow-glow mb-4 shrink-0 self-center">
             <GraduationCap className="h-8 w-8" />
           </div>
-          <h2 className="w-full text-2xl sm:text-3xl font-extrabold tracking-tight text-content px-2 whitespace-nowrap">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-content px-2 whitespace-nowrap">
             Hazrat Aisha Academy
           </h2>
-          <p className="w-full text-sm font-body text-content-secondary mt-2 font-medium tracking-wide px-2 whitespace-nowrap">
+          <p className="text-sm font-body text-content-secondary mt-2 font-medium tracking-wide px-2 whitespace-nowrap">
             Premium Islamic School Platform
           </p>
         </motion.div>
         
-        {/* Form container below branding, width:100% */}
-        <div className="w-full glass-panel rounded-2xl shadow-e3 overflow-hidden border border-line min-w-0 bg-surface/40 backdrop-blur-[var(--blur-glass)]">
-          <div className="p-4 sm:p-8 min-w-0 w-full">
+        {/* Form container */}
+        <div className="w-full glass-panel rounded-2xl shadow-e3 overflow-hidden border border-line bg-surface/40">
+          <div className="p-6 sm:p-8 w-full">
             <AnimatePresence mode="wait">
               <motion.div
                 key={location.pathname}
@@ -44,7 +44,7 @@ export function AuthLayout() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.2 }}
-                className="w-full min-w-0"
+                className="w-full"
               >
                 <Outlet />
               </motion.div>

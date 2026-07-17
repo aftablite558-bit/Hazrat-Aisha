@@ -47,7 +47,7 @@ export function AdmissionsInfo() {
         <h1 className="text-4xl sm:text-5xl font-black text-content-inverse mb-4 font-display uppercase tracking-tight">
           Admissions Guidance
         </h1>
-        <p className="text-content-inverse/80 font-semibold max-w-2xl mx-auto text-sm sm:text-base">
+        <p className="text-content-inverse/80 font-semibold max-w-7xl mx-auto text-sm sm:text-base">
           Cultivating character and academic excellence. Find everything you need to join Hazrat Aisha Academy.
         </p>
       </header>

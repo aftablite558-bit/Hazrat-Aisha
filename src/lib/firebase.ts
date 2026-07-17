@@ -4,13 +4,13 @@ import { getDatabase, Database } from "firebase/database";
 import { getStorage, FirebaseStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  apiKey: typeof import.meta !== 'undefined' ? import.meta.env.VITE_FIREBASE_API_KEY : process.env.VITE_FIREBASE_API_KEY,
+  authDomain: typeof import.meta !== 'undefined' ? import.meta.env.VITE_FIREBASE_AUTH_DOMAIN : process.env.VITE_FIREBASE_AUTH_DOMAIN,
+  databaseURL: "https://hazrat-aisha-academy-cb36a-default-rtdb.firebaseio.com",
+  projectId: typeof import.meta !== 'undefined' ? import.meta.env.VITE_FIREBASE_PROJECT_ID : process.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: typeof import.meta !== 'undefined' ? import.meta.env.VITE_FIREBASE_STORAGE_BUCKET : process.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: typeof import.meta !== 'undefined' ? import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID : process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: typeof import.meta !== 'undefined' ? import.meta.env.VITE_FIREBASE_APP_ID : process.env.VITE_FIREBASE_APP_ID,
 };
 
 // Check if Firebase config is actually provided
@@ -25,7 +25,8 @@ if (isConfigured) {
   try {
     app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
     auth = getAuth(app);
-    database = getDatabase(app);
+    database = getDatabase(app, "https://hazrat-aisha-academy-cb36a-default-rtdb.firebaseio.com");
+    console.log("Firebase Database initialized:", !!database);
     storage = getStorage(app);
   } catch (error) {
     console.error("Firebase initialization error:", error);

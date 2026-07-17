@@ -62,10 +62,10 @@ export function Notices() {
       {/* Header */}
       <header className="bg-primary py-12 sm:py-20 text-center px-4 relative overflow-hidden border-b border-line shadow-sm">
         <h1 className="text-3xl sm:text-5xl font-black text-content-inverse mb-4 font-display uppercase tracking-tight">Notice Board</h1>
-        <p className="text-content-inverse/80 font-semibold max-w-2xl mx-auto text-xs sm:text-base">Stay updated with the latest announcements, circulars, and events.</p>
+        <p className="text-content-inverse/80 font-semibold max-w-7xl mx-auto text-xs sm:text-base">Stay updated with the latest announcements, circulars, and events.</p>
       </header>
 
-      <section className="w-full max-w-full md:max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12 min-w-0" aria-label="Notices and Announcements">
+      <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12 min-w-0" aria-label="Notices and Announcements">
         {/* Controls */}
         <div className="flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center mb-10">
           <nav className="flex flex-wrap gap-2 w-full md:w-auto" aria-label="Category Filter">

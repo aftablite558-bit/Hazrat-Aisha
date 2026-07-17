@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import { AdminDashboard } from './admin/Dashboard';
+import { StudentDashboard } from './students/Dashboard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 
 export function Home() {
@@ -8,6 +9,10 @@ export function Home() {
 
   if (user?.role === 'admin' || user?.role === 'principal') {
     return <AdminDashboard />;
+  }
+
+  if (user?.role === 'student') {
+    return <StudentDashboard />;
   }
 
   return (

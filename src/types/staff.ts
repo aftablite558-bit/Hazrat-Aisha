@@ -1,5 +1,6 @@
 export interface Staff {
   id: string; // Internal Firebase key
+  uid?: string | null;
   employeeId: string;
   firstName: string;
   lastName: string;
@@ -25,6 +26,7 @@ export interface Staff {
 
 export type CreateStaffInput = Omit<Staff, 'id' | 'createdAt' | 'updatedAt' | 'photoUrl'> & {
   photoFile?: File;
+  password?: string;
 };
 
 export type UpdateStaffInput = Partial<CreateStaffInput>;

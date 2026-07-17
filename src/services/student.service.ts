@@ -3,6 +3,7 @@ import { ref, push, set, get, update, remove, query, orderByChild, equalTo } fro
 import { ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { Student, CreateStudentInput, UpdateStudentInput } from '../types/student';
 import { v4 as uuidv4 } from 'uuid';
+import { authService } from './auth.service';
 
 class StudentService {
   private getDbRef(path: string) {
@@ -27,11 +28,19 @@ class StudentService {
       photoUrl = await getDownloadURL(sRef);
     }
 
-    const { photoFile, ...studentData } = input;
+    // Create Firebase Auth user if password is provided
+    let uid = null;
+    if (input.password) {
+      const user = await authService.createUser(input.email, input.password, `${input.firstName} ${input.lastName}`, 'teacher');
+      uid = user.uid;
+    }
+
+    const { photoFile, password, ...studentData } = input;
     const now = Date.now();
     
     const newStudentData = {
       ...studentData,
+      uid,
       photoUrl,
       createdAt: now,
       updatedAt: now,

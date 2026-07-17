@@ -26,7 +26,7 @@ export function Contact() {
       {/* Header */}
       <header className="bg-primary py-20 text-center px-4 relative overflow-hidden border-b border-line shadow-sm">
         <h1 className="text-4xl sm:text-5xl font-black text-content-inverse mb-4 font-display uppercase tracking-tight">Contact Us</h1>
-        <p className="text-content-inverse/80 font-semibold max-w-2xl mx-auto text-sm sm:text-base">We'd love to hear from you. Get in touch with us for any inquiries.</p>
+        <p className="text-content-inverse/80 font-semibold max-w-7xl mx-auto text-sm sm:text-base">We'd love to hear from you. Get in touch with us for any inquiries.</p>
       </header>
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16" aria-label="Contact Information and Form">
@@ -104,7 +104,7 @@ export function Contact() {
                 >
                   <CheckCircle2 className="w-12 h-12 mb-3 text-success-500" />
                   <h4 className="text-lg font-extrabold">Message Sent Successfully</h4>
-                  <p className="text-sm font-semibold mt-2 text-success-500/90 leading-relaxed max-w-xs">
+                  <p className="text-sm font-semibold mt-2 text-success-500/90 leading-relaxed max-w-sm">
                     Thank you for contacting us. We will get back to you shortly.
                   </p>
                   <Button variant="secondary" className="mt-6 font-bold border-line" onClick={() => setSubmitted(false)}>

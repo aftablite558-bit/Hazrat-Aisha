@@ -28,7 +28,7 @@ export function Gallery() {
       {/* Header */}
       <header className="bg-primary py-20 text-center px-4 relative overflow-hidden border-b border-line shadow-sm">
         <h1 className="text-4xl sm:text-5xl font-black text-content-inverse mb-4 font-display uppercase tracking-tight">Gallery</h1>
-        <p className="text-content-inverse/80 font-semibold max-w-2xl mx-auto text-sm sm:text-base">Glimpses of life, learning, and celebrations at Hazrat Aisha Academy.</p>
+        <p className="text-content-inverse/80 font-semibold max-w-7xl mx-auto text-sm sm:text-base">Glimpses of life, learning,<br /> and celebrations at Hazrat Aisha Academy.</p>
       </header>
 
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12" aria-label="Media Gallery">

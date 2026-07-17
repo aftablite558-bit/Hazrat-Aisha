@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { onAuthStateChanged, User as FirebaseUser } from "firebase/auth";
 import { auth, database, isConfigured } from "../lib/firebase";
-import { ref, get } from "firebase/database";
+import { ref, get, set } from "firebase/database";
 import { User } from "../types";
 
 interface AuthContextType {
@@ -19,7 +19,7 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!isConfigured || !auth || !database) {
@@ -28,36 +28,53 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return;
     }
 
-    const unsubscribe = onAuthStateChanged(auth, async (currentFirebaseUser) => {
-      setFirebaseUser(currentFirebaseUser);
-      if (currentFirebaseUser) {
+    console.log("AuthContext: calling onAuthStateChanged, auth:", !!auth, "database:", !!database);
+    try {
+      const unsubscribe = onAuthStateChanged(auth, async (currentFirebaseUser) => {
+        console.log("AuthContext: onAuthStateChanged callback, user:", currentFirebaseUser?.uid);
+        setFirebaseUser(currentFirebaseUser);
+        
+        if (!currentFirebaseUser) {
+          console.log("AuthContext: No user, setting user to null and loading to false");
+          setUser(null);
+          setLoading(false);
+          return;
+        }
+
         try {
-          const userRef = ref(database, `users/${currentFirebaseUser.uid}`);
+          const dbPath = `users/${currentFirebaseUser.uid}`;
+          const userRef = ref(database, dbPath);
           const snapshot = await get(userRef);
+          
           if (snapshot.exists()) {
-            setUser({ uid: currentFirebaseUser.uid, isEmailVerified: currentFirebaseUser.emailVerified, ...snapshot.val() } as User);
+            const userData = snapshot.val();
+            setUser({ uid: currentFirebaseUser.uid, isEmailVerified: currentFirebaseUser.emailVerified, ...userData } as User);
           } else {
-            // Default role if not found (or handle registration flow differently)
-            setUser({
+            // New user: create profile
+            const newUser = {
               uid: currentFirebaseUser.uid,
               email: currentFirebaseUser.email,
               displayName: currentFirebaseUser.displayName,
-              role: "teacher",
+              role: 'admin', // Default role
               createdAt: Date.now(),
               isEmailVerified: currentFirebaseUser.emailVerified,
-            });
+            };
+            await set(userRef, newUser);
+            setUser(newUser as User);
           }
         } catch (error) {
-          console.error("Error fetching user data:", error);
+          console.error("Error fetching/creating user data:", error);
           setUser(null);
+        } finally {
+          setLoading(false);
         }
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
-    });
+      });
 
-    return () => unsubscribe();
+      return () => unsubscribe();
+    } catch (error) {
+      console.error("AuthContext: Error setting up onAuthStateChanged:", error);
+      setLoading(false);
+    }
   }, []);
 
   return (

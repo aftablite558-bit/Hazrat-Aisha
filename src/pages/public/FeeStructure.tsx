@@ -12,12 +12,12 @@ export function FeeStructure() {
         <h1 className="text-4xl sm:text-5xl font-black text-content-inverse mb-4 font-display uppercase tracking-tight">
           Fee Structure
         </h1>
-        <p className="text-content-inverse/80 font-semibold max-w-2xl mx-auto text-sm sm:text-base">
+        <p className="text-content-inverse/80 font-semibold max-w-7xl mx-auto text-sm sm:text-base">
           Investing in your child's academic and moral future with transparent school fees.
         </p>
       </header>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
 
         {/* Core Info Card */}
         <section className="bg-surface border border-line rounded-3xl p-8 md:p-12 mb-12 shadow-e3 relative overflow-hidden text-center">

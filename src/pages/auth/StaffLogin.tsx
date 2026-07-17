@@ -8,11 +8,10 @@ import { authService } from '../../services/auth.service';
 import { useToast } from '../../context/ToastContext';
 import { FirebaseError } from 'firebase/app';
 
-export function Login() {
+export function StaffLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   
   const navigate = useNavigate();
@@ -27,22 +26,13 @@ export function Login() {
 
     setIsLoading(true);
     try {
-      const result = await authService.login(email, password, rememberMe);
+      // Assuming authService handles login regardless of role
+      await authService.login(email, password, true);
       addToast('Successfully logged in', 'success');
-      navigate('/dashboard');
+      navigate('/dashboard/staff'); // Or appropriate staff dashboard
     } catch (error) {
-      console.error("Login failed:", error);
       if (error instanceof FirebaseError) {
-        switch (error.code) {
-          case 'auth/invalid-credential':
-            addToast('Invalid email or password', 'error');
-            break;
-          case 'auth/user-disabled':
-            addToast('This account has been disabled', 'error');
-            break;
-          default:
-            addToast('Failed to login. Please try again.', 'error');
-        }
+        addToast('Invalid email or password', 'error');
       } else {
         addToast('An unexpected error occurred', 'error');
       }
@@ -55,22 +45,22 @@ export function Login() {
     <div className="w-full min-w-0 space-y-6">
       <div className="w-full min-w-0 space-y-2 text-center font-display">
         <h1 className="text-[var(--text-h3)] font-bold tracking-tight text-content whitespace-nowrap">
-          Welcome back
+          Staff Portal
         </h1>
         <p className="text-sm font-body text-content-secondary whitespace-nowrap">
-          Enter your credentials to access your account
+          Enter staff credentials to access the portal
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4 font-body">
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-content-secondary font-medium">Email</Label>
+          <Label htmlFor="email" className="text-content-secondary font-medium">Staff Email</Label>
           <div className="relative">
             <Mail className="absolute left-3 top-3 h-5 w-5 text-content-tertiary" />
             <Input
               id="email"
               type="email"
-              placeholder="name@example.com"
+              placeholder="staff@aishaacademy.edu.in"
               className="pl-10"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -83,12 +73,6 @@ export function Login() {
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <Label htmlFor="password" className="text-content-secondary font-medium">Password</Label>
-            <Link 
-              to="/forgot-password" 
-              className="text-sm font-medium text-primary hover:text-primary-hover transition-colors"
-            >
-              Forgot password?
-            </Link>
           </div>
           <div className="relative">
             <Lock className="absolute left-3 top-3 h-5 w-5 text-content-tertiary" />
@@ -112,34 +96,10 @@ export function Login() {
           </div>
         </div>
 
-        <div className="flex items-center space-x-2">
-          <input
-            type="checkbox"
-            id="rememberMe"
-            className="h-4 w-4 rounded border-line bg-surface text-primary focus:ring-primary/20 cursor-pointer"
-            checked={rememberMe}
-            onChange={(e) => setRememberMe(e.target.checked)}
-            disabled={isLoading}
-          />
-          <Label htmlFor="rememberMe" className="text-sm font-normal text-content-secondary cursor-pointer select-none">
-            Remember me
-          </Label>
-        </div>
-
         <Button type="submit" className="w-full mt-2" isLoading={isLoading} size="lg">
           Sign In
         </Button>
       </form>
-
-      <div className="text-center text-sm font-body text-content-secondary">
-        Don't have an account?{' '}
-        <Link 
-          to="/register" 
-          className="font-semibold text-primary hover:text-primary-hover transition-colors"
-        >
-          Request access
-        </Link>
-      </div>
     </div>
   );
 }

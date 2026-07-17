@@ -43,6 +43,8 @@ export function StudentForm() {
     class: '',
     section: '',
     session: new Date().getFullYear().toString() + '-' + (new Date().getFullYear() + 1).toString(),
+    email: '',
+    password: '',
   });
 
   const [existingPhotoUrl, setExistingPhotoUrl] = useState<string | null>(null);
@@ -85,6 +87,7 @@ export function StudentForm() {
           class: student.class,
           section: student.section,
           session: student.session,
+          email: student.email || '',
         });
         if (student.photoUrl) {
           setExistingPhotoUrl(student.photoUrl);
@@ -210,6 +213,16 @@ export function StudentForm() {
                   <label className="text-sm font-semibold text-content-secondary">Date of Birth *</label>
                   <input type="date" required name="dateOfBirth" value={formData.dateOfBirth} onChange={handleInputChange} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
                 </div>
+                <div className="space-y-1.5">
+                  <label className="text-sm font-semibold text-content-secondary">Email</label>
+                  <input type="email" name="email" value={formData.email} onChange={handleInputChange} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
+                </div>
+                {!isEditing && (
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-semibold text-content-secondary">Password</label>
+                    <input type="password" name="password" value={formData.password} onChange={handleInputChange} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
+                  </div>
+                )}
               </div>
             </div>
 
