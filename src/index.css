@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap');
+@import "tailwindcss";
+@import "./tokens/noor-tokens.css";
+
+@theme {
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
+  --font-arabic: var(--font-arabic);
+  --font-urdu: var(--font-urdu);
+  --font-sans: var(--font-body);
+
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-accent: var(--color-accent);
+  --color-glow: var(--color-glow);
+
+  --color-surface-page: var(--bg-page);
+  --color-surface: var(--bg-surface);
+  --color-surface-raised: var(--bg-surface-raised);
+  --color-surface-overlay: var(--bg-surface-overlay);
+
+  --color-content: var(--text-primary);
+  --color-content-secondary: var(--text-secondary);
+  --color-content-tertiary: var(--text-tertiary);
+  --color-content-disabled: var(--text-disabled);
+
+  --color-line: var(--border-default);
+  --color-line-strong: var(--border-strong);
+
+  --color-success-500: var(--color-success-500);
+  --color-success-400: var(--color-success-400);
+  --color-warning-500: var(--color-warning-500);
+  --color-warning-400: var(--color-warning-400);
+  --color-danger-500: var(--color-danger-500);
+  --color-danger-400: var(--color-danger-400);
+  --color-info-500: var(--color-info-500);
+  --color-info-400: var(--color-info-400);
+
+  --spacing-3xs: var(--space-3xs);
+  --spacing-2xs: var(--space-2xs);
+  --spacing-xs: var(--space-xs);
+  --spacing-sm: var(--space-sm);
+  --spacing-md: var(--space-md);
+  --spacing-lg: var(--space-lg);
+  --spacing-xl: var(--space-xl);
+  --spacing-2xl: var(--space-2xl);
+  --spacing-3xl: var(--space-3xl);
+  --spacing-4xl: var(--space-4xl);
+  --spacing-5xl: var(--space-5xl);
+
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+  --radius-3xl: var(--radius-3xl);
+  --radius-pill: var(--radius-pill);
+
+  --shadow-e1: var(--shadow-e1);
+  --shadow-e2: var(--shadow-e2);
+  --shadow-e3: var(--shadow-e3);
+  --shadow-e4: var(--shadow-e4);
+  --shadow-e5: var(--shadow-e5);
+  --shadow-glow: var(--glow-emerald);
+  --shadow-gold: var(--glow-gold);
+  --shadow-focus: var(--glow-focus);
+
+  --ease-standard: var(--ease-standard);
+  --ease-emphasized: var(--ease-emphasized);
+  --ease-spring: var(--ease-spring);
+  --ease-in: var(--ease-in);
+}
+
+@custom-variant dark (&:is([data-theme="obsidian"] *, [data-theme="midnight"] *));
+
+@layer base {
+  body {
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-feature-settings: "ss01" on, "cv11" on;
+  }
+
+  /* Global Text Wrapping and Word Splitting Fix */
+  *, *::before, *::after {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: none;
+  }
+
+  /* Preserve standard formatting for preformatted text and code elements */
+  pre, code, kbd, samp {
+    word-break: normal;
+    overflow-wrap: normal;
+    word-wrap: normal;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--blur-glass)) saturate(140%);
+    border: 1px solid var(--glass-border);
+  }
+  .glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--blur-glass)) saturate(140%);
+    border: 1px solid var(--glass-border);
+  }
+}
+
+html.theme-animating, html.theme-animating * { 
+  transition: background-color 240ms ease, color 240ms ease, border-color 240ms ease !important;
+}
+
+@layer utilities {
+  .noor-spinner .orbit { animation: spin 1200ms linear infinite; transform-origin: center; }
+  .noor-spinner .star { animation: starPulse 1200ms var(--ease-standard) infinite; transform-origin: center; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes starPulse {
+  50% { transform: scale(1.08); }
+}
+
+@keyframes shimmer {
+  to { transform: translateX(100%); }
+}
