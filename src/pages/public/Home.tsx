@@ -30,12 +30,12 @@ export function Home() {
             referrerPolicy="no-referrer"
           />
         </picture>
-        <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center flex flex-col items-stretch justify-center min-w-0">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-4xl md:text-6xl font-black text-white tracking-tight mb-6 font-display uppercase"
+            className="w-full min-w-0 text-4xl md:text-6xl font-black text-white tracking-tight mb-6 font-display uppercase"
           >
             Empowering Minds,<br />
             <span className="text-accent">Shaping the Future</span>
@@ -44,7 +44,7 @@ export function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-lg md:text-xl text-white/95 mb-4 max-w-2xl mx-auto font-medium"
+            className="w-full min-w-0 text-lg md:text-xl text-white/95 mb-4 mx-auto font-medium"
           >
             A premium Islamic school blending CBSE-aligned modern academic excellence with authentic Islamic values.
           </motion.p>

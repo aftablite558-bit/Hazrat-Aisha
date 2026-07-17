@@ -53,16 +53,16 @@ export function Login() {
   return (
     <div className="w-full min-w-0 space-y-6">
       <div className="w-full min-w-0 space-y-2 text-center font-display">
-        <h1 className="text-[var(--text-h3)] font-bold tracking-tight text-content">
+        <h1 className="text-[var(--text-h3)] font-bold tracking-tight text-content whitespace-nowrap">
           Welcome back
         </h1>
-        <p className="text-sm font-body text-content-secondary">
+        <p className="text-sm font-body text-content-secondary whitespace-nowrap">
           Enter your credentials to access your account
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="w-full min-w-0 space-y-4 font-body">
-        <div className="space-y-2">
+      <form onSubmit={handleSubmit} className="w-full grid grid-cols-2 gap-4 font-body">
+        <div className="space-y-2 col-span-1">
           <Label htmlFor="email" className="text-content-secondary font-medium">Email</Label>
           <div className="relative">
             <Mail className="absolute left-3 top-3 h-5 w-5 text-content-tertiary" />
@@ -79,7 +79,7 @@ export function Login() {
           </div>
         </div>
         
-        <div className="space-y-2">
+        <div className="space-y-2 col-span-1">
           <div className="flex items-center justify-between">
             <Label htmlFor="password" className="text-content-secondary font-medium">Password</Label>
             <Link 
@@ -111,7 +111,7 @@ export function Login() {
           </div>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 col-span-2">
           <input
             type="checkbox"
             id="rememberMe"
@@ -121,11 +121,11 @@ export function Login() {
             disabled={isLoading}
           />
           <Label htmlFor="rememberMe" className="text-sm font-normal text-content-secondary cursor-pointer select-none">
-            Remember me for 30 days
+            Remember me
           </Label>
         </div>
 
-        <Button type="submit" className="w-full mt-2" isLoading={isLoading} size="lg">
+        <Button type="submit" className="w-full col-span-2 mt-2" isLoading={isLoading} size="lg">
           Sign In
         </Button>
       </form>

@@ -64,9 +64,9 @@ export function PublicLayout() {
               <div className="w-12 h-12 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center text-primary shrink-0 transition-transform group-hover:scale-105" aria-hidden="true">
                 <BookOpen className="w-6 h-6" />
               </div>
-              <div>
-                <span className="text-xl font-black text-content font-display uppercase tracking-tight leading-none block">Hazrat Aisha</span>
-                <span className="text-xl font-black text-primary font-display uppercase tracking-tight leading-none block">Academy</span>
+              <div className="whitespace-nowrap">
+                <span className="text-xl font-black text-content font-display uppercase tracking-tight leading-none block whitespace-nowrap">Hazrat Aisha</span>
+                <span className="text-xl font-black text-primary font-display uppercase tracking-tight leading-none block whitespace-nowrap">Academy</span>
               </div>
             </Link>
 
@@ -140,7 +140,7 @@ export function PublicLayout() {
                 <div className="w-10 h-10 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center text-primary shrink-0" aria-hidden="true">
                   <BookOpen className="w-5 h-5" />
                 </div>
-                <h2 className="text-lg font-black text-content uppercase tracking-tight leading-none font-display">Hazrat Aisha<br/><span className="text-primary">Academy</span></h2>
+                <h2 className="text-lg font-black text-content uppercase tracking-tight leading-none font-display whitespace-nowrap">Hazrat Aisha<br/><span className="text-primary">Academy</span></h2>
               </div>
               <p className="text-sm text-content-secondary font-medium mb-6 leading-relaxed">
                 Cultivating character, knowledge, and faith through CBSE-aligned modern academic excellence integrated with authentic Islamic values.

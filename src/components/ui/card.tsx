@@ -12,7 +12,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={cn(
-          "relative overflow-hidden",
+          "relative overflow-hidden w-full",
           variant === "default" 
             ? "bg-[var(--bg-surface-raised)] border border-[var(--border-default)] rounded-[var(--radius-lg)] shadow-[var(--shadow-e1)] p-[var(--space-md)] sm:p-[var(--space-lg)]" 
             : "bg-[var(--glass-bg)] backdrop-blur-[var(--blur-glass)] backdrop-saturate-150 border border-[var(--glass-border)] rounded-[var(--radius-xl)]",

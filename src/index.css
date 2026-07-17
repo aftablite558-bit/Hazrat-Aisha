@@ -85,10 +85,10 @@
 
   /* Global Text Wrapping and Word Splitting Fix */
   *, *::before, *::after {
-    word-break: keep-all;
+    word-break: normal;
     overflow-wrap: break-word;
-    word-wrap: break-word;
     hyphens: none;
+    min-width: 0;
   }
 
   /* Preserve standard formatting for preformatted text and code elements */
@@ -106,6 +106,7 @@
     border: 1px solid var(--glass-border);
   }
   .glass-panel {
+    width: 100%;
     background: var(--glass-bg);
     backdrop-filter: blur(var(--blur-glass)) saturate(140%);
     border: 1px solid var(--glass-border);

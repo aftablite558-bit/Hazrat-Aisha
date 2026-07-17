@@ -14,22 +14,22 @@ export function AuthLayout() {
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-accent/10 blur-[120px] pointer-events-none z-0" />
 
       {/* Centering and sizing container - strictly 100% width on mobile up to max-w-md on desktop */}
-      <div className="w-full max-w-md mx-auto relative z-10 space-y-6 min-w-0">
+      <div className="w-full max-w-lg mx-auto relative z-10 space-y-6 min-w-0">
         
         {/* Branding section at the top, width:100% */}
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="w-full flex flex-col items-center justify-center text-center font-display min-w-0"
+          className="w-full flex flex-col items-center justify-center text-center font-display"
         >
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-[#04120D] shadow-glow mb-4 shrink-0">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-[#04120D] shadow-glow mb-4 shrink-0 self-center">
             <GraduationCap className="h-8 w-8" />
           </div>
-          <h2 className="w-full text-2xl sm:text-3xl font-extrabold tracking-tight text-content px-2">
+          <h2 className="w-full text-2xl sm:text-3xl font-extrabold tracking-tight text-content px-2 whitespace-nowrap">
             Hazrat Aisha Academy
           </h2>
-          <p className="w-full text-sm font-body text-content-secondary mt-2 font-medium tracking-wide px-2">
+          <p className="w-full text-sm font-body text-content-secondary mt-2 font-medium tracking-wide px-2 whitespace-nowrap">
             Premium Islamic School Platform
           </p>
         </motion.div>
