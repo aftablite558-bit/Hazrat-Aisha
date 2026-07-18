@@ -94,8 +94,8 @@ export function ReportCard() {
           </div>
 
           {/* Marks Table */}
-          <div className="mb-8 overflow-hidden border border-line rounded-xl shadow-sm">
-            <table className="w-full border-collapse text-sm">
+          <div className="mb-8 overflow-x-auto border border-line rounded-xl shadow-sm">
+            <table className="w-full border-collapse text-sm min-w-[500px]">
               <thead className="bg-surface-overlay border-b border-line">
                 <tr>
                   <th className="border-r border-line p-3 text-center w-12 font-bold text-content-secondary text-xs uppercase tracking-wider">S.No</th>

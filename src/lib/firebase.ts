@@ -3,10 +3,10 @@ import { getAuth, Auth } from "firebase/auth";
 import { getDatabase, Database } from "firebase/database";
 import { getStorage, FirebaseStorage } from "firebase/storage";
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: typeof import.meta !== 'undefined' ? import.meta.env.VITE_FIREBASE_API_KEY : process.env.VITE_FIREBASE_API_KEY,
   authDomain: typeof import.meta !== 'undefined' ? import.meta.env.VITE_FIREBASE_AUTH_DOMAIN : process.env.VITE_FIREBASE_AUTH_DOMAIN,
-  databaseURL: "https://hazrat-aisha-academy-cb36a-default-rtdb.firebaseio.com",
+  databaseURL: "https://hazrat-aisha-academy-cb36a-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: typeof import.meta !== 'undefined' ? import.meta.env.VITE_FIREBASE_PROJECT_ID : process.env.VITE_FIREBASE_PROJECT_ID,
   storageBucket: typeof import.meta !== 'undefined' ? import.meta.env.VITE_FIREBASE_STORAGE_BUCKET : process.env.VITE_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: typeof import.meta !== 'undefined' ? import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID : process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
@@ -23,11 +23,15 @@ let storage: FirebaseStorage | undefined;
 
 if (isConfigured) {
   try {
+    console.log("Firebase: Attempting to initialize app");
     app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
     auth = getAuth(app);
-    database = getDatabase(app, "https://hazrat-aisha-academy-cb36a-default-rtdb.firebaseio.com");
+    database = getDatabase(app, "https://hazrat-aisha-academy-cb36a-default-rtdb.asia-southeast1.firebasedatabase.app");
     console.log("Firebase Database initialized:", !!database);
     storage = getStorage(app);
+    console.log("Firebase: Initialization successful");
+    console.log("Firebase: Auth instance:", !!auth, "Database instance:", !!database);
+    console.log("Firebase: Storage Bucket:", firebaseConfig.storageBucket);
   } catch (error) {
     console.error("Firebase initialization error:", error);
   }

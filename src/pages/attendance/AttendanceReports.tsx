@@ -271,7 +271,7 @@ export function AttendanceReports() {
             </div>
 
             <div className="overflow-x-auto border border-line rounded-lg">
-              <table className="w-full text-sm text-left">
+              <table className="w-full text-sm text-left min-w-[800px]">
                 <thead className="text-xs text-content-secondary font-bold uppercase bg-surface-overlay border-b border-line print:bg-surface-raised">
                   <tr>
                     {target === 'students' ? (

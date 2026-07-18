@@ -11,6 +11,7 @@ export function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const location = useLocation();
+  console.log("Layout.tsx rendered for:", location.pathname);
   const { user } = useAuth();
 
   return (
@@ -28,7 +29,7 @@ export function Layout() {
         <Topbar onMenuClick={() => setSidebarOpen(true)} onSearchClick={() => setCommandPaletteOpen(true)} />
         
         <main id="main-content" tabIndex={-1} className="relative flex-1 overflow-y-auto focus:outline-none scrollbar-none">
-          <div className="container mx-auto p-4 md:p-8 max-w-full h-full">
+          <div className="w-full h-full p-4 md:p-8">
             <AnimatePresence mode="wait">
               <motion.div
                 key={location.pathname}
@@ -36,7 +37,7 @@ export function Layout() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -10, scale: 0.98 }}
                 transition={{ duration: 0.2, ease: "easeInOut" }}
-                className="h-full"
+                className="h-full w-full"
               >
                 <Outlet />
               </motion.div>

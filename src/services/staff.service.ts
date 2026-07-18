@@ -17,24 +17,29 @@ class StaffService {
   }
 
   async createStaff(input: CreateStaffInput): Promise<Staff> {
-    if (!database) throw new Error('Database not initialized');
+    if (!database) {
+      throw new Error('Database not initialized');
+    }
     
     let photoUrl = null;
     if (input.photoFile && storage) {
-      const fileExt = input.photoFile.name.split('.').pop();
-      const fileName = `staff/${uuidv4()}.${fileExt}`;
-      const sRef = this.getStorageRef(fileName);
-      await uploadBytes(sRef, input.photoFile);
-      photoUrl = await getDownloadURL(sRef);
+      try {
+        const fileExt = input.photoFile.name.split('.').pop();
+        const fileName = `staff/${uuidv4()}.${fileExt}`;
+        const sRef = this.getStorageRef(fileName);
+        await uploadBytes(sRef, input.photoFile);
+        
+        photoUrl = await getDownloadURL(sRef);
+      } catch (error: any) {
+        console.error('createStaff: photo upload error', error);
+        // Continue anyway, skip photo
+      }
     }
 
-    // Create Firebase Auth user if password is provided
+    // Do NOT create Firebase Auth user here to avoid logging out the admin
+    // Mark as pending account creation
+    const accountStatus = 'pending';
     let uid = null;
-    if (input.password) {
-      const role = input.designation === 'Principal' ? 'principal' : 'teacher';
-      const user = await authService.createUser(input.email, input.password, `${input.firstName} ${input.lastName}`, role);
-      uid = user.uid;
-    }
 
     const { photoFile, password, ...staffData } = input;
     const now = Date.now();
@@ -42,6 +47,7 @@ class StaffService {
     const newStaffData = {
       ...staffData,
       uid,
+      accountStatus,
       photoUrl,
       createdAt: now,
       updatedAt: now,
@@ -63,15 +69,16 @@ class StaffService {
     const staffRef = this.getDbRef('staff');
     const snapshot = await get(staffRef);
     
-    if (snapshot.exists()) {
-      const data = snapshot.val();
-      return Object.keys(data).map(key => ({
-        id: key,
-        ...data[key]
-      })) as Staff[];
+    if (!snapshot.exists()) {
+      await set(staffRef, []);
+      return [];
     }
-    
-    return [];
+
+    const data = snapshot.val();
+    return Object.keys(data).map(key => ({
+      id: key,
+      ...data[key]
+    })) as Staff[];
   }
 
   async getStaff(id: string): Promise<Staff | null> {
@@ -116,8 +123,10 @@ class StaffService {
     return this.getStaff(id) as Promise<Staff>;
   }
 
-  async deleteStaff(id: string, photoUrl?: string | null): Promise<void> {
-    if (!database) throw new Error('Database not initialized');
+  async deleteStaff(id: string, photoUrl: string | null | undefined): Promise<void> {
+    if (!database) {
+      throw new Error('Database not initialized');
+    }
 
     if (photoUrl && storage) {
       try {
@@ -125,7 +134,7 @@ class StaffService {
         const path = decodeURIComponent(urlObj.pathname.split('/o/')[1].split('?')[0]);
         const sRef = this.getStorageRef(path);
         await deleteObject(sRef);
-      } catch (e) {
+      } catch (e: any) {
         console.warn("Failed to delete photo:", e);
       }
     }

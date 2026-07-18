@@ -109,8 +109,8 @@ export function FeeCollectionForm() {
 
       {!selectedStudent && students.length > 0 && (
         <Card className="border-line shadow-e1 overflow-hidden">
-          <CardContent className="p-0">
-            <table className="w-full text-sm text-left">
+          <CardContent className="p-0 overflow-x-auto">
+            <table className="w-full text-sm text-left min-w-[600px]">
               <thead className="text-xs text-content-secondary font-bold uppercase bg-surface-overlay border-b border-line">
                 <tr>
                   <th className="px-6 py-4 font-display uppercase tracking-wider text-xs">Adm No.</th>
@@ -192,7 +192,7 @@ export function FeeCollectionForm() {
                   <div className="py-8 text-center text-content-secondary font-semibold">No payment history found.</div>
                 ) : (
                   <div className="overflow-x-auto">
-                    <table className="w-full text-sm text-left">
+                    <table className="w-full text-sm text-left min-w-[800px]">
                       <thead className="text-xs text-content-secondary font-bold uppercase bg-surface-overlay border-b border-line">
                         <tr>
                           <th className="px-6 py-4 font-display uppercase tracking-wider text-xs">Receipt No</th>

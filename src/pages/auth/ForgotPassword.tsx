@@ -84,8 +84,8 @@ export function ForgotPassword() {
   }
 
   return (
-    <div className="w-full min-w-0 space-y-6 font-body">
-      <div className="w-full min-w-0 space-y-2 text-center font-display">
+    <div className="w-full space-y-6 font-body">
+      <div className="w-full space-y-2 text-center font-display">
         <h1 className="text-[var(--text-h3)] font-bold tracking-tight text-content">
           Reset password
         </h1>
@@ -94,7 +94,7 @@ export function ForgotPassword() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="w-full min-w-0 space-y-4">
+      <form onSubmit={handleSubmit} className="w-full space-y-4">
         <div className="space-y-2">
           <Label htmlFor="email" className="text-content-secondary font-medium">Email</Label>
           <div className="relative">

@@ -68,7 +68,7 @@ export function StaffDetails() {
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="space-y-6 max-w-5xl mx-auto pb-10 font-body"
+      className="space-y-6 w-full max-w-7xl mx-auto pb-10 font-body"
     >
       <div className="flex items-center justify-between font-display">
         <div className="flex items-center gap-4">

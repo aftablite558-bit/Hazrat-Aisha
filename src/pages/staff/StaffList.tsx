@@ -6,6 +6,7 @@ import { staffService } from '../../services/staff.service';
 import { Staff } from '../../types/staff';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
+import { ConfirmationDialog } from '../../components/ui/confirmation-dialog';
 import { 
   Plus, Search, Edit, Trash2, Eye, FileDown,
   Loader2
@@ -19,6 +20,11 @@ export function StaffList() {
   
   const [staff, setStaff] = useState<Staff[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [deletePhotoUrl, setDeletePhotoUrl] = useState<string | null | undefined>(null);
+  const [deleteName, setDeleteName] = useState<string>("");
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const [searchTerm, setSearchTerm] = useState('');
   const [departmentFilter, setDepartmentFilter] = useState('all');
   const [sortConfig, setSortConfig] = useState<{ key: 'name' | 'employeeId'; direction: 'asc' | 'desc' } | null>(null);
@@ -50,16 +56,20 @@ export function StaffList() {
     }
   };
 
-  const handleDelete = async (staffMember: Staff) => {
-    if (!window.confirm(`Are you sure you want to delete ${staffMember.firstName} ${staffMember.lastName}?`)) return;
-    
+  const handleDelete = async () => {
+    if (!deleteId) return;
+    setIsDeleting(true);
     try {
-      await staffService.deleteStaff(staffMember.id, staffMember.photoUrl);
+      await staffService.deleteStaff(deleteId, deletePhotoUrl);
       addToast('Staff member deleted successfully', 'success');
+      setStaff(prev => prev.filter(s => s.id !== deleteId));
+      setDeleteId(null);
       fetchStaff();
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       addToast('Failed to delete staff member', 'error');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -159,7 +169,7 @@ export function StaffList() {
             Export CSV
           </Button>
           {canEdit && (
-            <Button onClick={() => navigate('/staff/new')}>
+            <Button onClick={() => navigate('/dashboard/staff/new')}>
               <Plus className="mr-2 h-4 w-4" />
               Add Staff Member
             </Button>
@@ -205,7 +215,7 @@ export function StaffList() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left">
+              <table className="w-full text-sm text-left min-w-[800px]">
                 <thead className="text-xs text-content-secondary font-bold uppercase bg-surface-overlay border-b border-line">
                   <tr>
                     <th className="px-6 py-4 cursor-pointer hover:bg-line/40 transition-colors" onClick={() => requestSort('name')}>
@@ -266,16 +276,20 @@ export function StaffList() {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-right space-x-1">
-                        <Button variant="ghost" size="sm" onClick={() => navigate(`/staff/${s.id}`)}>
+                        <Button variant="ghost" size="sm" onClick={() => navigate(`/dashboard/staff/${s.id}`)}>
                           <Eye className="h-4 w-4 text-content-secondary hover:text-content" />
                         </Button>
                         {(canEdit || (user?.email === s.email)) && (
-                          <Button variant="ghost" size="sm" onClick={() => navigate(`/staff/${s.id}/edit`)}>
+                          <Button variant="ghost" size="sm" onClick={() => navigate(`/dashboard/staff/${s.id}/edit`)}>
                             <Edit className="h-4 w-4 text-primary hover:text-primary-hover" />
                           </Button>
                         )}
                         {canEdit && (
-                          <Button variant="ghost" size="sm" onClick={() => handleDelete(s)}>
+                          <Button variant="ghost" size="sm" onClick={() => {
+                            setDeleteId(s.id);
+                            setDeletePhotoUrl(s.photoUrl);
+                            setDeleteName(`${s.firstName} ${s.lastName}`);
+                          }}>
                             <Trash2 className="h-4 w-4 text-danger-500 hover:text-danger-600" />
                           </Button>
                         )}
@@ -286,6 +300,16 @@ export function StaffList() {
               </table>
             </div>
           )}
+
+          <ConfirmationDialog
+            open={!!deleteId}
+            onOpenChange={(open) => !open && setDeleteId(null)}
+            title="Delete Staff Member"
+            description={`Are you sure you want to delete ${deleteName}? This action cannot be undone.`}
+            onConfirm={handleDelete}
+            isLoading={isDeleting}
+            className="max-w-3xl"
+          />
 
           {totalPages > 1 && (
             <div className="flex items-center justify-between mt-6 pt-4 border-t border-line font-body px-4 sm:px-0">

@@ -56,16 +56,16 @@ export function Notices() {
   });
 
   return (
-    <div className="w-full bg-[var(--bg-surface-raised)] min-h-screen pb-24 font-body min-w-0">
+    <div className="w-full bg-[var(--bg-surface-raised)] min-h-screen pb-24 font-body">
       <SEO title="Notices & Events" description="Stay updated with the latest announcements, circulars, and events from Hazrat Aisha Academy." />
       
       {/* Header */}
       <header className="bg-primary py-12 sm:py-20 text-center px-4 relative overflow-hidden border-b border-line shadow-sm">
-        <h1 className="text-3xl sm:text-5xl font-black text-content-inverse mb-4 font-display uppercase tracking-tight">Notice Board</h1>
+        <h1 className="text-3xl sm:text-5xl font-bold text-content-inverse mb-4 font-display tracking-tight">Notice Board</h1>
         <p className="text-content-inverse/80 font-semibold max-w-7xl mx-auto text-xs sm:text-base">Stay updated with the latest announcements, circulars, and events.</p>
       </header>
 
-      <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12 min-w-0" aria-label="Notices and Announcements">
+      <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 sm:mt-12" aria-label="Notices and Announcements">
         {/* Controls */}
         <div className="flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center mb-10">
           <nav className="flex flex-wrap gap-2 w-full md:w-auto" aria-label="Category Filter">
@@ -100,7 +100,7 @@ export function Notices() {
         </div>
 
         {/* List */}
-        <div className="w-full flex flex-col gap-4 min-w-0">
+        <div className="w-full flex flex-col gap-4">
           {filteredNotices.length > 0 ? (
             filteredNotices.map((notice, index) => (
               <motion.div
@@ -108,16 +108,16 @@ export function Notices() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="w-full block min-w-0"
+                className="w-full block"
               >
                 <article
-                  className={`w-full p-5 md:p-6 rounded-[24px] md:rounded-2xl border shadow-e1 hover:shadow-e2 transition-all duration-fast m-0 bg-surface flex flex-col md:flex-row gap-4 md:gap-6 justify-between items-stretch md:items-center min-w-0
+                  className={`w-full p-5 md:p-6 rounded-[24px] md:rounded-2xl border shadow-e1 hover:shadow-e2 transition-all duration-fast m-0 bg-surface flex flex-col md:flex-row gap-4 md:gap-6 justify-between items-stretch md:items-center
                     ${notice.pinned ? 'border-l-4 border-l-primary bg-primary/5 border-line' : 'border-line'}`}
                 >
-                  <div className="w-full md:flex-1 space-y-2 sm:space-y-3 min-w-0">
+                  <div className="w-full md:flex-1 space-y-2 sm:space-y-3">
                     <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
                       {notice.pinned && (
-                        <span className="flex items-center text-[10px] font-extrabold text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md uppercase tracking-wider" title="Pinned Notice">
+                        <span className="flex items-center text-[10px] font-bold text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md uppercase tracking-wider" title="Pinned Notice">
                           <Pin className="w-3.5 h-3.5 mr-1" aria-hidden="true" /> Pinned
                         </span>
                       )}
@@ -128,10 +128,10 @@ export function Notices() {
                         {notice.category}
                       </span>
                     </div>
-                    <h2 className="text-lg sm:text-xl font-extrabold text-content font-display tracking-tight">{notice.title}</h2>
+                    <h2 className="text-lg sm:text-xl font-bold text-content font-display tracking-tight">{notice.title}</h2>
                     <p className="text-sm text-content-secondary font-medium leading-relaxed mt-1 sm:mt-2">{notice.desc}</p>
                   </div>
-                  <div className="shrink-0 pt-2 md:pt-0 w-full md:w-auto min-w-0">
+                  <div className="shrink-0 pt-2 md:pt-0 w-full md:w-auto">
                     <Button variant="secondary" className="w-full md:w-auto flex items-center justify-center gap-2 border-line text-content-secondary hover:text-content font-bold font-display" aria-label={`Download PDF for ${notice.title}`}>
                       <Download className="w-4 h-4" aria-hidden="true" />
                       <span>Download PDF</span>

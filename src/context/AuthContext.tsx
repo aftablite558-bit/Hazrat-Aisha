@@ -19,8 +19,8 @@ const AuthContext = createContext<AuthContextType>({
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(false);
-
+  const [loading, setLoading] = useState(true);
+  
   useEffect(() => {
     if (!isConfigured || !auth || !database) {
       console.warn("Firebase is not configured. Please check your .env file.");
@@ -28,14 +28,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       return;
     }
 
-    console.log("AuthContext: calling onAuthStateChanged, auth:", !!auth, "database:", !!database);
     try {
       const unsubscribe = onAuthStateChanged(auth, async (currentFirebaseUser) => {
-        console.log("AuthContext: onAuthStateChanged callback, user:", currentFirebaseUser?.uid);
         setFirebaseUser(currentFirebaseUser);
         
         if (!currentFirebaseUser) {
-          console.log("AuthContext: No user, setting user to null and loading to false");
           setUser(null);
           setLoading(false);
           return;

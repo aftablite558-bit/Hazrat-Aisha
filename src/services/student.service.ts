@@ -22,25 +22,24 @@ class StudentService {
     let photoUrl = null;
     if (input.photoFile && storage) {
       const fileExt = input.photoFile.name.split('.').pop();
-      const fileName = `students/\${uuidv4()}.\${fileExt}`;
+      const fileName = `students/${uuidv4()}.${fileExt}`;
       const sRef = this.getStorageRef(fileName);
       await uploadBytes(sRef, input.photoFile);
       photoUrl = await getDownloadURL(sRef);
     }
 
-    // Create Firebase Auth user if password is provided
+    // Do NOT create Firebase Auth user here to avoid logging out the admin
+    // Mark as pending account creation
+    const accountStatus = 'pending';
     let uid = null;
-    if (input.password) {
-      const user = await authService.createUser(input.email, input.password, `${input.firstName} ${input.lastName}`, 'teacher');
-      uid = user.uid;
-    }
 
-    const { photoFile, password, ...studentData } = input;
+    const { photoFile, ...studentData } = input;
     const now = Date.now();
     
     const newStudentData = {
       ...studentData,
       uid,
+      accountStatus,
       photoUrl,
       createdAt: now,
       updatedAt: now,
@@ -62,21 +61,22 @@ class StudentService {
     const studentsRef = this.getDbRef('students');
     const snapshot = await get(studentsRef);
     
-    if (snapshot.exists()) {
-      const data = snapshot.val();
-      return Object.keys(data).map(key => ({
-        id: key,
-        ...data[key]
-      })) as Student[];
+    if (!snapshot.exists()) {
+      await set(studentsRef, []);
+      return [];
     }
-    
-    return [];
+
+    const data = snapshot.val();
+    return Object.keys(data).map(key => ({
+      id: key,
+      ...data[key]
+    })) as Student[];
   }
 
   async getStudent(id: string): Promise<Student | null> {
     if (!database) return null;
     
-    const studentRef = this.getDbRef(`students/\${id}`);
+    const studentRef = this.getDbRef(`students/${id}`);
     const snapshot = await get(studentRef);
     
     if (snapshot.exists()) {
@@ -95,7 +95,7 @@ class StudentService {
     let photoUrl = existingPhotoUrl;
     if (input.photoFile && storage) {
       const fileExt = input.photoFile.name.split('.').pop();
-      const fileName = `students/\${uuidv4()}.\${fileExt}`;
+      const fileName = `students/${uuidv4()}.${fileExt}`;
       const sRef = this.getStorageRef(fileName);
       await uploadBytes(sRef, input.photoFile);
       photoUrl = await getDownloadURL(sRef);
@@ -111,7 +111,7 @@ class StudentService {
       updatedAt: Date.now(),
     };
 
-    const studentRef = this.getDbRef(`students/\${id}`);
+    const studentRef = this.getDbRef(`students/${id}`);
     await update(studentRef, updateData);
 
     return this.getStudent(id) as Promise<Student>;
@@ -132,7 +132,7 @@ class StudentService {
       }
     }
 
-    const studentRef = this.getDbRef(`students/\${id}`);
+    const studentRef = this.getDbRef(`students/${id}`);
     await remove(studentRef);
   }
 }

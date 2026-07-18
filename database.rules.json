@@ -1,14 +1,66 @@
 {
   "rules": {
-    "users": {
-      ".read": "true",
-      ".write": "true",
-      "$uid": {
+    "attendance": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "staff": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "students": {
+      ".read": "auth != null || query.orderByChild == 'class' || query.orderByChild == 'rollNumber' || query.orderByChild == 'admissionNumber'",
+      ".write": "auth != null",
+      ".indexOn": [
+        "admissionNumber",
+        "rollNumber",
+        "class",
+        "firstName",
+        "lastName"
+      ]
+    },
+    "exams": {
+      "list": {
         ".read": "true",
-        ".write": "true"
+        ".write": "auth != null"
+      },
+      "marks": {
+        ".read": "auth != null",
+        ".write": "auth != null",
+        "$examId": {
+          "$studentId": {
+            ".read": "true"
+          }
+        }
+      },
+      "published": {
+        ".read": "true",
+        ".write": "auth != null"
       }
     },
-    ".read": "true",
-    ".write": "true"
+    "users": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "settings": {
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "system_logs": {
+      ".indexOn": [
+        "timestamp"
+      ],
+      ".read": "auth != null",
+      ".write": "auth != null"
+    },
+    "backups": {
+      ".indexOn": [
+        "timestamp"
+      ],
+      ".read": "auth != null",
+      ".write": "auth != null"
+    }
   }
 }

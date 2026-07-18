@@ -135,7 +135,7 @@ export function FeeDashboard() {
                 <div className="py-12 text-center text-content-secondary font-semibold">Loading fee structures...</div>
               ) : (
                 <div className="overflow-x-auto">
-                  <table className="w-full text-sm text-left">
+                  <table className="w-full text-sm text-left min-w-[800px]">
                     <thead className="text-xs text-content-secondary font-bold uppercase bg-surface-overlay border-b border-line">
                       <tr>
                         <th className="px-6 py-4 font-display uppercase tracking-wider text-xs">Class</th>

@@ -44,7 +44,7 @@ export function AdmissionsInfo() {
 
       {/* Header */}
       <header className="bg-primary py-20 text-center px-4 relative overflow-hidden border-b border-line shadow-sm">
-        <h1 className="text-4xl sm:text-5xl font-black text-content-inverse mb-4 font-display uppercase tracking-tight">
+        <h1 className="text-4xl sm:text-5xl font-bold text-content-inverse mb-4 font-display tracking-tight">
           Admissions Guidance
         </h1>
         <p className="text-content-inverse/80 font-semibold max-w-7xl mx-auto text-sm sm:text-base">
@@ -59,17 +59,17 @@ export function AdmissionsInfo() {
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div>
-              <span className="inline-block text-[10px] font-extrabold text-primary bg-primary/10 border border-primary/20 px-3 py-1 rounded-full uppercase tracking-wider mb-4">
+              <span className="inline-block text-[10px] font-bold text-primary bg-primary/10 border border-primary/20 px-3 py-1 rounded-full uppercase tracking-wider mb-4">
                 Now Enrolling
               </span>
-              <h2 className="text-3xl font-extrabold text-content font-display tracking-tight mb-4">
+              <h2 className="text-3xl font-bold text-content font-display tracking-tight mb-4">
                 Admissions Open Every April
               </h2>
               <p className="text-content-secondary font-medium leading-relaxed mb-6">
                 Hazrat Aisha Academy invites applications from motivated students looking for an exceptional academic environment integrated with holistic Tarbiyah and deep-rooted moral values.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="xl" variant="gold" className="font-display font-extrabold uppercase tracking-wide flex items-center justify-center" onClick={() => navigate('/contact')}>
+                <Button size="xl" variant="gold" className="font-display font-bold uppercase tracking-wide flex items-center justify-center" onClick={() => navigate('/contact')}>
                   Inquire Online <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
                 <a href="tel:+919470818538" className="inline-flex items-center justify-center px-6 py-3.5 border border-line rounded-xl font-bold text-content hover:bg-surface-overlay transition-colors">
@@ -78,7 +78,7 @@ export function AdmissionsInfo() {
               </div>
             </div>
             <div className="bg-surface-raised border border-line rounded-2xl p-6 space-y-4">
-              <h3 className="text-lg font-extrabold text-content font-display">Important Dates</h3>
+              <h3 className="text-lg font-bold text-content font-display">Important Dates</h3>
               <div className="flex items-start gap-4">
                 <Calendar className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                 <div>
@@ -107,7 +107,7 @@ export function AdmissionsInfo() {
         {/* Admissions Process Steps */}
         <section className="mb-24" aria-labelledby="steps-heading">
           <header className="text-center mb-16">
-            <h2 id="steps-heading" className="text-3xl font-extrabold text-content font-display uppercase tracking-tight">
+            <h2 id="steps-heading" className="text-3xl font-bold text-content font-display tracking-tight">
               Admission Process
             </h2>
             <div className="w-24 h-1 bg-primary mx-auto mt-4 rounded-full" aria-hidden="true"></div>
@@ -126,10 +126,10 @@ export function AdmissionsInfo() {
                 transition={{ delay: index * 0.08 }}
                 className="bg-surface border border-line rounded-2xl p-6 relative shadow-e1 hover:shadow-e2 transition-all duration-fast"
               >
-                <div className="text-3xl font-black text-primary/25 font-display mb-4">
+                <div className="text-3xl font-bold text-primary/25 font-display mb-4">
                   {step.step}
                 </div>
-                <h3 className="text-lg font-extrabold text-content font-display mb-2">
+                <h3 className="text-lg font-bold text-content font-display mb-2">
                   {step.title}
                 </h3>
                 <p className="text-xs text-content-secondary font-medium leading-relaxed">
@@ -143,7 +143,7 @@ export function AdmissionsInfo() {
         {/* Eligibility Table */}
         <section className="mb-24" aria-labelledby="eligibility-heading">
           <header className="text-center mb-12">
-            <h2 id="eligibility-heading" className="text-3xl font-extrabold text-content font-display uppercase tracking-tight">
+            <h2 id="eligibility-heading" className="text-3xl font-bold text-content font-display tracking-tight">
               Eligibility & Guidelines
             </h2>
             <div className="w-24 h-1 bg-primary mx-auto mt-4 rounded-full" aria-hidden="true"></div>
@@ -151,12 +151,12 @@ export function AdmissionsInfo() {
 
           <div className="bg-surface border border-line rounded-2xl overflow-hidden shadow-e1">
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-left border-collapse min-w-[600px]">
                 <thead>
                   <tr className="bg-surface-raised border-b border-line">
-                    <th className="p-4 font-display font-extrabold text-sm text-content">Target Grade / Class</th>
-                    <th className="p-4 font-display font-extrabold text-sm text-content">Age Requirement (as of April 1st)</th>
-                    <th className="p-4 font-display font-extrabold text-sm text-content">Assessment Method</th>
+                    <th className="p-4 font-display font-bold text-sm text-content">Target Grade / Class</th>
+                    <th className="p-4 font-display font-bold text-sm text-content">Age Requirement (as of April 1st)</th>
+                    <th className="p-4 font-display font-bold text-sm text-content">Assessment Method</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-line">
@@ -178,7 +178,7 @@ export function AdmissionsInfo() {
           <article className="bg-surface border border-line rounded-3xl p-8 shadow-e1">
             <div className="flex items-center gap-3 mb-6">
               <FileText className="w-6 h-6 text-primary" />
-              <h2 id="docs-heading" className="text-2xl font-extrabold text-content font-display tracking-tight">
+              <h2 id="docs-heading" className="text-2xl font-bold text-content font-display tracking-tight">
                 Required Documents
               </h2>
             </div>
@@ -206,7 +206,7 @@ export function AdmissionsInfo() {
           <article className="bg-surface border border-line rounded-3xl p-8 shadow-e1">
             <div className="flex items-center gap-3 mb-6">
               <ShieldAlert className="w-6 h-6 text-primary" />
-              <h2 className="text-2xl font-extrabold text-content font-display tracking-tight">
+              <h2 className="text-2xl font-bold text-content font-display tracking-tight">
                 Admissions Policy
               </h2>
             </div>

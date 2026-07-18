@@ -1,229 +1,173 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router';
-import { Menu, X, BookOpen, MapPin, Phone, Mail, ChevronRight, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { Menu, X, Sun, Moon, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Button } from '../../components/ui/button';
-import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
+
+const RubElHizb = ({ className }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="4" y="4" width="16" height="16" transform="rotate(45 12 12)" />
+    <rect x="4" y="4" width="16" height="16" />
+    <circle cx="12" cy="12" r="2.5" />
+  </svg>
+);
+
+const fullNavLinks = [
+  { name: 'HOME', path: '/' },
+  { name: 'ABOUT', path: '/about' },
+  { name: 'ADMISSIONS', path: '/admissions-info' },
+  { name: 'ACADEMICS', path: '/academics' },
+  { name: 'FACILITIES', path: '/' },
+  { name: 'GALLERY', path: '/gallery' },
+  { name: 'NOTICE BOARD', path: '/notices' },
+  { name: 'ACADEMIC CALENDAR', path: '/academics' },
+  { name: 'ACHIEVEMENTS', path: '/' },
+  { name: 'FEEDBACK', path: '/' },
+  { name: 'RESULTS', path: '/results' },
+  { name: 'ATTENDANCE', path: '/portal' },
+  { name: 'HOMEWORK', path: '/portal' },
+  { name: 'ALUMNI', path: '/' },
+  { name: 'CAREERS', path: '/' },
+  { name: 'DASHBOARD', path: '/dashboard' },
+  { name: 'FAQ', path: '/' },
+  { name: 'CONTACT', path: '/contact' }
+];
 
 export function PublicLayout() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [activeLang, setActiveLang] = useState('en');
   const location = useLocation();
-  const navigate = useNavigate();
-  const { user } = useAuth();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 
-  const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Academics', path: '/academics' },
-    { name: 'Gallery', path: '/gallery' },
-    { name: 'Notices & Events', path: '/notices' },
-    { name: 'Contact', path: '/contact' }
-  ];
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [isMobileMenuOpen]);
+
+  const isLinkActive = (path: string, name: string) => {
+    if (path === '/') {
+      return location.pathname === '/' && name === 'HOME';
+    }
+    return location.pathname.startsWith(path);
+  };
 
   return (
-    <div className="min-h-screen flex flex-col font-body bg-[var(--bg-page)] text-content selection:bg-primary/25 selection:text-primary">
+    <div className="min-h-screen w-full flex flex-col font-body bg-[var(--bg-page)] text-content selection:bg-primary/25 selection:text-primary relative">
       
-      {/* Top Bar */}
-      <aside className="bg-[var(--bg-surface-raised)] border-b border-line text-content-secondary py-2.5 px-4 sm:px-6 lg:px-8 text-xs sm:text-sm font-semibold" aria-label="Quick contact and portal links">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
-          <div className="flex items-center gap-4 text-xs">
-            <span className="flex items-center"><Phone className="w-3.5 h-3.5 mr-1.5 text-primary" aria-hidden="true" /> <a href="tel:+919470818538" className="hover:text-primary transition-colors">+91 9470818538</a></span>
-            <span className="flex items-center"><Mail className="w-3.5 h-3.5 mr-1.5 text-primary" aria-hidden="true" /> Email: Coming Soon</span>
-          </div>
-          <div className="flex items-center gap-4 text-xs">
-            <Link to="/results" className="hover:text-primary transition-colors">Results Portal</Link>
-            <span className="text-line" aria-hidden="true">|</span>
-            {user ? (
-              <Link to="/dashboard" className="text-primary hover:text-primary-hover font-bold transition-colors">Dashboard</Link>
-            ) : (
-              <Link to="/login" className="hover:text-primary font-bold transition-colors">Staff Login</Link>
-            )}
-          </div>
-        </div>
-      </aside>
-
-      {/* Main Header */}
-      <header className={`sticky top-0 z-50 transition-all duration-base ${isScrolled ? 'glass-panel shadow-e1 border-b border-line' : 'bg-[var(--bg-surface)] border-b border-line/60'}`}>
+      <header className="sticky top-0 z-40 bg-[var(--bg-page)]/95 backdrop-blur-md border-b border-line/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
-            {/* Logo */}
-            <Link to="/" className="flex items-center gap-3 group" aria-label="Hazrat Aisha Academy Home">
-              <div className="w-12 h-12 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center text-primary shrink-0 transition-transform group-hover:scale-105" aria-hidden="true">
-                <BookOpen className="w-6 h-6" />
+          <div className="flex justify-between items-center h-20 md:h-24">
+            <Link to="/" className="flex items-center gap-3 md:gap-4 group">
+              <div className="w-12 h-12 md:w-14 md:h-14 rounded-full border border-primary/30 flex items-center justify-center text-primary shrink-0 group-hover:scale-105 transition-transform bg-[var(--bg-surface)]">
+                <RubElHizb className="w-7 h-7 md:w-8 md:h-8 text-primary" />
               </div>
-              <div className="whitespace-nowrap">
-                <span className="text-xl font-black text-content font-display uppercase tracking-tight leading-none block whitespace-nowrap">Hazrat Aisha</span>
-                <span className="text-xl font-black text-primary font-display uppercase tracking-tight leading-none block whitespace-nowrap">Academy</span>
+              <div className="flex flex-col justify-center">
+                <span className="font-display font-bold text-content text-[15px] md:text-[20px] tracking-widest leading-tight uppercase">Hazrat Aisha</span>
+                <span className="font-display font-bold text-content text-[15px] md:text-[20px] tracking-widest leading-tight uppercase">Academy</span>
+                <span className="text-[8px] md:text-[10px] text-content-secondary tracking-[0.2em] uppercase mt-0.5">Chak Rajopatti • Sitamarhi</span>
               </div>
             </Link>
 
-            {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-8" aria-label="Main Navigation">
-              {navLinks.map(link => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  aria-current={location.pathname === link.path ? 'page' : undefined}
-                  className={`text-xs font-extrabold font-display uppercase tracking-wider transition-colors hover:text-primary ${location.pathname === link.path ? 'text-primary' : 'text-content-secondary'}`}
-                >
-                  {link.name}
-                </Link>
-              ))}
-              <Button onClick={() => navigate('/contact')} size="md" className="font-display font-extrabold uppercase tracking-wide">Apply Now</Button>
-            </nav>
-
-            {/* Mobile Menu Button */}
-            <button 
-              className="md:hidden p-2 rounded-lg hover:bg-surface-raised text-content-secondary hover:text-content transition-colors"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              aria-expanded={isMobileMenuOpen}
-              aria-label="Toggle navigation menu"
-            >
-              {isMobileMenuOpen ? <X className="w-6 h-6" aria-hidden="true" /> : <Menu className="w-6 h-6" aria-hidden="true" />}
-            </button>
+            <div className="flex items-center">
+              <button 
+                className="p-2 md:p-3 -mr-2 rounded-full hover:bg-[var(--bg-surface-raised)] text-primary transition-colors"
+                onClick={() => setIsMobileMenuOpen(true)}
+                aria-label="Open menu"
+              >
+                <Menu className="w-7 h-7 md:w-8 md:h-8" />
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Mobile Nav */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-[var(--bg-surface)] border-b border-line shadow-e2 overflow-hidden"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 bg-[var(--bg-page)] flex flex-col"
           >
-            <nav className="flex flex-col px-4 py-4 space-y-2" aria-label="Mobile Navigation">
-              {navLinks.map(link => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  aria-current={location.pathname === link.path ? 'page' : undefined}
-                  className={`block px-4 py-3 rounded-xl text-sm font-extrabold font-display uppercase tracking-wider ${location.pathname === link.path ? 'bg-primary/10 text-primary border-l-4 border-l-primary' : 'text-content-secondary hover:bg-surface-raised'}`}
-                >
-                  {link.name}
-                </Link>
-              ))}
-              <div className="px-4 py-3">
-                <Button className="w-full font-display font-extrabold uppercase tracking-wide" onClick={() => navigate('/contact')}>Apply Now</Button>
+            <div className="flex justify-end p-6 md:px-8 lg:px-12">
+              <button 
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="w-12 h-12 rounded-full border border-line flex items-center justify-center text-content hover:bg-[var(--bg-surface-raised)] transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-4 pb-32 w-full max-w-7xl mx-auto flex flex-col justify-center items-center">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-5 w-full">
+                {fullNavLinks.map((link, idx) => (
+                  <Link
+                    key={idx}
+                    to={link.path}
+                    className={`py-4 px-2 text-center rounded-xl border border-line/50 font-display text-[11px] md:text-[13px] font-bold tracking-[0.15em] uppercase transition-all
+                      ${isLinkActive(link.path, link.name) ? 'bg-primary/10 text-primary border-primary/30' : 'bg-[var(--bg-surface)] text-content-secondary hover:text-primary hover:border-primary/30'}`}
+                  >
+                    {link.name}
+                  </Link>
+                ))}
               </div>
-            </nav>
+            </div>
+
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[var(--bg-page)] via-[var(--bg-page)] to-transparent p-6 flex justify-center items-center gap-4">
+              <button
+                onClick={() => setTheme(theme === 'daylight' ? 'obsidian' : 'daylight')}
+                className="w-12 h-12 shrink-0 rounded-2xl border border-line bg-[var(--bg-surface)] flex items-center justify-center text-content-secondary hover:text-primary transition-colors shadow-sm"
+              >
+                {theme === 'daylight' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+              </button>
+              <div className="flex bg-[var(--bg-surface)] border border-line rounded-2xl overflow-hidden shadow-sm">
+                <button 
+                  onClick={() => setActiveLang('en')}
+                  className={`px-5 md:px-8 py-3 font-bold text-xs md:text-sm tracking-wider transition-colors ${activeLang === 'en' ? 'bg-primary text-[var(--bg-page)]' : 'text-content-secondary hover:text-primary'}`}
+                >
+                  English
+                </button>
+                <button 
+                  onClick={() => setActiveLang('hi')}
+                  className={`px-5 md:px-8 py-3 font-bold text-xs md:text-sm tracking-wider border-l border-line transition-colors ${activeLang === 'hi' ? 'bg-primary text-[var(--bg-page)] border-l-primary' : 'text-content-secondary hover:text-primary'}`}
+                >
+                  हिन्दी
+                </button>
+                <button 
+                  onClick={() => setActiveLang('ur')}
+                  className={`px-5 md:px-8 py-3 font-bold text-xs md:text-sm tracking-wider border-l border-line transition-colors ${activeLang === 'ur' ? 'bg-primary text-[var(--bg-page)] border-l-primary' : 'text-content-secondary hover:text-primary'}`}
+                  dir="rtl"
+                >
+                  اردو
+                </button>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Main Content */}
       <main className="w-full flex-1 min-w-0">
         <Outlet />
       </main>
 
-      {/* Footer */}
-      <footer className="bg-[var(--bg-surface)] text-content-secondary pt-16 pb-8 border-t border-line">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-            <div>
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center text-primary shrink-0" aria-hidden="true">
-                  <BookOpen className="w-5 h-5" />
-                </div>
-                <h2 className="text-lg font-black text-content uppercase tracking-tight leading-none font-display whitespace-nowrap">Hazrat Aisha<br/><span className="text-primary">Academy</span></h2>
-              </div>
-              <p className="text-sm text-content-secondary font-medium mb-6 leading-relaxed">
-                Cultivating character, knowledge, and faith through CBSE-aligned modern academic excellence integrated with authentic Islamic values.
-              </p>
-              <div className="flex gap-3">
-                {[
-                  { icon: Facebook, label: "Facebook", href: "https://www.facebook.com/share/1JfkJgLQsW/" },
-                  { icon: Twitter, label: "Twitter", href: "#" },
-                  { icon: Instagram, label: "Instagram", href: "#" },
-                  { icon: Linkedin, label: "LinkedIn", href: "#" }
-                ].map((social, i) => (
-                  <a key={i} href={social.href} target={social.href !== "#" ? "_blank" : undefined} rel={social.href !== "#" ? "noopener noreferrer" : undefined} aria-label={social.label} className="w-9 h-9 rounded-xl bg-surface-raised border border-line flex items-center justify-center text-content-secondary hover:text-primary hover:border-primary transition-all duration-fast">
-                    <social.icon className="w-4 h-4" aria-hidden="true" />
-                  </a>
-                ))}
-              </div>
-            </div>
-            
-            <nav aria-label="Quick Links">
-              <h2 className="text-sm font-black text-content font-display uppercase tracking-wider mb-6 relative inline-block">
-                Quick Links
-                <span className="absolute bottom-0 left-0 w-1/2 h-0.5 bg-primary -mb-2" aria-hidden="true"></span>
-              </h2>
-              <ul className="space-y-3">
-                {navLinks.map(link => (
-                  <li key={link.path}>
-                    <Link to={link.path} className="text-sm font-semibold hover:text-primary transition-colors flex items-center group">
-                      <ChevronRight className="w-3.5 h-3.5 mr-2 text-primary group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-                      {link.name}
-                    </Link>
-                  </li>
-                ))}
-                <li>
-                  <Link to="/results" className="text-sm font-semibold hover:text-primary transition-colors flex items-center group">
-                    <ChevronRight className="w-3.5 h-3.5 mr-2 text-primary group-hover:translate-x-1 transition-transform" aria-hidden="true" />
-                    Results Portal
-                  </Link>
-                </li>
-              </ul>
-            </nav>
-
-            <nav aria-label="Information Links">
-              <h2 className="text-sm font-black text-content font-display uppercase tracking-wider mb-6 relative inline-block">
-                Information
-                <span className="absolute bottom-0 left-0 w-1/2 h-0.5 bg-primary -mb-2" aria-hidden="true"></span>
-              </h2>
-              <ul className="space-y-3 text-sm font-semibold">
-                <li><Link to="/admissions-info" className="hover:text-primary transition-colors flex items-center"><ChevronRight className="w-3.5 h-3.5 mr-2 text-primary" aria-hidden="true" /> Admissions</Link></li>
-                <li><Link to="/fee-structure" className="hover:text-primary transition-colors flex items-center"><ChevronRight className="w-3.5 h-3.5 mr-2 text-primary" aria-hidden="true" /> Fee Structure</Link></li>
-                <li><Link to="/notices" className="hover:text-primary transition-colors flex items-center"><ChevronRight className="w-3.5 h-3.5 mr-2 text-primary" aria-hidden="true" /> Downloads</Link></li>
-                <li><Link to="/privacy" className="hover:text-primary transition-colors flex items-center"><ChevronRight className="w-3.5 h-3.5 mr-2 text-primary" aria-hidden="true" /> Privacy Policy</Link></li>
-                <li><Link to="/terms" className="hover:text-primary transition-colors flex items-center"><ChevronRight className="w-3.5 h-3.5 mr-2 text-primary" aria-hidden="true" /> Terms & Conditions</Link></li>
-              </ul>
-            </nav>
-
-            <address className="not-italic">
-              <h2 className="text-sm font-black text-content font-display uppercase tracking-wider mb-6 relative inline-block">
-                Contact Us
-                <span className="absolute bottom-0 left-0 w-1/2 h-0.5 bg-primary -mb-2" aria-hidden="true"></span>
-              </h2>
-              <ul className="space-y-4 text-sm font-semibold">
-                <li className="flex items-start">
-                  <MapPin className="w-5 h-5 text-primary mr-3 shrink-0 mt-0.5" aria-hidden="true" />
-                  <span>Sharif Colony, Ansari Road,<br/>Chak Rajopatti, Sitamarhi,<br/>Bihar - 843302</span>
-                </li>
-                <li className="flex items-center">
-                  <Phone className="w-5 h-5 text-primary mr-3 shrink-0" aria-hidden="true" />
-                  <a href="tel:+919470818538" className="hover:text-primary transition-colors">+91 9470818538</a>
-                </li>
-                <li className="flex items-center">
-                  <Mail className="w-5 h-5 text-primary mr-3 shrink-0" aria-hidden="true" />
-                  <span className="text-content-secondary">Email: Coming Soon</span>
-                </li>
-              </ul>
-            </address>
-          </div>
-          
-          <div className="border-t border-line pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-semibold text-content-tertiary">
-            <p>&copy; {new Date().getFullYear()} Hazrat Aisha Academy. All rights reserved.</p>
-            <p className="text-xs bg-primary/10 text-primary border border-primary/20 px-3 py-1 rounded-full uppercase tracking-wider">Affiliated to CBSE, New Delhi</p>
-          </div>
-        </div>
-      </footer>
+      <a 
+        href="https://wa.me/919470818538" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="fixed bottom-6 right-6 z-30 w-14 h-14 bg-gradient-to-tr from-[#B8912F] to-[#D4AF37] rounded-full shadow-lg flex items-center justify-center text-white hover:scale-110 transition-transform duration-300"
+        aria-label="Chat on WhatsApp"
+      >
+        <MessageCircle className="w-7 h-7" />
+      </a>
     </div>
   );
 }

@@ -12,7 +12,10 @@ class AdmissionService {
   async getApplications(): Promise<AdmissionApplication[]> {
     const appsRef = this.getDbRef('admissions');
     const snapshot = await get(appsRef);
-    if (!snapshot.exists()) return [];
+    if (!snapshot.exists()) {
+      await set(appsRef, []);
+      return [];
+    }
     
     const apps: AdmissionApplication[] = [];
     snapshot.forEach((child) => {

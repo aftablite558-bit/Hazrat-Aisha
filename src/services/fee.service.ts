@@ -10,8 +10,12 @@ class FeeService {
 
   // --- Fee Structure ---
   async getFeeStructures(): Promise<FeeStructure[]> {
-    const snapshot = await get(this.getDbRef('fees/structures'));
-    if (!snapshot.exists()) return [];
+    const dbRef = this.getDbRef('fees/structures');
+    const snapshot = await get(dbRef);
+    if (!snapshot.exists()) {
+      await set(dbRef, []);
+      return [];
+    }
     
     const structures: FeeStructure[] = [];
     snapshot.forEach((child) => {

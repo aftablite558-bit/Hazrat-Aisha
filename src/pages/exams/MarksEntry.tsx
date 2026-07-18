@@ -230,7 +230,7 @@ export function MarksEntry() {
               <div className="text-center py-12 text-content-secondary font-semibold font-display">No students found in Class {exam.class}-{exam.section}</div>
             ) : (
               <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left">
+                <table className="w-full text-sm text-left min-w-[800px]">
                   <thead className="text-xs text-content-secondary font-bold uppercase bg-surface-overlay border-b border-line">
                     <tr>
                       <th className="px-6 py-4 font-display uppercase tracking-wider text-xs">Roll No</th>

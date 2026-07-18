@@ -8,7 +8,7 @@ export function AuthLayout() {
   const location = useLocation();
 
   return (
-    <main className="min-h-screen w-full bg-surface-page relative overflow-y-auto overflow-x-hidden transition-colors duration-300 flex flex-col items-center justify-center p-4">
+    <main className="min-h-screen w-full bg-surface-page relative overflow-y-auto overflow-x-hidden transition-colors duration-300 flex flex-col justify-center p-4">
       {/* Background decoration - absolute positioned, isolated from the flex layouts to avoid browser layout engine bugs */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-primary/10 blur-[120px] pointer-events-none z-0" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-accent/10 blur-[120px] pointer-events-none z-0" />
@@ -26,10 +26,10 @@ export function AuthLayout() {
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-[#04120D] shadow-glow mb-4 shrink-0 self-center">
             <GraduationCap className="h-8 w-8" />
           </div>
-          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-content px-2 whitespace-nowrap">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-content px-2 ">
             Hazrat Aisha Academy
           </h2>
-          <p className="text-sm font-body text-content-secondary mt-2 font-medium tracking-wide px-2 whitespace-nowrap">
+          <p className="text-sm font-body text-content-secondary mt-2 font-medium tracking-wide px-2 ">
             Premium Islamic School Platform
           </p>
         </motion.div>

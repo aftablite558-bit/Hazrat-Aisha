@@ -6,6 +6,7 @@ import { studentService } from '../../services/student.service';
 import { Student } from '../../types/student';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
+import { ConfirmationDialog } from '../../components/ui/confirmation-dialog';
 import { 
   Plus, Search, Edit, Trash2, Eye, FileDown,
   Filter, ArrowUpDown, Loader2, MoreVertical
@@ -22,6 +23,11 @@ export function StudentList() {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [sortConfig, setSortConfig] = useState<{ key: 'name' | 'admissionNumber'; direction: 'asc' | 'desc' } | null>(null);
+  
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [deletePhotoUrl, setDeletePhotoUrl] = useState<string | null | undefined>(null);
+  const [deleteName, setDeleteName] = useState<string>("");
+  const [isDeleting, setIsDeleting] = useState(false);
   
   // Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,16 +52,21 @@ export function StudentList() {
     }
   };
 
-  const handleDelete = async (student: Student) => {
-    if (!window.confirm(`Are you sure you want to delete ${student.firstName} ${student.lastName}?`)) return;
+  const handleDelete = async () => {
+    if (!deleteId) return;
+    setIsDeleting(true);
     
     try {
-      await studentService.deleteStudent(student.id, student.photoUrl);
+      await studentService.deleteStudent(deleteId, deletePhotoUrl);
       addToast('Student deleted successfully', 'success');
+      setStudents(prev => prev.filter(s => s.id !== deleteId));
+      setDeleteId(null);
       fetchStudents();
     } catch (error) {
       console.error(error);
       addToast('Failed to delete student', 'error');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -156,7 +167,7 @@ export function StudentList() {
             Export CSV
           </Button>
           {canEdit && (
-            <Button onClick={() => navigate('/students/new')}>
+            <Button onClick={() => navigate('/dashboard/students/new')}>
               <Plus className="mr-2 h-4 w-4" />
               Add Student
             </Button>
@@ -202,7 +213,7 @@ export function StudentList() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left">
+              <table className="w-full text-sm text-left min-w-[800px]">
                 <thead className="text-xs text-content-secondary font-bold uppercase bg-surface-overlay border-b border-line">
                   <tr>
                     <th className="px-6 py-4 cursor-pointer hover:bg-line/40 transition-colors" onClick={() => requestSort('name')}>
@@ -259,19 +270,19 @@ export function StudentList() {
                           ${student.status === 'active' ? 'bg-success-500/10 text-success-500 border-success-500/20' : 
                             student.status === 'inactive' ? 'bg-line text-content-secondary border-line-strong' :
                             'bg-info-500/10 text-info-500 border-info-500/20'}`}>
-                          {student.status.toUpperCase()}
+                          {student.status?.toUpperCase() || 'UNKNOWN'}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-right space-x-1">
-                        <Button variant="ghost" size="sm" onClick={() => navigate(`/students/${student.id}`)}>
+                        <Button variant="ghost" size="sm" onClick={() => navigate(`/dashboard/students/${student.id}`)}>
                           <Eye className="h-4 w-4 text-content-secondary hover:text-content" />
                         </Button>
                         {canEdit && (
                           <>
-                            <Button variant="ghost" size="sm" onClick={() => navigate(`/students/${student.id}/edit`)}>
+                            <Button variant="ghost" size="sm" onClick={() => navigate(`/dashboard/students/${student.id}/edit`)}>
                               <Edit className="h-4 w-4 text-primary hover:text-primary-hover" />
                             </Button>
-                            <Button variant="ghost" size="sm" onClick={() => handleDelete(student)}>
+                            <Button variant="ghost" size="sm" onClick={() => { setDeleteId(student.id); setDeletePhotoUrl(student.photoUrl); setDeleteName(`${student.firstName} ${student.lastName}`); }}>
                               <Trash2 className="h-4 w-4 text-danger-500 hover:text-danger-600" />
                             </Button>
                           </>
@@ -322,6 +333,16 @@ export function StudentList() {
           )}
         </CardContent>
       </Card>
+      
+      <ConfirmationDialog
+        open={!!deleteId}
+        onOpenChange={(open) => !open && setDeleteId(null)}
+        title="Delete Student"
+        description={`Are you sure you want to delete ${deleteName}? This action cannot be undone.`}
+        onConfirm={handleDelete}
+        isLoading={isDeleting}
+        className="max-w-3xl"
+      />
     </div>
   );
 }

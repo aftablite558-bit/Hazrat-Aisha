@@ -89,8 +89,8 @@ export function Register() {
   };
 
   return (
-    <div className="w-full min-w-0 space-y-6">
-      <div className="w-full min-w-0 space-y-2 text-center font-display">
+    <div className="w-full space-y-6">
+      <div className="w-full space-y-2 text-center font-display">
         <h1 className="text-[var(--text-h3)] font-bold tracking-tight text-content">
           Create an account
         </h1>
@@ -99,7 +99,7 @@ export function Register() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="w-full min-w-0 space-y-4 font-body">
+      <form onSubmit={handleSubmit} className="w-full space-y-4 font-body">
         <div className="space-y-2">
           <Label htmlFor="name" className="text-content-secondary font-medium">Full Name</Label>
           <div className="relative">

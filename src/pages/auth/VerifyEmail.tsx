@@ -70,7 +70,7 @@ export function VerifyEmail() {
     <motion.div 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="w-full min-w-0 space-y-6 text-center font-body"
+      className="w-full max-w-2xl mx-auto space-y-6 text-center font-body"
     >
       <div className="flex justify-center">
         <div className="rounded-full bg-primary/15 p-4">

@@ -20,12 +20,15 @@ export const UserService = {
     try {
       const dbRef = ref(database, USERS_REF);
       const snapshot = await get(dbRef);
-      const users: SystemUser[] = [];
-      if (snapshot.exists()) {
-        snapshot.forEach((childSnapshot) => {
-          users.push({ uid: childSnapshot.key, ...childSnapshot.val() } as SystemUser);
-        });
+      if (!snapshot.exists()) {
+        await set(dbRef, []);
+        return [];
       }
+      
+      const users: SystemUser[] = [];
+      snapshot.forEach((childSnapshot) => {
+        users.push({ uid: childSnapshot.key, ...childSnapshot.val() } as SystemUser);
+      });
       return users;
     } catch (error) {
       console.error('Error fetching users:', error);

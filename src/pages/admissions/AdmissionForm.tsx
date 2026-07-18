@@ -41,7 +41,7 @@ export function AdmissionForm() {
         applicationDate: Date.now()
       } as any);
       addToast('Admission application submitted successfully', 'success');
-      navigate('/admissions');
+      navigate('/dashboard/admissions');
     } catch (error) {
       console.error(error);
       addToast('Failed to submit application', 'error');
@@ -54,7 +54,7 @@ export function AdmissionForm() {
     <div className="max-w-4xl mx-auto space-y-6 font-body">
       <div className="flex items-center justify-between font-display">
         <div className="flex items-center gap-4">
-          <Button variant="ghost" size="sm" onClick={() => navigate('/admissions')} className="text-content-secondary hover:text-content">
+          <Button variant="ghost" size="sm" onClick={() => navigate('/dashboard/admissions')} className="text-content-secondary hover:text-content">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back
           </Button>

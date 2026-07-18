@@ -5,13 +5,19 @@ import { StudentDashboard } from './students/Dashboard';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/card';
 
 export function Home() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  
+  console.log("Dashboard.tsx: user:", user, "role:", user?.role);
 
-  if (user?.role === 'admin' || user?.role === 'principal') {
+  if (loading) {
+    return <div className="flex h-screen items-center justify-center">Loading...</div>;
+  }
+
+  if (user?.role?.toLowerCase() === 'admin' || user?.role?.toLowerCase() === 'principal') {
     return <AdminDashboard />;
   }
 
-  if (user?.role === 'student') {
+  if (user?.role?.toLowerCase() === 'student') {
     return <StudentDashboard />;
   }
 

@@ -13,7 +13,7 @@ export function Unauthorized() {
   };
 
   return (
-    <div className="w-full min-w-0 space-y-6 text-center font-body">
+    <div className="w-full space-y-6 text-center font-body">
       <div className="flex justify-center">
         <div className="rounded-full bg-danger-500/10 p-4">
           <ShieldAlert className="h-10 w-10 text-danger-500" />

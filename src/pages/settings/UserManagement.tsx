@@ -47,9 +47,8 @@ export function UserManagement() {
     }
     setSubmitting(true);
     try {
-      // In a real app with Firebase Admin SDK, creating a user without signing out the current user requires backend logic.
-      // For this demo, we assume the register method creates the user.
-      await authService.register(formData.email, formData.password, formData.displayName, formData.role);
+      // Use adminCreateUser to avoid signing out the current admin
+      await authService.adminCreateUser(formData.email, formData.password, formData.displayName, formData.role);
       await SettingsService.logAction({
         userId: currentUser.uid,
         userEmail: currentUser.email!,
@@ -131,7 +130,7 @@ export function UserManagement() {
   }
 
   return (
-    <div className="p-8">
+    <div className="p-8 w-full max-w-none">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">User Management</h2>
         {currentUser?.role === 'admin' && (
@@ -191,7 +190,7 @@ export function UserManagement() {
       )}
 
       <div className="overflow-x-auto">
-        <table className="w-full text-sm text-left">
+        <table className="w-full text-sm text-left min-w-[800px]">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-300">
             <tr>
               <th className="px-6 py-3">User</th>

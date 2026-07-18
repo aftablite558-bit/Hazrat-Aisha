@@ -9,7 +9,7 @@ export function FeeStructure() {
 
       {/* Header */}
       <header className="bg-primary py-20 text-center px-4 relative overflow-hidden border-b border-line shadow-sm">
-        <h1 className="text-4xl sm:text-5xl font-black text-content-inverse mb-4 font-display uppercase tracking-tight">
+        <h1 className="text-4xl sm:text-5xl font-bold text-content-inverse mb-4 font-display tracking-tight">
           Fee Structure
         </h1>
         <p className="text-content-inverse/80 font-semibold max-w-7xl mx-auto text-sm sm:text-base">
@@ -27,7 +27,7 @@ export function FeeStructure() {
             <CreditCard className="w-10 h-10" />
           </div>
 
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-content font-display tracking-tight mb-4 uppercase">
+          <h2 className="text-2xl sm:text-3xl font-bold text-content font-display tracking-tight mb-4 uppercase">
             Contact School Office for Fee Details
           </h2>
           
@@ -39,15 +39,15 @@ export function FeeStructure() {
             <div className="bg-surface-raised border border-line p-5 rounded-2xl flex items-start gap-4">
               <Phone className="w-6 h-6 text-primary shrink-0 mt-0.5" />
               <div>
-                <h3 className="text-sm font-black text-content uppercase tracking-wider mb-1">Call Office</h3>
-                <a href="tel:+919470818538" className="text-base font-extrabold text-primary hover:underline">+91 9470818538</a>
+                <h3 className="text-sm font-bold text-content uppercase tracking-wider mb-1">Call Office</h3>
+                <a href="tel:+919470818538" className="text-base font-bold text-primary hover:underline">+91 9470818538</a>
               </div>
             </div>
 
             <div className="bg-surface-raised border border-line p-5 rounded-2xl flex items-start gap-4">
               <Clock className="w-6 h-6 text-primary shrink-0 mt-0.5" />
               <div>
-                <h3 className="text-sm font-black text-content uppercase tracking-wider mb-1">Office Hours</h3>
+                <h3 className="text-sm font-bold text-content uppercase tracking-wider mb-1">Office Hours</h3>
                 <p className="text-xs font-semibold text-content-secondary leading-relaxed">
                   Summer: 8:00 AM – 1:00 PM<br />
                   Winter: 9:00 AM – 1:00 PM<br />
@@ -58,7 +58,7 @@ export function FeeStructure() {
           </div>
 
           <div className="border-t border-line pt-8 max-w-xl mx-auto">
-            <h3 className="text-sm font-black text-content uppercase tracking-wider mb-3">Campus Location</h3>
+            <h3 className="text-sm font-bold text-content uppercase tracking-wider mb-3">Campus Location</h3>
             <p className="text-sm font-semibold text-content-secondary leading-relaxed">
               Sharif Colony, Ansari Road, Chak Rajopatti,<br />
               Sitamarhi, Bihar – 843302
@@ -68,7 +68,7 @@ export function FeeStructure() {
 
         {/* Concessions / Guidelines */}
         <section className="bg-surface border border-line rounded-2xl p-6 shadow-e1">
-          <h3 className="text-lg font-extrabold text-content font-display mb-4 flex items-center gap-2">
+          <h3 className="text-lg font-bold text-content font-display mb-4 flex items-center gap-2">
             <Wallet className="w-5 h-5 text-primary" />
             <span>Admissions & Payment Guidelines</span>
           </h3>

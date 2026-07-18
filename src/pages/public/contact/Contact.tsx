@@ -25,7 +25,7 @@ export function Contact() {
       
       {/* Header */}
       <header className="bg-primary py-20 text-center px-4 relative overflow-hidden border-b border-line shadow-sm">
-        <h1 className="text-4xl sm:text-5xl font-black text-content-inverse mb-4 font-display uppercase tracking-tight">Contact Us</h1>
+        <h1 className="text-4xl sm:text-5xl font-bold text-content-inverse mb-4 font-display tracking-tight">Contact Us</h1>
         <p className="text-content-inverse/80 font-semibold max-w-7xl mx-auto text-sm sm:text-base">We'd love to hear from you. Get in touch with us for any inquiries.</p>
       </header>
 
@@ -34,7 +34,7 @@ export function Contact() {
           
           {/* Contact Info */}
           <article>
-            <h2 className="text-3xl font-extrabold text-content font-display mb-8 tracking-tight">Get In Touch</h2>
+            <h2 className="text-3xl font-bold text-content font-display mb-8 tracking-tight">Get In Touch</h2>
             <p className="text-content-secondary font-medium mb-10 leading-relaxed">
               Whether you have a question about admissions, fee structures, or anything else, our team is ready to answer all your questions.
             </p>
@@ -45,7 +45,7 @@ export function Contact() {
                   <MapPin className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-extrabold text-content font-display mb-1">Our Location</h3>
+                  <h3 className="text-lg font-bold text-content font-display mb-1">Our Location</h3>
                   <p className="text-content-secondary font-semibold">Hazrat Aisha Academy<br/>Sharif Colony, Ansari Road, Chak Rajopatti<br/>Sitamarhi, Bihar – 843302</p>
                 </div>
               </div>
@@ -55,7 +55,7 @@ export function Contact() {
                   <Phone className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-extrabold text-content font-display mb-1">Phone Number</h3>
+                  <h3 className="text-lg font-bold text-content font-display mb-1">Phone Number</h3>
                   <p className="text-content-secondary font-semibold flex flex-col gap-1">
                     <a href="tel:+919470818538" className="hover:text-primary transition-colors hover:underline">+91 9470818538</a>
                   </p>
@@ -67,7 +67,7 @@ export function Contact() {
                   <Mail className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-extrabold text-content font-display mb-1">Email Address</h3>
+                  <h3 className="text-lg font-bold text-content font-display mb-1">Email Address</h3>
                   <p className="text-content-secondary font-semibold flex flex-col gap-1">
                     <span>Email: Coming Soon</span>
                   </p>
@@ -79,7 +79,7 @@ export function Contact() {
                   <Clock className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-extrabold text-content font-display mb-1">Office Hours</h3>
+                  <h3 className="text-lg font-bold text-content font-display mb-1">Office Hours</h3>
                   <div className="text-content-secondary font-semibold space-y-1 text-sm">
                     <p>Summer: 8:00 AM – 12:00 PM</p>
                     <p>Winter: 9:00 AM – 1:00 PM</p>
@@ -93,7 +93,7 @@ export function Contact() {
 
           {/* Form */}
           <aside className="bg-surface rounded-2xl shadow-e1 p-8 border border-line relative">
-            <h3 className="text-2xl font-extrabold text-content font-display mb-6 tracking-tight">Send us a Message</h3>
+            <h3 className="text-2xl font-bold text-content font-display mb-6 tracking-tight">Send us a Message</h3>
             
             <AnimatePresence mode="wait">
               {submitted ? (
@@ -103,7 +103,7 @@ export function Contact() {
                   className="bg-success-500/10 border border-success-500/20 text-success-500 rounded-xl p-6 flex flex-col items-center text-center font-display shadow-sm shadow-success-500/5"
                 >
                   <CheckCircle2 className="w-12 h-12 mb-3 text-success-500" />
-                  <h4 className="text-lg font-extrabold">Message Sent Successfully</h4>
+                  <h4 className="text-lg font-bold">Message Sent Successfully</h4>
                   <p className="text-sm font-semibold mt-2 text-success-500/90 leading-relaxed max-w-sm">
                     Thank you for contacting us. We will get back to you shortly.
                   </p>

@@ -31,7 +31,7 @@ const LoadingFallback = () => (
 );
 
 // Lazy Loaded Pages
-const Home = lazy(() => import('./pages/Home').then(m => ({ default: m.Home })));
+const Dashboard = lazy(() => import('./pages/Dashboard').then(m => ({ default: m.Home })));
 const LayoutDebug = lazy(() => import('./pages/debug/LayoutDebug'));
 const StaffLogin = lazy(() => import('./pages/auth/StaffLogin').then(m => ({ default: m.StaffLogin })));
 const Login = lazy(() => import('./pages/auth/Login').then(m => ({ default: m.Login })));
@@ -63,6 +63,7 @@ const MarksEntry = lazy(() => import('./pages/exams/MarksEntry').then(m => ({ de
 const ResultPublish = lazy(() => import('./pages/exams/ResultPublish').then(m => ({ default: m.ResultPublish })));
 const ReportCard = lazy(() => import('./pages/exams/ReportCard').then(m => ({ default: m.ReportCard })));
 const ResultPortal = lazy(() => import('./pages/public/ResultPortal').then(m => ({ default: m.ResultPortal })));
+const StudentPortal = lazy(() => import('./pages/public/StudentPortal').then(m => ({ default: m.StudentPortal })));
 
 // Public Pages
 const PublicHome = lazy(() => import('./pages/public/Home').then(m => ({ default: m.Home })));
@@ -104,6 +105,7 @@ export default function App() {
                 <Route path="notices" element={<Notices />} />
                 <Route path="contact" element={<Contact />} />
                 <Route path="results" element={<ResultPortal />} />
+                <Route path="portal" element={<StudentPortal />} />
                 <Route path="admissions-info" element={<AdmissionsInfo />} />
                 <Route path="fee-structure" element={<FeeStructure />} />
                 <Route path="privacy" element={<PrivacyPolicy />} />
@@ -128,8 +130,8 @@ export default function App() {
 
               {/* Protected admin routes */}
               <Route element={<ProtectedRoute requireVerified allowedRoles={['admin', 'principal', 'teacher']} />}>
-                <Route path="/dashboard" element={<Layout />}>
-                  <Route index element={<Home />} />
+                <Route path="/dashboard/*" element={<Layout />}>
+                  <Route index element={<Dashboard />} />
                   <Route path="students">
                     <Route index element={<StudentList />} />
                     <Route path="new" element={<StudentForm />} />

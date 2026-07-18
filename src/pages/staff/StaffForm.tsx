@@ -17,7 +17,7 @@ export function StaffForm() {
 
   const [loading, setLoading] = useState(isEditing);
   const [saving, setSaving] = useState(false);
-  
+
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoFile, setPhotoFile] = useState<File | undefined>(undefined);
 
@@ -65,7 +65,7 @@ export function StaffForm() {
         // Teachers can only edit their own profile
         if (!isAdminOrPrincipal && user?.email !== staffMember.email) {
           addToast('You can only edit your own profile', 'error');
-          navigate('/staff');
+          navigate('/dashboard/staff');
           return;
         }
 
@@ -95,7 +95,7 @@ export function StaffForm() {
         }
       } else {
         addToast('Staff not found', 'error');
-        navigate('/staff');
+        navigate('/dashboard/staff');
       }
     } catch (error) {
       console.error(error);
@@ -136,9 +136,9 @@ export function StaffForm() {
         });
         addToast('Staff created successfully', 'success');
       }
-      navigate('/staff');
-    } catch (error) {
-      console.error(error);
+      navigate('/dashboard/staff');
+    } catch (error: any) {
+      console.error('handleSubmit error:', error);
       addToast('An error occurred. Please try again.', 'error');
     } finally {
       setSaving(false);
@@ -154,7 +154,7 @@ export function StaffForm() {
   }
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto pb-10 font-body">
+    <div className="space-y-6 w-full max-w-7xl mx-auto pb-10 font-body">
       <div className="flex items-center gap-4 font-display">
         <Button variant="ghost" size="sm" onClick={() => navigate('/staff')} className="text-content-secondary hover:text-content">
           <ArrowLeft className="h-4 w-4 mr-2" />
@@ -321,7 +321,7 @@ export function StaffForm() {
         </Card>
 
         <div className="flex justify-end gap-3 pt-4">
-          <Button type="button" variant="secondary" onClick={() => navigate('/staff')} disabled={saving}>
+          <Button type="button" variant="secondary" onClick={() => navigate('/dashboard/staff')} disabled={saving}>
             Cancel
           </Button>
           <Button type="submit" disabled={saving}>

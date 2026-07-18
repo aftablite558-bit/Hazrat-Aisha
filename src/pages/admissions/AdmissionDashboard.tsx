@@ -48,7 +48,7 @@ export function AdmissionDashboard() {
           </h1>
           <p className="text-sm text-content-secondary">Manage new student applications and school enrollments.</p>
         </div>
-        <Button onClick={() => navigate('/admissions/new')}>
+        <Button onClick={() => navigate('/dashboard/admissions/new')}>
           <Plus className="h-4 w-4 mr-2" />
           New Application
         </Button>
@@ -73,7 +73,7 @@ export function AdmissionDashboard() {
             <div className="py-12 text-center text-content-secondary font-medium">Loading applications...</div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left">
+              <table className="w-full text-sm text-left min-w-[800px]">
                 <thead className="text-xs text-content-secondary font-bold uppercase bg-surface-overlay border-b border-line">
                   <tr>
                     <th className="px-6 py-4 font-display uppercase tracking-wider text-xs">App No.</th>

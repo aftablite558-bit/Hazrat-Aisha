@@ -10,8 +10,11 @@ class ExamService {
 
   // --- Exams ---
   async getExams(): Promise<Exam[]> {
-    const snapshot = await get(this.getDbRef('exams/list'));
-    if (!snapshot.exists()) return [];
+    const dbRef = this.getDbRef('exams/list');
+    const snapshot = await get(dbRef);
+    if (!snapshot.exists()) {
+      return [];
+    }
     
     const exams: Exam[] = [];
     snapshot.forEach((child) => {
@@ -47,6 +50,12 @@ class ExamService {
     const snapshot = await get(this.getDbRef(`exams/marks/${examId}`));
     if (!snapshot.exists()) return {};
     return snapshot.val();
+  }
+
+  async getStudentMarks(examId: string, studentId: string): Promise<StudentMarks | null> {
+    const snapshot = await get(this.getDbRef(`exams/marks/${examId}/${studentId}`));
+    if (!snapshot.exists()) return null;
+    return snapshot.val() as StudentMarks;
   }
 
   async saveAllMarks(examId: string, allMarks: Record<string, StudentMarks>): Promise<void> {

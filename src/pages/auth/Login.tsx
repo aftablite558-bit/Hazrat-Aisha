@@ -52,12 +52,12 @@ export function Login() {
   };
 
   return (
-    <div className="w-full min-w-0 space-y-6">
-      <div className="w-full min-w-0 space-y-2 text-center font-display">
-        <h1 className="text-[var(--text-h3)] font-bold tracking-tight text-content whitespace-nowrap">
+    <div className="w-full space-y-6">
+      <div className="w-full space-y-2 text-center font-display">
+        <h1 className="text-[var(--text-h3)] font-bold tracking-tight text-content ">
           Welcome back
         </h1>
-        <p className="text-sm font-body text-content-secondary whitespace-nowrap">
+        <p className="text-sm font-body text-content-secondary ">
           Enter your credentials to access your account
         </p>
       </div>

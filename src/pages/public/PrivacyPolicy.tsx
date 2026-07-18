@@ -33,7 +33,7 @@ export function PrivacyPolicy() {
 
       {/* Header */}
       <header className="bg-primary py-16 text-center px-4 relative overflow-hidden border-b border-line shadow-sm">
-        <h1 className="text-3xl sm:text-4xl font-black text-content-inverse mb-4 font-display uppercase tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-bold text-content-inverse mb-4 font-display tracking-tight">
           Privacy Policy
         </h1>
         <p className="text-content-inverse/80 font-semibold max-w-2xl mx-auto text-sm sm:text-base">
@@ -68,7 +68,7 @@ export function PrivacyPolicy() {
                     <Icon className="w-5 h-5" />
                   </div>
                   <div>
-                    <h2 className="text-lg font-extrabold text-content font-display mb-2">
+                    <h2 className="text-lg font-bold text-content font-display mb-2">
                       {sec.title}
                     </h2>
                     <p className="text-sm font-medium text-content-secondary leading-relaxed">
@@ -84,11 +84,11 @@ export function PrivacyPolicy() {
         {/* Contact Legal */}
         <section className="mt-16 bg-surface border border-line rounded-2xl p-8 text-center shadow-e1">
           <FileText className="w-8 h-8 text-primary mx-auto mb-4" />
-          <h3 className="text-base font-extrabold text-content font-display mb-2">Have questions about our data practices?</h3>
+          <h3 className="text-base font-bold text-content font-display mb-2">Have questions about our data practices?</h3>
           <p className="text-xs font-bold text-content-secondary max-w-lg mx-auto mb-4">
             If you have concerns about student record access, deletion, or correction, contact the Chief IT Officer or Registrar at our school office.
           </p>
-          <a href="tel:+919470818538" className="text-xs font-black text-primary hover:underline">
+          <a href="tel:+919470818538" className="text-xs font-bold text-primary hover:underline">
             +91 9470818538
           </a>
         </section>

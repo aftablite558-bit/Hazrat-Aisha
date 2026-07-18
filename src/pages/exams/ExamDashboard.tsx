@@ -6,12 +6,17 @@ import { examService } from '../../services/exam.service';
 import { Exam } from '../../types/exam';
 import { useToast } from '../../context/ToastContext';
 import { Plus, BookOpen, FileCheck, Search, Eye, Edit, Trash2 } from 'lucide-react';
+import { ConfirmationDialog } from '../../components/ui/confirmation-dialog';
 
 export function ExamDashboard() {
   const navigate = useNavigate();
   const { addToast } = useToast();
   const [exams, setExams] = useState<Exam[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [deleteName, setDeleteName] = useState<string>("");
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     fetchExams();
@@ -28,15 +33,19 @@ export function ExamDashboard() {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (window.confirm('Are you sure you want to delete this exam? All related marks will also be deleted.')) {
-      try {
-        await examService.deleteExam(id);
-        addToast('Exam deleted successfully', 'success');
-        fetchExams();
-      } catch (error) {
-        addToast('Failed to delete exam', 'error');
-      }
+  const handleDelete = async () => {
+    if (!deleteId) return;
+    setIsDeleting(true);
+    
+    try {
+      await examService.deleteExam(deleteId);
+      addToast('Exam deleted successfully', 'success');
+      setDeleteId(null);
+      fetchExams();
+    } catch (error) {
+      addToast('Failed to delete exam', 'error');
+    } finally {
+      setIsDeleting(false);
     }
   };
 
@@ -50,7 +59,7 @@ export function ExamDashboard() {
           <p className="text-sm text-content-secondary mt-1">Manage exams, marks, and results.</p>
         </div>
         <div className="flex gap-2">
-          <Button onClick={() => navigate('/exams/new')} className="font-display font-bold">
+          <Button onClick={() => navigate('/dashboard/exams/new')} className="font-display font-bold">
             <Plus className="h-4 w-4 mr-2" />
             Create Exam
           </Button>
@@ -112,7 +121,7 @@ export function ExamDashboard() {
             <div className="py-12 text-center text-content-secondary font-semibold">Loading exams...</div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-sm text-left">
+              <table className="w-full text-sm text-left min-w-[800px]">
                 <thead className="text-xs text-content-secondary font-bold uppercase bg-surface-overlay border-b border-line">
                   <tr>
                     <th className="px-6 py-4 font-display uppercase tracking-wider text-xs">Title</th>
@@ -147,13 +156,13 @@ export function ExamDashboard() {
                         </td>
                         <td className="px-6 py-4 text-right">
                           <div className="flex justify-end gap-1.5">
-                            <Button variant="secondary" size="sm" onClick={() => navigate(`/exams/${exam.id}/marks`)} title="Enter Marks" className="border-line text-content-secondary hover:text-content">
+                            <Button variant="secondary" size="sm" onClick={() => navigate(`/dashboard/exams/${exam.id}/marks`)} title="Enter Marks" className="border-line text-content-secondary hover:text-content">
                               <FileCheck className="h-4 w-4" />
                             </Button>
-                            <Button variant="secondary" size="sm" onClick={() => navigate(`/exams/${exam.id}/edit`)} title="Edit Exam" className="border-line text-content-secondary hover:text-content">
+                            <Button variant="secondary" size="sm" onClick={() => navigate(`/dashboard/exams/${exam.id}/edit`)} title="Edit Exam" className="border-line text-content-secondary hover:text-content">
                               <Edit className="h-4 w-4" />
                             </Button>
-                            <Button variant="secondary" size="sm" onClick={() => handleDelete(exam.id)} className="text-danger-500 hover:text-danger-600 hover:bg-danger-500/10 border-danger-500/20">
+                            <Button variant="secondary" size="sm" onClick={() => { setDeleteId(exam.id); setDeleteName(exam.title); }} className="text-danger-500 hover:text-danger-600 hover:bg-danger-500/10 border-danger-500/20">
                               <Trash2 className="h-4 w-4" />
                             </Button>
                           </div>
@@ -167,6 +176,16 @@ export function ExamDashboard() {
           )}
         </CardContent>
       </Card>
+      
+      <ConfirmationDialog
+        open={!!deleteId}
+        onOpenChange={(open) => !open && setDeleteId(null)}
+        title="Delete Exam"
+        description={`Are you sure you want to delete ${deleteName}? All related marks will also be deleted.`}
+        onConfirm={handleDelete}
+        isLoading={isDeleting}
+        className="max-w-3xl"
+      />
     </div>
   );
 }

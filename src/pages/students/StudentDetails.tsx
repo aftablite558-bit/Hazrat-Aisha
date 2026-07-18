@@ -54,7 +54,7 @@ export function StudentDetails() {
   if (!student) return null;
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto pb-10 font-body">
+    <div className="space-y-6 w-full max-w-7xl mx-auto pb-10 font-body">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 font-display">
         <Button variant="ghost" size="sm" onClick={() => navigate('/students')} className="text-content-secondary hover:text-content">
           <ArrowLeft className="h-4 w-4 mr-2" />
@@ -101,7 +101,7 @@ export function StudentDetails() {
                   <div className="flex items-center justify-between text-content-secondary">
                     <span className="flex items-center text-content-tertiary font-medium"><Activity className="w-4 h-4 mr-2" /> Status</span>
                     <span className={`font-semibold ${student.status === 'active' ? 'text-success-500' : 'text-content-secondary'}`}>
-                      {student.status.toUpperCase()}
+                      {student.status?.toUpperCase() || 'UNKNOWN'}
                     </span>
                   </div>
                   <div className="flex items-center justify-between text-content-secondary">

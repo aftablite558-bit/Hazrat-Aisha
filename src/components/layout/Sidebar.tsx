@@ -46,15 +46,15 @@ const navigationGroups: NavGroup[] = [
     name: 'Academics',
     items: [
       { name: 'Examinations', href: '/dashboard/exams', icon: FileCheck },
-      { name: 'Results', href: '/dashboard/results', icon: BookOpen },
+      { name: 'Results', href: '/dashboard/exams', icon: BookOpen },
     ]
   },
   {
     name: 'Communication',
     items: [
-      { name: 'Notices', href: '/dashboard/notices', icon: MessageSquare },
-      { name: 'Gallery', href: '/dashboard/gallery', icon: Image },
-      { name: 'Downloads', href: '/dashboard/downloads', icon: Download },
+      { name: 'Notices', href: '#', icon: MessageSquare }, // Admin page not yet implemented
+      { name: 'Gallery', href: '#', icon: Image }, // Admin page not yet implemented
+      { name: 'Downloads', href: '#', icon: Download }, // Admin page not yet implemented
     ]
   }
 ];
@@ -144,6 +144,7 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                         className="space-y-1 overflow-hidden"
                       >
                         {group.items.map((item) => {
+                          console.log("Sidebar NavLink:", item.name, item.href);
                           const isActive = location.pathname === item.href || location.pathname.startsWith(`${item.href}/`);
                           return (
                             <NavLink

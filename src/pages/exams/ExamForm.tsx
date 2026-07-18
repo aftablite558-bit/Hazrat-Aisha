@@ -107,7 +107,7 @@ export function ExamForm() {
         await examService.createExam(examData);
         addToast('Exam created successfully', 'success');
       }
-      navigate('/exams');
+      navigate('/dashboard/exams');
     } catch (error) {
       addToast(id ? 'Failed to update exam' : 'Failed to create exam', 'error');
     } finally {
@@ -120,7 +120,7 @@ export function ExamForm() {
   return (
     <div className="space-y-6 font-body">
       <div className="flex items-center gap-4">
-        <Button variant="secondary" onClick={() => navigate('/exams')} className="border-line text-content-secondary hover:text-content font-bold font-display">
+        <Button variant="secondary" onClick={() => navigate('/dashboard/exams')} className="border-line text-content-secondary hover:text-content font-bold font-display">
           <ArrowLeft className="h-4 w-4 mr-2" /> Back
         </Button>
         <h1 className="text-3xl font-extrabold tracking-tight text-content font-display">{id ? 'Edit Exam' : 'Create Exam'}</h1>

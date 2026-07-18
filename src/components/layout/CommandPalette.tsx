@@ -18,10 +18,10 @@ const commands = [
   { name: 'Attendance', href: '/dashboard/attendance', icon: Calendar, category: 'Pages' },
   { name: 'Fees', href: '/dashboard/fees', icon: CreditCard, category: 'Pages' },
   { name: 'Examinations', href: '/dashboard/exams', icon: FileCheck, category: 'Pages' },
-  { name: 'Results', href: '/dashboard/results', icon: BookOpen, category: 'Pages' },
-  { name: 'Gallery', href: '/dashboard/gallery', icon: Image, category: 'Pages' },
-  { name: 'Notices', href: '/dashboard/notices', icon: MessageSquare, category: 'Pages' },
-  { name: 'Downloads', href: '/dashboard/downloads', icon: Download, category: 'Pages' },
+  { name: 'Results', href: '/dashboard/exams', icon: BookOpen, category: 'Pages' },
+  { name: 'Gallery', href: '#', icon: Image, category: 'Pages' },
+  { name: 'Notices', href: '#', icon: MessageSquare, category: 'Pages' },
+  { name: 'Downloads', href: '#', icon: Download, category: 'Pages' },
   { name: 'Settings', href: '/dashboard/settings', icon: Settings, category: 'Pages' },
 ];
 

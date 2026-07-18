@@ -27,7 +27,7 @@ export function Gallery() {
       
       {/* Header */}
       <header className="bg-primary py-20 text-center px-4 relative overflow-hidden border-b border-line shadow-sm">
-        <h1 className="text-4xl sm:text-5xl font-black text-content-inverse mb-4 font-display uppercase tracking-tight">Gallery</h1>
+        <h1 className="text-4xl sm:text-5xl font-bold text-content-inverse mb-4 font-display tracking-tight">Gallery</h1>
         <p className="text-content-inverse/80 font-semibold max-w-7xl mx-auto text-sm sm:text-base">Glimpses of life, learning,<br /> and celebrations at Hazrat Aisha Academy.</p>
       </header>
 
@@ -95,7 +95,7 @@ export function Gallery() {
                       </div>
                     </div>
                   </figure>
-                  <h3 className="text-lg font-black text-content font-display px-1">{video.title}</h3>
+                  <h3 className="text-lg font-bold text-content font-display px-1">{video.title}</h3>
                 </article>
               ))}
             </motion.div>

@@ -13,7 +13,7 @@ export function ProtectedRoute({ allowedRoles, requireVerified = false }: Protec
   const { user, loading, firebaseUser } = useAuth();
   const location = useLocation();
 
-  console.log("ProtectedRoute: loading:", loading, "user:", user?.uid, "firebaseUser:", firebaseUser?.uid);
+  console.log("ProtectedRoute: loading:", loading, "user:", user?.uid, "path:", location.pathname);
 
   if (loading) {
     return (

@@ -13,7 +13,7 @@ export function SecuritySettings() {
   const [saving, setSaving] = useState(false);
   const isAdmin = user?.role === 'admin';
 
-  const [settings, setSettings] = useState<ISecuritySettings>({
+  const DEFAULT_SECURITY_SETTINGS: ISecuritySettings = {
     sessionTimeoutMinutes: 30,
     passwordPolicy: {
       minLength: 8,
@@ -23,7 +23,9 @@ export function SecuritySettings() {
     },
     maxFailedLogins: 5,
     lockoutDurationMinutes: 15
-  });
+  };
+
+  const [settings, setSettings] = useState<ISecuritySettings>(DEFAULT_SECURITY_SETTINGS);
 
   useEffect(() => {
     loadSettings();
@@ -33,9 +35,22 @@ export function SecuritySettings() {
     try {
       const data = await SettingsService.getSecuritySettings();
       if (data) {
+        console.log("Loaded security settings:", data);
         setSettings(data);
+      } else {
+        console.log("No security settings found. Initializing with:", DEFAULT_SECURITY_SETTINGS);
+        // Initialize with default settings
+        try {
+          await SettingsService.updateSecuritySettings(DEFAULT_SECURITY_SETTINGS);
+          console.log("Successfully initialized default security settings.");
+          setSettings(DEFAULT_SECURITY_SETTINGS);
+        } catch (writeError) {
+          console.error("Failed to initialize security settings:", writeError);
+          showToast('Failed to initialize security settings', 'error');
+        }
       }
     } catch (error) {
+      console.error("Failed to load security settings:", error);
       showToast('Failed to load security settings', 'error');
     } finally {
       setLoading(false);
@@ -94,9 +109,9 @@ export function SecuritySettings() {
         <Shield className="w-6 h-6 text-indigo-600" /> Security Settings
       </h2>
       
-      <form onSubmit={handleSubmit} className="space-y-8 max-w-3xl">
-        <div className="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-100 dark:border-gray-700">
-          <h3 className="text-lg font-semibold mb-4">Session Management</h3>
+        <form onSubmit={handleSubmit} className="space-y-8 w-full">
+        <div className="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-100 dark:border-gray-700 w-full max-w-none">
+          <h3 className="text-lg font-semibold mb-4 ">Session Management</h3>
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -116,8 +131,8 @@ export function SecuritySettings() {
           </div>
         </div>
 
-        <div className="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-100 dark:border-gray-700">
-          <h3 className="text-lg font-semibold mb-4">Password Policy</h3>
+        <div className="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-100 dark:border-gray-700 w-full max-w-none">
+          <h3 className="text-lg font-semibold mb-4 ">Password Policy</h3>
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
@@ -169,8 +184,8 @@ export function SecuritySettings() {
           </div>
         </div>
 
-        <div className="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-100 dark:border-gray-700">
-          <h3 className="text-lg font-semibold mb-4">Login Security</h3>
+        <div className="bg-gray-50 dark:bg-gray-800/50 p-6 rounded-xl border border-gray-100 dark:border-gray-700 w-full max-w-none">
+          <h3 className="text-lg font-semibold mb-4 ">Login Security</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">

@@ -186,7 +186,7 @@ export function StudentAttendance() {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left">
+            <table className="w-full text-sm text-left min-w-[800px]">
               <thead className="text-xs text-content-secondary font-bold uppercase bg-surface-overlay border-b border-line">
                 <tr>
                   <th className="px-6 py-4 font-display uppercase tracking-wider text-xs">Roll/Adm No.</th>

@@ -10,11 +10,11 @@ export function About() {
       
       {/* Header */}
       <header className="bg-primary py-20 text-center px-4 relative overflow-hidden border-b border-line shadow-sm">
-        <h1 className="text-4xl sm:text-5xl font-black text-content-inverse mb-6 font-display uppercase tracking-tight">About Our Academy</h1>
+        <h1 className="text-4xl sm:text-5xl font-bold text-content-inverse mb-6 font-display tracking-tight">About Our Academy</h1>
         <p className="text-content-inverse/80 font-semibold max-w-7xl mx-auto text-sm sm:text-base mb-4">A legacy of excellence in education, nurturing the leaders of tomorrow.</p>
         <div className="flex flex-col items-center justify-center gap-1.5 mt-4 text-accent">
-          <p className="font-display font-black text-lg tracking-widest uppercase">Learn • Lead • Serve</p>
-          <p className="font-display font-black text-lg tracking-widest" dir="rtl">سیکھیں • قیادت کریں • خدمت کریں</p>
+          <p className="font-display font-bold text-lg tracking-widest uppercase">Learn • Lead • Serve</p>
+          <p className="font-display font-bold text-lg tracking-widest" dir="rtl">سیکھیں • قیادت کریں • خدمت کریں</p>
         </div>
       </header>
 
@@ -24,7 +24,7 @@ export function About() {
         <section className="bg-surface rounded-2xl shadow-e1 p-8 md:p-12 mb-16 border border-line -mt-10 relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <article>
-              <h2 className="text-3xl font-extrabold text-content font-display mb-6 tracking-tight">Principal's Message</h2>
+              <h2 className="text-3xl font-bold text-content font-display mb-6 tracking-tight">Principal's Message</h2>
               <p className="text-content-secondary font-medium leading-relaxed mb-6">
                 "Welcome to Hazrat Aisha Academy. Our institution stands as a beacon of knowledge, where we strive to provide holistic education that balances modern academic rigor with timeless moral values. We believe that every child is unique and possesses immense potential. Our dedicated faculty works tirelessly to create an environment that encourages curiosity, creativity, and character development."
               </p>
@@ -33,7 +33,7 @@ export function About() {
                   <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?fm=webp&fit=crop&w=200&q=80" alt="Portrait of Md. Leyaqat Hussain, Principal" className="w-full h-full object-cover" loading="lazy" referrerPolicy="no-referrer" />
                 </figure>
                 <div>
-                  <h3 className="font-extrabold text-content font-display">Md. Leyaqat Hussain</h3>
+                  <h3 className="font-bold text-content font-display">Md. Leyaqat Hussain</h3>
                   <p className="text-sm font-semibold text-content-tertiary">Principal</p>
                 </div>
               </div>
@@ -56,7 +56,7 @@ export function About() {
             <div className="w-14 h-14 bg-primary/10 border border-primary/20 rounded-xl flex items-center justify-center text-primary mb-6" aria-hidden="true">
               <Target className="w-7 h-7" />
             </div>
-            <h2 className="text-2xl font-extrabold text-content font-display mb-4 tracking-tight">Our Vision</h2>
+            <h2 className="text-2xl font-bold text-content font-display mb-4 tracking-tight">Our Vision</h2>
             <p className="text-content-secondary font-medium leading-relaxed">
               To provide quality education with Islamic values while nurturing knowledgeable, disciplined, compassionate and responsible citizens.
             </p>
@@ -72,7 +72,7 @@ export function About() {
             <div className="w-14 h-14 bg-primary/10 border border-primary/20 rounded-xl flex items-center justify-center text-primary mb-6" aria-hidden="true">
               <Heart className="w-7 h-7" />
             </div>
-            <h2 className="text-2xl font-extrabold text-content font-display mb-4 tracking-tight">Our Mission</h2>
+            <h2 className="text-2xl font-bold text-content font-display mb-4 tracking-tight">Our Mission</h2>
             <p className="text-content-secondary font-medium leading-relaxed">
               Our mission is to cultivate academic excellence alongside authentic Islamic moral values, providing a professional and intellectually stimulating learning environment that prepares disciplined, compassionate, and responsible citizens to serve their families, community, and nation with integrity.
             </p>
@@ -82,7 +82,7 @@ export function About() {
         {/* Core Values */}
         <section aria-labelledby="core-values-heading">
           <div className="text-center mb-12">
-            <h2 id="core-values-heading" className="text-3xl font-extrabold text-content font-display mb-4 tracking-tight">Our Core Values</h2>
+            <h2 id="core-values-heading" className="text-3xl font-bold text-content font-display mb-4 tracking-tight">Our Core Values</h2>
             <div className="w-24 h-1 bg-primary mx-auto rounded-full" aria-hidden="true"></div>
           </div>
           
@@ -97,7 +97,7 @@ export function About() {
                 <div className="w-12 h-12 bg-primary/10 border border-primary/20 rounded-full flex items-center justify-center mx-auto mb-4 text-primary" aria-hidden="true">
                   <value.icon className="w-6 h-6" />
                 </div>
-                <h3 className="text-lg font-extrabold text-content font-display mb-2">{value.title}</h3>
+                <h3 className="text-lg font-bold text-content font-display mb-2">{value.title}</h3>
                 <p className="text-sm font-semibold text-content-secondary">{value.desc}</p>
               </article>
             ))}
