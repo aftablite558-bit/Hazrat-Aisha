@@ -144,7 +144,6 @@ export function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                         className="space-y-1 overflow-hidden"
                       >
                         {group.items.map((item) => {
-                          console.log("Sidebar NavLink:", item.name, item.href);
                           const isActive = location.pathname === item.href || location.pathname.startsWith(`${item.href}/`);
                           return (
                             <NavLink

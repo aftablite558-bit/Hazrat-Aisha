@@ -6,8 +6,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../co
 
 export function Home() {
   const { user, loading } = useAuth();
-  
-  console.log("Dashboard.tsx: user:", user, "role:", user?.role);
 
   if (loading) {
     return <div className="flex h-screen items-center justify-center">Loading...</div>;

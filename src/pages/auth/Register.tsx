@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { Eye, EyeOff, Mail, Lock, User, Shield } from 'lucide-react';
+import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { authService } from '../../services/auth.service';
 import { useToast } from '../../context/ToastContext';
 import { FirebaseError } from 'firebase/app';
-import { UserRole } from '../../types';
 
 export function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState<UserRole>('teacher');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
@@ -34,6 +32,7 @@ export function Register() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
     if (!email || !password || !name) {
       addToast('Please fill in all fields', 'error');
       return;
@@ -45,8 +44,9 @@ export function Register() {
     }
 
     setIsLoading(true);
+
     try {
-      await authService.register(email, password, name, role);
+      await authService.register(email, password, name);
       addToast('Account created successfully. Please verify your email.', 'success');
       navigate('/verify-email');
     } catch (error) {
@@ -131,25 +131,6 @@ export function Register() {
               disabled={isLoading}
               required
             />
-          </div>
-        </div>
-        
-        <div className="space-y-2">
-          <Label htmlFor="role" className="text-content-secondary font-medium">Role</Label>
-          <div className="relative">
-            <Shield className="absolute left-3 top-3 h-5 w-5 text-content-tertiary" />
-            <select
-              id="role"
-              className="flex h-[var(--size-input-md)] w-full rounded-[var(--radius-sm)] border border-[var(--border-default)] bg-[var(--bg-surface)] px-[var(--space-md)] py-2 pl-10 text-[var(--text-body)] font-normal text-[var(--text-primary)] transition-all duration-[var(--duration-fast)] hover:border-[var(--border-strong)] focus:border-[var(--color-primary)] focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] focus:outline-none disabled:cursor-not-allowed disabled:bg-[var(--bg-surface-overlay)] disabled:text-[var(--text-disabled)]"
-              value={role}
-              onChange={(e) => setRole(e.target.value as UserRole)}
-              disabled={isLoading}
-              required
-            >
-              <option value="teacher">Teacher</option>
-              <option value="principal">Principal</option>
-              <option value="admin">Administrator</option>
-            </select>
           </div>
         </div>
 

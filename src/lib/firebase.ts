@@ -23,15 +23,10 @@ let storage: FirebaseStorage | undefined;
 
 if (isConfigured) {
   try {
-    console.log("Firebase: Attempting to initialize app");
     app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
     auth = getAuth(app);
     database = getDatabase(app, "https://hazrat-aisha-academy-cb36a-default-rtdb.asia-southeast1.firebasedatabase.app");
-    console.log("Firebase Database initialized:", !!database);
     storage = getStorage(app);
-    console.log("Firebase: Initialization successful");
-    console.log("Firebase: Auth instance:", !!auth, "Database instance:", !!database);
-    console.log("Firebase: Storage Bucket:", firebaseConfig.storageBucket);
   } catch (error) {
     console.error("Firebase initialization error:", error);
   }

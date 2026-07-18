@@ -11,7 +11,6 @@ export function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const location = useLocation();
-  console.log("Layout.tsx rendered for:", location.pathname);
   const { user } = useAuth();
 
   return (

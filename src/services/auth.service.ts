@@ -78,8 +78,8 @@ export const authService = {
   /**
    * Register a new user with email and password
    */
-  async register(email: string, password: string, displayName: string, role: UserRole = "teacher") {
-    const user = await this.createUser(email, password, displayName, role);
+  async register(email: string, password: string, displayName: string) {
+    const user = await this.createUser(email, password, displayName, "teacher");
     
     // Send verification email
     await sendEmailVerification(user);

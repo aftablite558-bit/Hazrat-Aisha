@@ -2,15 +2,15 @@
   "rules": {
     "attendance": {
       ".read": "auth != null",
-      ".write": "auth != null"
+      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'teacher')"
     },
     "staff": {
       ".read": "auth != null",
-      ".write": "auth != null"
+      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
     },
     "students": {
       ".read": "auth != null || query.orderByChild == 'class' || query.orderByChild == 'rollNumber' || query.orderByChild == 'admissionNumber'",
-      ".write": "auth != null",
+      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')",
       ".indexOn": [
         "admissionNumber",
         "rollNumber",
@@ -22,11 +22,11 @@
     "exams": {
       "list": {
         ".read": "true",
-        ".write": "auth != null"
+        ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
       },
       "marks": {
         ".read": "auth != null",
-        ".write": "auth != null",
+        ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'teacher')",
         "$examId": {
           "$studentId": {
             ".read": "true"
@@ -35,7 +35,7 @@
       },
       "published": {
         ".read": "true",
-        ".write": "auth != null"
+        ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
       }
     },
     "users": {
@@ -46,21 +46,21 @@
     },
     "settings": {
       ".read": "auth != null",
-      ".write": "auth != null"
+      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
     },
     "system_logs": {
       ".indexOn": [
         "timestamp"
       ],
       ".read": "auth != null",
-      ".write": "auth != null"
+      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
     },
     "backups": {
       ".indexOn": [
         "timestamp"
       ],
-      ".read": "auth != null",
-      ".write": "auth != null"
+      ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')",
+      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
     }
   }
 }

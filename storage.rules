@@ -4,18 +4,22 @@ service firebase.storage {
     // Staff photos
     match /staff/{allPaths=**} {
       allow read: if request.auth != null;
-      allow write: if request.auth != null;
+      // Verifying role via custom claims instead of firestore.get since we use Realtime DB
+      allow write: if request.auth != null && (request.auth.token.role == 'admin' || request.auth.token.role == 'principal');
     }
+    
     // Gallery is public read, but restricted write
     match /gallery/{allPaths=**} {
       allow read: if true;
-      allow write: if request.auth != null && firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role in ['admin', 'principal'];
+      allow write: if request.auth != null && (request.auth.token.role == 'admin' || request.auth.token.role == 'principal');
     }
+    
     // Documents are restricted based on roles
     match /documents/{allPaths=**} {
       allow read: if request.auth != null;
-      allow write: if request.auth != null && firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role in ['admin', 'principal', 'teacher'];
+      allow write: if request.auth != null && (request.auth.token.role == 'admin' || request.auth.token.role == 'principal' || request.auth.token.role == 'teacher');
     }
+    
     // Default deny
     match /{allPaths=**} {
       allow read, write: if false;

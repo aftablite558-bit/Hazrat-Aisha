@@ -35,14 +35,11 @@ export function SecuritySettings() {
     try {
       const data = await SettingsService.getSecuritySettings();
       if (data) {
-        console.log("Loaded security settings:", data);
         setSettings(data);
       } else {
-        console.log("No security settings found. Initializing with:", DEFAULT_SECURITY_SETTINGS);
         // Initialize with default settings
         try {
           await SettingsService.updateSecuritySettings(DEFAULT_SECURITY_SETTINGS);
-          console.log("Successfully initialized default security settings.");
           setSettings(DEFAULT_SECURITY_SETTINGS);
         } catch (writeError) {
           console.error("Failed to initialize security settings:", writeError);
