@@ -1,5 +1,5 @@
 import { Home, BarChart2, PieChart, Users, Settings, LogOut, Hexagon } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '../utils/cn';
 
 const navItems = [
   { id: 'dashboard', icon: Home, label: 'Dashboard' },

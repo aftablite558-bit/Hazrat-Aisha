@@ -4,7 +4,7 @@ import { Header } from './components/Header';
 import { Stats } from './components/Stats';
 import { ActivityChart } from './components/ActivityChart';
 import { RecentTransactions } from './components/RecentTransactions';
-import { cn } from '@/lib/utils';
+import { cn } from './utils/cn';
 
 const viewTitles: Record<string, { title: string; subtitle: string }> = {
   dashboard: { title: 'Dashboard', subtitle: "Here's what's happening with your projects today." },

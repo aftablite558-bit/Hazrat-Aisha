@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Search, Bell, Menu, X } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { cn } from '../utils/cn';
 
 const notifications = [
   { id: 1, text: 'Your weekly report is ready to view.', time: '5m ago' },
