@@ -1,7 +1,7 @@
 import React from 'react';
-import { Menu, Bell, Search, Sun, Moon, Globe, ChevronRight } from 'lucide-react';
+import { Menu, Bell, Search, Sun, Moon, Globe, ChevronRight, ArrowLeft } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
-import { useLocation, Link } from 'react-router';
+import { useLocation, Link, useNavigate } from 'react-router';
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +24,7 @@ export function Topbar({ onMenuClick, onSearchClick }: TopbarProps) {
   const { theme, setTheme } = useTheme();
   const { user } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
@@ -69,7 +70,7 @@ export function Topbar({ onMenuClick, onSearchClick }: TopbarProps) {
   };
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 dark:border-gray-800 bg-surface/80 dark:bg-surface-dark/80 backdrop-blur-md px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 transition-colors">
+    <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-x-4 border-b border-white/40 dark:border-white/10 bg-white/40 dark:bg-zinc-950/40 backdrop-blur-2xl px-4 shadow-[0_4px_24px_rgba(0,0,0,0.02)] sm:gap-x-6 sm:px-6 lg:px-8 transition-colors">
       <button
         type="button"
         className="-m-2.5 p-2.5 text-gray-700 dark:text-gray-200 md:hidden hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
@@ -84,6 +85,18 @@ export function Topbar({ onMenuClick, onSearchClick }: TopbarProps) {
 
       <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6 items-center">
         <div className="flex-1 flex items-center gap-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200/60 dark:border-zinc-800/60 bg-white/60 dark:bg-zinc-900/40 text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 hover:bg-gray-100/80 dark:hover:bg-zinc-800/80 hover:scale-105 active:scale-95 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.02)] shrink-0 group"
+            title="Go Back"
+          >
+            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
+            <span className="text-xs font-bold font-display uppercase tracking-wider">Back</span>
+          </button>
+
+          {/* Separator */}
+          <div className="hidden sm:block h-5 w-px bg-gray-200 dark:bg-zinc-800 shrink-0" />
+
           {generateBreadcrumbs()}
           
           <button 

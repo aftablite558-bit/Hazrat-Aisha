@@ -1,66 +1,152 @@
 {
   "rules": {
+    // Grant read access to the entire database for Admins and Principals
+    ".read": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')",
+    
+    // Attendance rules: Read is public for verification, writes allowed for Admin, Principal, and Teachers
     "attendance": {
-      ".read": "auth != null",
-      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'teacher')"
+      ".read": "true",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || auth.token.role === 'teacher' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'teacher')"
     },
+    
+    // Staff details: Read is public (for directory), writes allowed only for Admins and Principals
     "staff": {
-      ".read": "auth != null",
-      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+      ".read": "true",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
     },
+    
+    // Student records: Read is public, writes allowed only for Admins and Principals
     "students": {
-      ".read": "auth != null || query.orderByChild == 'class' || query.orderByChild == 'rollNumber' || query.orderByChild == 'admissionNumber'",
-      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')",
-      ".indexOn": [
-        "admissionNumber",
-        "rollNumber",
-        "class",
-        "firstName",
-        "lastName"
-      ]
+      ".read": "true",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')",
+      ".indexOn": ["admissionNumber", "rollNumber", "class", "firstName", "lastName"]
     },
+    
+    // Exams rules: Read is public (for reporting), writes categorized by list/marks/published status
     "exams": {
+      ".read": "true",
       "list": {
-        ".read": "true",
-        ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+        ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
       },
       "marks": {
-        ".read": "auth != null",
-        ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'teacher')",
-        "$examId": {
-          "$studentId": {
-            ".read": "true"
-          }
-        }
+        ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || auth.token.role === 'teacher' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'teacher')"
       },
       "published": {
-        ".read": "true",
-        ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+        ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
       }
     },
+
+    // Homework rules: Read is public, writes allowed for Admin, Principal, and Teachers
+    "homework": {
+      ".read": "true",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || auth.token.role === 'teacher' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'teacher')"
+    },
+
+    // Results rules: Read is public, writes allowed for Admin, Principal, and Teachers
+    "results": {
+      ".read": "true",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || auth.token.role === 'teacher' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'teacher')"
+    },
+    
+    // User accounts management:
     "users": {
-      ".read": "auth != null",
+      // Admins and Principals can read the entire users registry
+      ".read": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')",
       "$uid": {
-        ".write": "auth != null && auth.uid === $uid"
+        // Individual users can read their own profile, Admins and Principals can read all profiles
+        ".read": "auth != null && (auth.uid === $uid || auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')",
+        // Only Admins and Principals can update roles
+        "role": {
+          ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+        },
+        // Individual users can write their other fields (status, displayName, lastLogin, etc.)
+        "$other": {
+          ".write": "auth != null && (auth.uid === $uid || auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+        }
       }
     },
+    
+    // General website settings: Read public, write restricted to Admin and Principal
     "settings": {
-      ".read": "auth != null",
-      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+      ".read": "true",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
     },
+    
+    // Gallery: Read public, write restricted to Admin and Principal
+    "gallery": {
+      ".read": "true",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+    },
+    
+    // Notice board announcements: Read public, write restricted to Admin and Principal
+    "notices": {
+      ".read": "true",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+    },
+
+    // Academic Calendar events: Read public, write restricted to Admin and Principal
+    "calendar": {
+      ".read": "true",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+    },
+
+    // Infrastructure Facilities: Read public, write restricted to Admin and Principal
+    "facilities": {
+      ".read": "true",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+    },
+
+    // Careers listings: Read public, write restricted to Admin and Principal
+    "careers": {
+      ".read": "true",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+    },
+
+    // Contact form submissions: Read public, write restricted to Admin and Principal
+    "contacts": {
+      ".read": "true",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+    },
+    
+    // General Resource downloads: Read public, write restricted to Admin and Principal
+    "documents": {
+      ".read": "true",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+    },
+
+    // Online Admissions submissions: Read and write restricted to Admin and Principal
+    "admissions": {
+      ".read": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+    },
+
+    // Financial Fees management: Read and write restricted to Admin and Principal
+    "fees": {
+      ".read": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+    },
+    
+    // System logs: Read/Write restricted to Admin and Principal
     "system_logs": {
-      ".indexOn": [
-        "timestamp"
-      ],
-      ".read": "auth != null",
-      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+      ".indexOn": ["timestamp"],
+      ".read": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
     },
+    
+    // System backups records: Read/Write restricted to Admin and Principal
     "backups": {
-      ".indexOn": [
-        "timestamp"
-      ],
-      ".read": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')",
-      ".write": "auth != null && (root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+      ".indexOn": ["timestamp"],
+      ".read": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')"
+    },
+    
+    // Registration requests: Read and write for admins and principals, and unauthenticated creation of new pending requests
+    "registration_requests": {
+      ".read": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')",
+      ".write": "auth != null && (auth.token.role === 'admin' || auth.token.role === 'principal' || root.child('users').child(auth.uid).child('role').val() === 'admin' || root.child('users').child(auth.uid).child('role').val() === 'principal')",
+      "$request_id": {
+        ".write": "!data.exists() && newData.exists() && newData.child('status').val() === 'pending'"
+      }
     }
   }
 }

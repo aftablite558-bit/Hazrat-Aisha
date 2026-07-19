@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, {  useState, useEffect  } from 'react';
+import { AppSkeleton } from '../../components/ui/AppSkeleton';
 import { useNavigate, useParams } from 'react-router';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
@@ -93,7 +94,7 @@ export function ResultPublish() {
     <div className="space-y-6 font-body">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div className="flex items-center gap-4">
-          <Button variant="secondary" onClick={() => navigate('/exams')} className="border-line text-content-secondary hover:text-content font-bold font-display">
+          <Button variant="secondary" onClick={() => navigate('/exams')} className="border-white/20 text-content-secondary hover:text-content font-bold font-display">
             <ArrowLeft className="h-4 w-4 mr-2" /> Back
           </Button>
           <div>
@@ -126,14 +127,14 @@ export function ResultPublish() {
         </div>
       )}
 
-      <Card className="border-line shadow-e1">
-        <CardHeader className="border-b border-line pb-4 font-display">
+      <Card className="overflow-hidden">
+        <CardHeader className="border-b border-white/20 pb-4 font-display">
           <CardTitle className="text-lg text-content font-extrabold">Merit List & Final Results</CardTitle>
         </CardHeader>
         <CardContent className="p-0 sm:p-6">
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left min-w-[800px]">
-              <thead className="text-xs text-content-secondary font-bold uppercase bg-surface-overlay border-b border-line">
+              <thead className="text-xs text-content-secondary font-bold uppercase bg-white/5 border-b border-white/20">
                 <tr>
                   <th className="px-6 py-4 font-display uppercase tracking-wider text-xs">Rank</th>
                   <th className="px-6 py-4 font-display uppercase tracking-wider text-xs">Roll No</th>
@@ -145,9 +146,9 @@ export function ResultPublish() {
                   <th className="px-6 py-4 text-right font-display uppercase tracking-wider text-xs">Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-line">
+              <tbody className="divide-y divide-white/10">
                 {studentResults.map((result) => (
-                  <tr key={result.student.id} className="bg-surface hover:bg-surface-raised transition-colors duration-fast">
+                  <tr key={result.student.id} className="hover:bg-white/10 transition-colors duration-fast">
                     <td className="px-6 py-4 font-mono font-black text-content text-base">{result.marks.rank || '-'}</td>
                     <td className="px-6 py-4 font-mono text-content-secondary font-semibold">{result.student.rollNumber || 'N/A'}</td>
                     <td className="px-6 py-4 font-bold text-content">{result.student.firstName} {result.student.lastName}</td>
@@ -162,7 +163,7 @@ export function ResultPublish() {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right">
-                       <Button variant="secondary" size="sm" onClick={() => navigate(`/exams/${exam.id}/report-card/${result.student.id}`)} className="border-line text-content-secondary hover:text-content hover:bg-surface-overlay font-bold font-display">
+                       <Button variant="secondary" size="sm" onClick={() => navigate(`/exams/${exam.id}/report-card/${result.student.id}`)} className="border-white/20 text-content-secondary hover:text-content hover:bg-white/5 font-bold font-display">
                          <Printer className="h-4 w-4 mr-2" /> Print
                        </Button>
                     </td>

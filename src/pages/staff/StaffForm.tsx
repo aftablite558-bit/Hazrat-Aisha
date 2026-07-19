@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, {  useState, useEffect  } from 'react';
+import { AppSkeleton } from '../../components/ui/AppSkeleton';
 import { useNavigate, useParams } from 'react-router';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
@@ -147,9 +148,7 @@ export function StaffForm() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-primary-500" />
-      </div>
+      <AppSkeleton type="form" />
     );
   }
 
@@ -166,14 +165,14 @@ export function StaffForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <Card className="border-line shadow-e1">
-          <CardHeader className="border-b border-line font-display">
+        <Card className="overflow-hidden">
+          <CardHeader className="border-b border-white/20 font-display">
             <CardTitle>Personal Details</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6 pt-6">
             <div className="flex flex-col sm:flex-row gap-6">
               <div className="flex flex-col items-center gap-2">
-                <div className="relative w-32 h-32 rounded-2xl border-2 border-dashed border-[var(--border-default)] hover:border-primary/50 transition-colors overflow-hidden flex items-center justify-center bg-[var(--bg-surface)] shadow-inner">
+                <div className="relative w-32 h-32 rounded-2xl border-2 border-dashed border-[var(--border-default)] hover:border-primary/50 transition-colors overflow-hidden flex items-center justify-center bg-white/10 dark:bg-black/20 backdrop-blur-md shadow-inner">
                   {photoPreview ? (
                     <img src={photoPreview} alt="Preview" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                   ) : (
@@ -192,15 +191,15 @@ export function StaffForm() {
               <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1.5">
                   <label className="text-sm font-semibold text-content-secondary">First Name *</label>
-                  <input required name="firstName" value={formData.firstName} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50" />
+                  <input required name="firstName" value={formData.firstName} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50" />
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-sm font-semibold text-content-secondary">Last Name *</label>
-                  <input required name="lastName" value={formData.lastName} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50" />
+                  <input required name="lastName" value={formData.lastName} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50" />
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-sm font-semibold text-content-secondary">Gender *</label>
-                  <select required name="gender" value={formData.gender} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50">
+                  <select required name="gender" value={formData.gender} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50">
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
@@ -208,25 +207,25 @@ export function StaffForm() {
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-sm font-semibold text-content-secondary">Date of Birth *</label>
-                  <input type="date" required name="dateOfBirth" value={formData.dateOfBirth} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50" />
+                  <input type="date" required name="dateOfBirth" value={formData.dateOfBirth} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50" />
                 </div>
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-line shadow-e1">
-          <CardHeader className="border-b border-line font-display">
+        <Card className="overflow-hidden">
+          <CardHeader className="border-b border-white/20 font-display">
             <CardTitle>Professional Details</CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6">
              <div className="space-y-1.5">
                 <label className="text-sm font-semibold text-content-secondary">Employee ID *</label>
-                <input required name="employeeId" value={formData.employeeId} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50" />
+                <input required name="employeeId" value={formData.employeeId} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50" />
               </div>
               <div className="space-y-1.5">
                 <label className="text-sm font-semibold text-content-secondary">Department *</label>
-                <select required name="department" value={formData.department} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50">
+                <select required name="department" value={formData.department} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50">
                   <option value="Teaching">Teaching</option>
                   <option value="Administration">Administration</option>
                   <option value="Library">Library</option>
@@ -236,7 +235,7 @@ export function StaffForm() {
               </div>
               <div className="space-y-1.5">
                 <label className="text-sm font-semibold text-content-secondary">Designation *</label>
-                <select required name="designation" value={formData.designation} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50">
+                <select required name="designation" value={formData.designation} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50">
                   <option value="Principal">Principal</option>
                   <option value="Teacher">Teacher</option>
                   <option value="Office Staff">Office Staff</option>
@@ -246,15 +245,15 @@ export function StaffForm() {
               </div>
               <div className="space-y-1.5">
                 <label className="text-sm font-semibold text-content-secondary">Qualification</label>
-                <input name="qualification" value={formData.qualification} onChange={handleInputChange} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
+                <input name="qualification" value={formData.qualification} onChange={handleInputChange} className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
               </div>
               <div className="space-y-1.5">
                 <label className="text-sm font-semibold text-content-secondary">Experience (Years)</label>
-                <input name="experience" value={formData.experience} onChange={handleInputChange} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
+                <input name="experience" value={formData.experience} onChange={handleInputChange} className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
               </div>
               <div className="space-y-1.5">
                 <label className="text-sm font-semibold text-content-secondary">Joining Date *</label>
-                <input type="date" required name="joiningDate" value={formData.joiningDate} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50" />
+                <input type="date" required name="joiningDate" value={formData.joiningDate} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50" />
               </div>
               
               {/* Teaching specific fields */}
@@ -262,11 +261,11 @@ export function StaffForm() {
                 <>
                   <div className="space-y-1.5 md:col-span-2">
                     <label className="text-sm font-semibold text-content-secondary">Subjects Taught</label>
-                    <input name="subjects" value={formData.subjects} onChange={handleInputChange} placeholder="E.g., Mathematics, Science" className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
+                    <input name="subjects" value={formData.subjects} onChange={handleInputChange} placeholder="E.g., Mathematics, Science" className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
                   </div>
                   <div className="space-y-1.5">
                     <label className="text-sm font-semibold text-content-secondary">Classes</label>
-                    <input name="classes" value={formData.classes} onChange={handleInputChange} placeholder="E.g., 9A, 10B" className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
+                    <input name="classes" value={formData.classes} onChange={handleInputChange} placeholder="E.g., 9A, 10B" className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
                   </div>
                 </>
               )}
@@ -275,11 +274,11 @@ export function StaffForm() {
                 <>
                   <div className="space-y-1.5">
                     <label className="text-sm font-semibold text-content-secondary">Salary</label>
-                    <input name="salary" value={formData.salary} onChange={handleInputChange} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
+                    <input name="salary" value={formData.salary} onChange={handleInputChange} className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
                   </div>
                   <div className="space-y-1.5">
                       <label className="text-sm font-semibold text-content-secondary">Status *</label>
-                      <select required name="status" value={formData.status} onChange={handleInputChange} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]">
+                      <select required name="status" value={formData.status} onChange={handleInputChange} className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]">
                         <option value="active">Active</option>
                         <option value="inactive">Inactive</option>
                         <option value="on_leave">On Leave</option>
@@ -290,32 +289,32 @@ export function StaffForm() {
           </CardContent>
         </Card>
 
-        <Card className="border-line shadow-e1">
-          <CardHeader className="border-b border-line font-display">
+        <Card className="overflow-hidden">
+          <CardHeader className="border-b border-white/20 font-display">
             <CardTitle>Contact Details</CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6">
             <div className="space-y-1.5">
                 <label className="text-sm font-semibold text-content-secondary">Email Address *</label>
-                <input type="email" required name="email" value={formData.email} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50" />
+                <input type="email" required name="email" value={formData.email} onChange={handleInputChange} disabled={!isAdminOrPrincipal && isEditing} className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] disabled:opacity-50" />
             </div>
             {!isEditing && (
               <div className="space-y-1.5">
                 <label className="text-sm font-semibold text-content-secondary">Password *</label>
-                <input type="password" required name="password" value={formData.password} onChange={handleInputChange} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
+                <input type="password" required name="password" value={formData.password} onChange={handleInputChange} className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
               </div>
             )}
             <div className="space-y-1.5">
                 <label className="text-sm font-semibold text-content-secondary">Phone Number *</label>
-                <input required name="phone" value={formData.phone} onChange={handleInputChange} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
+                <input required name="phone" value={formData.phone} onChange={handleInputChange} className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
             </div>
             <div className="space-y-1.5 md:col-span-2">
                 <label className="text-sm font-semibold text-content-secondary">Emergency Contact</label>
-                <input name="emergencyContact" value={formData.emergencyContact} onChange={handleInputChange} placeholder="Name - Relationship - Phone" className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
+                <input name="emergencyContact" value={formData.emergencyContact} onChange={handleInputChange} placeholder="Name - Relationship - Phone" className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
             </div>
             <div className="space-y-1.5 md:col-span-2">
                 <label className="text-sm font-semibold text-content-secondary">Full Address *</label>
-                <textarea required name="address" value={formData.address} onChange={handleInputChange} rows={3} className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
+                <textarea required name="address" value={formData.address} onChange={handleInputChange} rows={3} className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]" />
             </div>
           </CardContent>
         </Card>

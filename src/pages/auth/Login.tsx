@@ -116,7 +116,7 @@ export function Login() {
           <input
             type="checkbox"
             id="rememberMe"
-            className="h-4 w-4 rounded border-line bg-surface text-primary focus:ring-primary/20 cursor-pointer"
+            className="h-4 w-4 rounded border-white/20 text-primary focus:ring-primary/20 cursor-pointer"
             checked={rememberMe}
             onChange={(e) => setRememberMe(e.target.checked)}
             disabled={isLoading}

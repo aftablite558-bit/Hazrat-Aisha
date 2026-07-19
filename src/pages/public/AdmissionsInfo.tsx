@@ -1,9 +1,11 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { useNavigate } from 'react-router';
+import { useNavigate, Link } from 'react-router';
 import { CheckCircle2, FileText, Calendar, Clock, UserCheck, ArrowRight, ShieldAlert } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { SEO } from '../../components/seo/SEO';
+
+import { Card } from '../../components/ui/card';
 
 export function AdmissionsInfo() {
   const navigate = useNavigate();
@@ -39,25 +41,35 @@ export function AdmissionsInfo() {
   ];
 
   return (
-    <div className="bg-[var(--bg-surface-raised)] min-h-screen pb-24 font-body">
+    <div className="bg-transparent min-h-screen pb-24 font-body">
       <SEO title="Admissions Info" description="Learn about the admission process, eligibility criteria, and required documents for Hazrat Aisha Academy." />
 
       {/* Header */}
-      <header className="bg-primary py-20 text-center px-4 relative overflow-hidden border-b border-line shadow-sm">
-        <h1 className="text-4xl sm:text-5xl font-bold text-content-inverse mb-4 font-display tracking-tight">
+      <header className="public-page-header">
+        <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 font-display tracking-tight">
           Admissions Guidance
         </h1>
-        <p className="text-content-inverse/80 font-semibold max-w-7xl mx-auto text-sm sm:text-base">
+        <p className="text-white/80 font-semibold max-w-2xl mx-auto text-sm sm:text-base mb-6">
           Cultivating character and academic excellence. Find everything you need to join Hazrat Aisha Academy.
         </p>
+
+        {/* Page Heading Buttons */}
+        <div className="flex flex-wrap justify-center gap-3 mt-8">
+          <Link to="/" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase border border-white/20 bg-white/10 hover:bg-white/20 text-white transition-all backdrop-blur-md">
+            <span>← Back to Home</span>
+          </Link>
+          <Link to="/contact" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold tracking-wider uppercase bg-amber-500 hover:bg-amber-600 text-white transition-all shadow-[0_4px_12px_rgba(245,158,11,0.3)] hover:-translate-y-0.5">
+            <span>Inquire Online</span>
+          </Link>
+        </div>
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
         
         {/* Core CTA Card */}
-        <section className="bg-surface border border-line rounded-3xl p-8 md:p-12 mb-16 relative overflow-hidden shadow-e3">
+        <Card className="p-8 md:p-12 mb-16 shadow-e3 bg-white/40 dark:bg-black/20">
           <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
-          <div className="grid md:grid-cols-2 gap-8 items-center">
+          <div className="grid md:grid-cols-2 gap-8 items-center relative z-10">
             <div>
               <span className="inline-block text-[10px] font-bold text-primary bg-primary/10 border border-primary/20 px-3 py-1 rounded-full uppercase tracking-wider mb-4">
                 Now Enrolling
@@ -69,15 +81,15 @@ export function AdmissionsInfo() {
                 Hazrat Aisha Academy invites applications from motivated students looking for an exceptional academic environment integrated with holistic Tarbiyah and deep-rooted moral values.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Button size="xl" variant="gold" className="font-display font-bold uppercase tracking-wide flex items-center justify-center" onClick={() => navigate('/contact')}>
+                <Button size="xl" variant="gold" className="font-display font-bold uppercase tracking-wide flex items-center justify-center shadow-gold hover:-translate-y-1 transition-all" onClick={() => navigate('/contact')}>
                   Inquire Online <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
-                <a href="tel:+919470818538" className="inline-flex items-center justify-center px-6 py-3.5 border border-line rounded-xl font-bold text-content hover:bg-surface-overlay transition-colors">
+                <a href="tel:+919470818538" className="inline-flex items-center justify-center px-6 py-3.5 rounded-[2rem] border border-white/40 bg-white/40 backdrop-blur-3xl font-bold text-content hover:bg-white/60 transition-colors">
                   Call Admissions Office
                 </a>
               </div>
             </div>
-            <div className="bg-surface-raised border border-line rounded-2xl p-6 space-y-4">
+            <Card className="p-6 space-y-4 bg-white/40 dark:bg-white/5 border border-white/40">
               <h3 className="text-lg font-bold text-content font-display">Important Dates</h3>
               <div className="flex items-start gap-4">
                 <Calendar className="w-5 h-5 text-primary shrink-0 mt-0.5" />
@@ -100,9 +112,9 @@ export function AdmissionsInfo() {
                   <p className="text-xs text-content-secondary font-medium">First Week of April Every Year</p>
                 </div>
               </div>
-            </div>
+            </Card>
           </div>
-        </section>
+        </Card>
 
         {/* Admissions Process Steps */}
         <section className="mb-24" aria-labelledby="steps-heading">
@@ -118,24 +130,26 @@ export function AdmissionsInfo() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {admissionSteps.map((step, index) => (
-              <motion.article 
+              <motion.div 
                 key={index}
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.08 }}
-                className="bg-surface border border-line rounded-2xl p-6 relative shadow-e1 hover:shadow-e2 transition-all duration-fast"
+                className="h-full"
               >
-                <div className="text-3xl font-bold text-primary/25 font-display mb-4">
-                  {step.step}
-                </div>
-                <h3 className="text-lg font-bold text-content font-display mb-2">
-                  {step.title}
-                </h3>
-                <p className="text-xs text-content-secondary font-medium leading-relaxed">
-                  {step.desc}
-                </p>
-              </motion.article>
+                <Card className="h-full p-6 hover:-translate-y-1 transition-transform duration-300">
+                  <div className="text-3xl font-bold text-primary/40 font-display mb-4 drop-shadow-sm">
+                    {step.step}
+                  </div>
+                  <h3 className="text-lg font-bold text-content font-display mb-2">
+                    {step.title}
+                  </h3>
+                  <p className="text-xs text-content-secondary font-medium leading-relaxed">
+                    {step.desc}
+                  </p>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </section>
@@ -149,19 +163,19 @@ export function AdmissionsInfo() {
             <div className="w-24 h-1 bg-primary mx-auto mt-4 rounded-full" aria-hidden="true"></div>
           </header>
 
-          <div className="bg-surface border border-line rounded-2xl overflow-hidden shadow-e1">
-            <div className="overflow-x-auto">
+          <Card className="overflow-hidden p-0 border-0">
+            <div className="overflow-x-auto relative z-10">
               <table className="w-full text-left border-collapse min-w-[600px]">
                 <thead>
-                  <tr className="bg-surface-raised border-b border-line">
+                  <tr className="bg-white/10 dark:bg-white/5 border-b border-white/20">
                     <th className="p-4 font-display font-bold text-sm text-content">Target Grade / Class</th>
                     <th className="p-4 font-display font-bold text-sm text-content">Age Requirement (as of April 1st)</th>
                     <th className="p-4 font-display font-bold text-sm text-content">Assessment Method</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-line">
+                <tbody className="divide-y divide-white/10">
                   {eligibilityCriteria.map((item, index) => (
-                    <tr key={index} className="hover:bg-surface-overlay/50 transition-colors">
+                    <tr key={index} className="hover:bg-white/5 transition-colors">
                       <td className="p-4 text-sm font-bold text-content">{item.class}</td>
                       <td className="p-4 text-sm font-semibold text-content-secondary">{item.age}</td>
                       <td className="p-4 text-sm font-medium text-content-secondary">{item.criteria}</td>
@@ -170,14 +184,14 @@ export function AdmissionsInfo() {
                 </tbody>
               </table>
             </div>
-          </div>
+          </Card>
         </section>
 
         {/* Required Documents Checklist */}
         <section className="grid md:grid-cols-2 gap-12 items-start" aria-labelledby="docs-heading">
-          <article className="bg-surface border border-line rounded-3xl p-8 shadow-e1">
+          <Card className="p-8">
             <div className="flex items-center gap-3 mb-6">
-              <FileText className="w-6 h-6 text-primary" />
+              <FileText className="w-6 h-6 text-primary drop-shadow-md" />
               <h2 id="docs-heading" className="text-2xl font-bold text-content font-display tracking-tight">
                 Required Documents
               </h2>
@@ -201,11 +215,11 @@ export function AdmissionsInfo() {
                 </li>
               ))}
             </ul>
-          </article>
+          </Card>
 
-          <article className="bg-surface border border-line rounded-3xl p-8 shadow-e1">
+          <Card className="p-8">
             <div className="flex items-center gap-3 mb-6">
-              <ShieldAlert className="w-6 h-6 text-primary" />
+              <ShieldAlert className="w-6 h-6 text-primary drop-shadow-md" />
               <h2 className="text-2xl font-bold text-content font-display tracking-tight">
                 Admissions Policy
               </h2>
@@ -224,7 +238,7 @@ export function AdmissionsInfo() {
                 <strong>Reservation of Rights:</strong> The School Management reserves all administrative rights concerning seat distribution, class strength capacity, and final admission confirmations.
               </p>
             </div>
-          </article>
+          </Card>
         </section>
 
       </div>

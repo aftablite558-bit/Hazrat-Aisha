@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, {  useState, useEffect  } from 'react';
+import { AppSkeleton } from '../../components/ui/AppSkeleton';
 import { useNavigate } from 'react-router';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
@@ -12,6 +13,8 @@ import {
   Loader2
 } from 'lucide-react';
 import { motion } from 'motion/react';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export function StaffList() {
   const navigate = useNavigate();
@@ -78,31 +81,111 @@ export function StaffList() {
       addToast('No staff to export', 'error');
       return;
     }
-    
-    const headers = ['Employee ID', 'First Name', 'Last Name', 'Department', 'Designation', 'Phone', 'Status'];
-    const csvContent = [
-      headers.join(','),
-      ...staff.map(s => [
-        s.employeeId,
-        s.firstName,
-        s.lastName,
-        s.department,
-        s.designation,
-        s.phone,
-        s.status
-      ].map(v => `"${v}"`).join(','))
-    ].join('\n');
 
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'staff_export.csv');
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    addToast('Data exported successfully', 'success');
+    try {
+      const doc = new jsPDF();
+      
+      // Page setup & Colors
+      const primaryColor = [4, 120, 87]; // Emerald Green (#047857)
+      const secondaryColor = [217, 119, 6]; // Amber/Gold (#d97706)
+      
+      // 1. School Header Banner
+      doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+      doc.rect(0, 0, 210, 38, 'F');
+      
+      // Accent Gold Bar
+      doc.setFillColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
+      doc.rect(0, 38, 210, 2, 'F');
+      
+      // Text over Banner
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(18);
+      doc.text('HAZRAT AISHA ACADEMY', 15, 16);
+      
+      doc.setFont('Helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(200, 250, 230);
+      doc.text('Chak Rajopatti, Sitamarhi, Bihar - 843302 | CBSE-Aligned & Islamic Education', 15, 23);
+      doc.text('Email: info@hazrataishaacademy.com | Website: hazrataishaacademy.com', 15, 28);
+      doc.text('OFFICIAL ACADEMIC REGISTRY', 15, 33);
+      
+      // 2. Document Title and Date info
+      doc.setTextColor(50, 50, 50);
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(14);
+      doc.text('OFFICIAL STAFF & TEACHER ROSTER', 15, 52);
+      
+      doc.setFont('Helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(100, 100, 100);
+      const today = new Date().toLocaleDateString('en-US', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      doc.text(`Generated on: ${today}`, 15, 58);
+      doc.text(`Total Staff Records: ${staff.length}`, 15, 63);
+      doc.text(`Authorized by: ${user?.role === 'principal' ? 'Principal' : 'Administrator'} Portal`, 15, 68);
+      
+      // 3. Table generation
+      const headers = [['Emp ID', 'Full Name', 'Department', 'Designation', 'Contact Phone', 'Status']];
+      const data = staff.map(s => [
+        s.employeeId || '-',
+        `${s.firstName} ${s.lastName}`,
+        s.department || '-',
+        s.designation || '-',
+        s.phone || '-',
+        s.status ? s.status.toUpperCase() : 'ACTIVE'
+      ]);
+      
+      autoTable(doc, {
+        startY: 74,
+        head: headers,
+        body: data,
+        theme: 'striped',
+        headStyles: {
+          fillColor: primaryColor as any,
+          textColor: [255, 255, 255],
+          fontStyle: 'bold',
+          fontSize: 9,
+          halign: 'left'
+        },
+        bodyStyles: {
+          fontSize: 8.5,
+          textColor: [60, 60, 60]
+        },
+        columnStyles: {
+          0: { cellWidth: 25 },
+          1: { cellWidth: 45, fontStyle: 'bold' },
+          2: { cellWidth: 35 },
+          3: { cellWidth: 35 },
+          4: { cellWidth: 30 },
+          5: { cellWidth: 20, fontStyle: 'bold' }
+        },
+        didDrawPage: (data) => {
+          // Footer
+          const pageCount = (doc as any).internal.getNumberOfPages();
+          doc.setFontSize(8);
+          doc.setFont('Helvetica', 'normal');
+          doc.setTextColor(140, 140, 140);
+          
+          // Official Verification Stamp Message
+          const pageHeight = doc.internal.pageSize.height;
+          doc.text('This is an official system-generated record. Verified by Hazrat Aisha Academy School Administration.', 15, pageHeight - 15);
+          doc.text(`Page ${data.pageNumber} of ${pageCount}`, doc.internal.pageSize.width - 30, pageHeight - 15);
+        }
+      });
+      
+      doc.save(`Hazrat_Aisha_Academy_Staff_Roster_${new Date().toISOString().slice(0,10)}.pdf`);
+      addToast('Premium Staff PDF report exported successfully', 'success');
+    } catch (err) {
+      console.error(err);
+      addToast('Failed to generate professional PDF report', 'error');
+    }
   };
 
   const requestSort = (key: 'name' | 'employeeId') => {
@@ -166,7 +249,7 @@ export function StaffList() {
         <div className="flex gap-2">
           <Button variant="secondary" onClick={handleExport}>
             <FileDown className="mr-2 h-4 w-4" />
-            Export CSV
+            Export PDF
           </Button>
           {canEdit && (
             <Button onClick={() => navigate('/dashboard/staff/new')}>
@@ -177,22 +260,22 @@ export function StaffList() {
         </div>
       </div>
 
-      <Card className="border-line shadow-e1">
-        <CardHeader className="pb-4 border-b border-line">
+      <Card className="overflow-hidden">
+        <CardHeader className="pb-4 border-b border-white/20">
           <div className="flex flex-col sm:flex-row justify-between gap-4">
             <div className="relative flex-1 max-w-sm">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-content-tertiary" />
               <input
                 type="text"
                 placeholder="Search staff..."
-                className="w-full pl-9 pr-4 py-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                className="w-full pl-9 pr-4 py-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <div className="flex gap-2">
               <select
-                className="border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] px-3 py-2 text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                className="border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md px-3 py-2 text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 value={departmentFilter}
                 onChange={(e) => setDepartmentFilter(e.target.value)}
               >
@@ -206,9 +289,7 @@ export function StaffList() {
         </CardHeader>
         <CardContent className="p-0 sm:p-6">
           {loading ? (
-            <div className="flex justify-center items-center py-12">
-              <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            </div>
+            <AppSkeleton type="table" />
           ) : currentStaff.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-content-secondary">No staff members found.</p>
@@ -216,14 +297,14 @@ export function StaffList() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left min-w-[800px]">
-                <thead className="text-xs text-content-secondary font-bold uppercase bg-surface-overlay border-b border-line">
+                <thead className="text-xs text-content-secondary font-bold uppercase bg-white/5 border-b border-white/20">
                   <tr>
-                    <th className="px-6 py-4 cursor-pointer hover:bg-line/40 transition-colors" onClick={() => requestSort('name')}>
+                    <th className="px-6 py-4 cursor-pointer hover:bg-white/10 dark:bg-black/20/40 transition-colors" onClick={() => requestSort('name')}>
                       <div className="flex items-center gap-1 font-display uppercase tracking-wider text-xs">
                         Name {sortConfig?.key === 'name' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                       </div>
                     </th>
-                    <th className="px-6 py-4 cursor-pointer hover:bg-line/40 transition-colors" onClick={() => requestSort('employeeId')}>
+                    <th className="px-6 py-4 cursor-pointer hover:bg-white/10 dark:bg-black/20/40 transition-colors" onClick={() => requestSort('employeeId')}>
                       <div className="flex items-center gap-1 font-display uppercase tracking-wider text-xs">
                         Emp ID {sortConfig?.key === 'employeeId' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
                       </div>
@@ -234,17 +315,17 @@ export function StaffList() {
                     <th className="px-6 py-4 text-right font-display uppercase tracking-wider text-xs">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-line">
+                <tbody className="divide-y divide-white/10">
                   {currentStaff.map((s) => (
                     <motion.tr 
                       key={s.id}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      className="bg-surface hover:bg-surface-raised transition-colors duration-fast"
+                      className="hover:bg-white/10 transition-colors duration-fast"
                     >
                       <td className="px-6 py-4 flex items-center gap-3">
                         {s.photoUrl ? (
-                          <img src={s.photoUrl} alt="profile" className="w-9 h-9 rounded-full object-cover border border-line" referrerPolicy="no-referrer" />
+                          <img src={s.photoUrl} alt="profile" className="w-9 h-9 rounded-full object-cover border border-white/20" referrerPolicy="no-referrer" />
                         ) : (
                           <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs border border-primary/20">
                             {s.firstName[0]}{s.lastName[0]}
@@ -270,7 +351,7 @@ export function StaffList() {
                       <td className="px-6 py-4">
                         <span className={`px-2.5 py-1 text-xs font-semibold rounded-full border
                           ${s.status === 'active' ? 'bg-success-500/10 text-success-500 border-success-500/20' : 
-                           s.status === 'inactive' ? 'bg-line text-content-secondary border border-line-strong' :
+                           s.status === 'inactive' ? 'bg-white/10 dark:bg-black/20 text-content-secondary border border-white/30' :
                            'bg-warning-500/10 text-warning-500 border-warning-500/20'}`}>
                           {s.status.toUpperCase().replace('_', ' ')}
                         </span>
@@ -312,7 +393,7 @@ export function StaffList() {
           />
 
           {totalPages > 1 && (
-            <div className="flex items-center justify-between mt-6 pt-4 border-t border-line font-body px-4 sm:px-0">
+            <div className="flex items-center justify-between mt-6 pt-4 border-t border-white/20 font-body px-4 sm:px-0">
               <p className="text-xs sm:text-sm text-content-secondary font-medium">
                 Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, filteredStaff.length)} of {filteredStaff.length} entries
               </p>

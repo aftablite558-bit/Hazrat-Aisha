@@ -55,7 +55,7 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="p-0 overflow-hidden max-w-2xl bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 shadow-premium">
+      <DialogContent className="p-0 overflow-hidden max-w-2xl bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 shadow-xl">
         <div className="flex items-center border-b border-gray-200 dark:border-gray-800 px-3">
           <Search className="mr-2 h-5 w-5 shrink-0 text-gray-500 dark:text-gray-400" />
           <input

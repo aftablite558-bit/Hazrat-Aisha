@@ -1,4 +1,4 @@
-import { database, storage } from '../lib/firebase';
+import { database, storage, auth } from '../lib/firebase';
 import { ref, push, set, get, update, remove } from 'firebase/database';
 import { ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { Staff, CreateStaffInput, UpdateStaffInput } from '../types/staff';
@@ -25,7 +25,10 @@ class StaffService {
     if (input.photoFile && storage) {
       try {
         const fileExt = input.photoFile.name.split('.').pop();
-        const fileName = `staff/${uuidv4()}.${fileExt}`;
+        const currentUser = auth?.currentUser;
+        if (!currentUser) throw new Error('User must be authenticated to upload');
+        const userId = currentUser.uid;
+        const fileName = `staff/${userId}/${uuidv4()}.${fileExt}`;
         const sRef = this.getStorageRef(fileName);
         await uploadBytes(sRef, input.photoFile);
         
@@ -103,7 +106,10 @@ class StaffService {
     let photoUrl = existingPhotoUrl;
     if (input.photoFile && storage) {
       const fileExt = input.photoFile.name.split('.').pop();
-      const fileName = `staff/${uuidv4()}.${fileExt}`;
+      const currentUser = auth?.currentUser;
+      if (!currentUser) throw new Error('User must be authenticated to upload');
+      const userId = currentUser.uid;
+      const fileName = `staff/${userId}/${uuidv4()}.${fileExt}`;
       const sRef = this.getStorageRef(fileName);
       await uploadBytes(sRef, input.photoFile);
       photoUrl = await getDownloadURL(sRef);

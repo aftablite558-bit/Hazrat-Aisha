@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, {  useState, useEffect  } from 'react';
+import { AppSkeleton } from '../../components/ui/AppSkeleton';
 import { useParams, useNavigate } from 'react-router';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
@@ -47,9 +48,7 @@ export function StaffDetails() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-primary-500" />
-      </div>
+      <AppSkeleton type="profile" />
     );
   }
 
@@ -86,9 +85,9 @@ export function StaffDetails() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="md:col-span-1 border-line shadow-e1">
+        <Card className="md:col-span-1 overflow-hidden">
           <CardContent className="pt-6 text-center">
-            <div className="w-32 h-32 mx-auto rounded-2xl overflow-hidden bg-surface-raised mb-4 border-2 border-line shadow-inner">
+            <div className="w-32 h-32 mx-auto rounded-2xl overflow-hidden mb-4 border-2 border-white/20 shadow-inner">
               {staff.photoUrl ? (
                 <img src={staff.photoUrl} alt={`${staff.firstName} ${staff.lastName}`} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
               ) : (
@@ -115,7 +114,7 @@ export function StaffDetails() {
               {staff.status.toUpperCase().replace('_', ' ')}
             </div>
 
-            <div className="mt-8 space-y-4 text-left border-t border-line pt-6">
+            <div className="mt-8 space-y-4 text-left border-t border-white/20 pt-6">
               <div className="flex items-start gap-3 text-sm">
                 <Mail className="h-5 w-5 text-content-tertiary shrink-0" />
                 <span className="text-content-secondary font-medium break-words">{staff.email}</span>
@@ -133,8 +132,8 @@ export function StaffDetails() {
         </Card>
 
         <div className="md:col-span-2 space-y-6">
-          <Card className="border-line shadow-e1">
-            <CardHeader className="pb-4 border-b border-line font-display">
+          <Card className="overflow-hidden">
+            <CardHeader className="pb-4 border-b border-white/20 font-display">
               <CardTitle className="text-lg flex items-center gap-2">
                 <Briefcase className="h-5 w-5 text-primary" />
                 Professional Information
@@ -156,11 +155,11 @@ export function StaffDetails() {
                   <>
                     <div className="sm:col-span-2">
                       <dt className="text-content-tertiary font-semibold">Subjects Taught</dt>
-                      <dd className="font-semibold text-content mt-0.5 bg-surface-overlay p-3 rounded-lg border border-line">{staff.subjects || '-'}</dd>
+                      <dd className="font-semibold text-content mt-0.5 bg-white/5 p-3 rounded-lg border border-white/20">{staff.subjects || '-'}</dd>
                     </div>
                     <div className="sm:col-span-2">
                       <dt className="text-content-tertiary font-semibold">Classes Assigned</dt>
-                      <dd className="font-semibold text-content mt-0.5 bg-surface-overlay p-3 rounded-lg border border-line">{staff.classes || '-'}</dd>
+                      <dd className="font-semibold text-content mt-0.5 bg-white/5 p-3 rounded-lg border border-white/20">{staff.classes || '-'}</dd>
                     </div>
                   </>
                 )}
@@ -176,8 +175,8 @@ export function StaffDetails() {
             </CardContent>
           </Card>
 
-          <Card className="border-line shadow-e1">
-            <CardHeader className="pb-4 border-b border-line font-display">
+          <Card className="overflow-hidden">
+            <CardHeader className="pb-4 border-b border-white/20 font-display">
               <CardTitle className="text-lg flex items-center gap-2">
                 <GraduationCap className="h-5 w-5 text-primary" />
                 Personal Details
@@ -207,7 +206,7 @@ export function StaffDetails() {
                 </div>
                 <div className="sm:col-span-2">
                   <dt className="text-content-tertiary font-semibold">Emergency Contact</dt>
-                  <dd className="font-semibold text-content mt-0.5 bg-surface-overlay p-3 rounded-lg border border-line">{staff.emergencyContact || '-'}</dd>
+                  <dd className="font-semibold text-content mt-0.5 bg-white/5 p-3 rounded-lg border border-white/20">{staff.emergencyContact || '-'}</dd>
                 </div>
               </dl>
             </CardContent>

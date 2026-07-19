@@ -22,7 +22,10 @@ class StudentService {
     let photoUrl = null;
     if (input.photoFile && storage) {
       const fileExt = input.photoFile.name.split('.').pop();
-      const fileName = `students/${uuidv4()}.${fileExt}`;
+      const currentUser = auth?.currentUser;
+      if (!currentUser) throw new Error('User must be authenticated to upload');
+      const userId = currentUser.uid;
+      const fileName = `students/${userId}/${uuidv4()}.${fileExt}`;
       const sRef = this.getStorageRef(fileName);
       await uploadBytes(sRef, input.photoFile);
       photoUrl = await getDownloadURL(sRef);
@@ -95,7 +98,10 @@ class StudentService {
     let photoUrl = existingPhotoUrl;
     if (input.photoFile && storage) {
       const fileExt = input.photoFile.name.split('.').pop();
-      const fileName = `students/${uuidv4()}.${fileExt}`;
+      const currentUser = auth?.currentUser;
+      if (!currentUser) throw new Error('User must be authenticated to upload');
+      const userId = currentUser.uid;
+      const fileName = `students/${userId}/${uuidv4()}.${fileExt}`;
       const sRef = this.getStorageRef(fileName);
       await uploadBytes(sRef, input.photoFile);
       photoUrl = await getDownloadURL(sRef);

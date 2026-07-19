@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, {  useState, useEffect  } from 'react';
+import { AppSkeleton } from '../../components/ui/AppSkeleton';
 import { 
   GraduationCap, Calendar, FileText, CheckCircle, XCircle, 
   AlertCircle, Loader2, User, CreditCard, Bell, 
@@ -242,29 +243,31 @@ export function StudentPortal() {
 
   if (!student) {
     return (
-      <div className="bg-paper-white min-h-screen w-full py-20 px-4 sm:px-6 lg:px-8 font-sohne flex flex-col justify-center">
+      <div className="bg-transparent min-h-screen w-full py-20 px-4 sm:px-6 lg:px-8 font-display flex flex-col justify-center">
         <div className="max-w-md w-full mx-auto space-y-12 shrink-0">
           <div className="text-center w-full">
-            <h2 className="font-signifier text-[44px] leading-[1.3] tracking-[-0.66px] text-ink-black">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-content font-display">
               Student Portal
             </h2>
-            <p className="mt-4 text-[17px] leading-[1.35] text-slate-gray">
+            <p className="mt-4 text-base text-content-secondary font-semibold">
               Hazrat Aisha Academy
             </p>
           </div>
 
-          <div className="bg-paper-white rounded-[20px] p-6 sm:p-8 shadow-subtle-3 border border-[#ececec]">
-            <h3 className="font-sohne text-[20px] font-medium text-ink-black mb-6">
+          <div className="bg-white/40 dark:bg-black/20 backdrop-blur-3xl rounded-[2rem] p-6 sm:p-8 shadow-[0_8px_32px_0_rgba(0,0,0,0.08)] border border-white/40 dark:border-white/10 relative overflow-hidden">
+            <div className="absolute inset-x-0 top-0 h-[2px] bg-gradient-to-r from-transparent via-white/50 to-transparent dark:via-white/20 opacity-80" />
+            
+            <h3 className="text-xl font-bold text-content mb-6 font-display">
               Identity Verification
             </h3>
-            <form onSubmit={handleVerify} className="space-y-6">
+            <form onSubmit={handleVerify} className="space-y-6 relative z-10">
               <div className="space-y-5">
                 <div className="space-y-2">
-                  <label className="text-[14px] text-slate-gray">
+                  <label className="text-sm font-semibold text-content-secondary">
                     Student Aadhaar Number
                   </label>
                   <div className="relative">
-                    <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-smoke-gray">
+                    <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-content-tertiary">
                       <User className="h-5 w-5" />
                     </span>
                     <input
@@ -273,42 +276,42 @@ export function StudentPortal() {
                       value={studentAadhaar}
                       onChange={(e) => setStudentAadhaar(e.target.value.replace(/\D/g, '').slice(0, 12))}
                       placeholder="Enter 12-digit Aadhaar Number"
-                      className="w-full pl-11 pr-4 py-3 border border-[#ececec] rounded-[16px] bg-paper-white text-[16px] text-ink-black placeholder:text-smoke-gray transition-all focus:outline-none focus:border-ink-black"
+                      className="w-full pl-11 pr-4 py-3 border border-white/40 dark:border-white/10 rounded-xl bg-white/40 dark:bg-black/20 backdrop-blur-md text-base text-content placeholder:text-content-tertiary/60 transition-all focus:outline-none focus:border-white/60 dark:focus:border-white/30"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[14px] text-slate-gray">
+                  <label className="text-sm font-semibold text-content-secondary">
                     Class
                   </label>
                   <div className="relative">
-                    <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-smoke-gray">
+                    <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-content-tertiary">
                       <GraduationCap className="h-5 w-5" />
                     </span>
                     <select
                       required
                       value={selectedClass}
                       onChange={(e) => setSelectedClass(e.target.value)}
-                      className="w-full pl-11 pr-4 py-3 border border-[#ececec] rounded-[16px] bg-paper-white text-[16px] text-ink-black transition-all focus:outline-none focus:border-ink-black appearance-none"
+                      className="w-full pl-11 pr-10 py-3 border border-white/40 dark:border-white/10 rounded-xl bg-white/40 dark:bg-black/20 backdrop-blur-md text-base text-content transition-all focus:outline-none focus:border-white/60 dark:focus:border-white/30 appearance-none [&>option]:bg-white dark:[&>option]:bg-zinc-900 [&>option]:text-zinc-900 dark:[&>option]:text-white"
                     >
                       <option value="">Select Class</option>
                       {availableClasses.map((c) => (
                         <option key={c} value={c}>Class {c}</option>
                       ))}
                     </select>
-                    <span className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-smoke-gray">
+                    <span className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-content-tertiary">
                       <ChevronRight className="h-5 w-5 rotate-90" />
                     </span>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-[14px] text-slate-gray">
+                  <label className="text-sm font-semibold text-content-secondary">
                     Date of Birth
                   </label>
                   <div className="relative">
-                    <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-smoke-gray">
+                    <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-content-tertiary">
                       <Calendar className="h-5 w-5" />
                     </span>
                     <input
@@ -316,15 +319,15 @@ export function StudentPortal() {
                       required
                       value={dateOfBirth}
                       onChange={(e) => setDateOfBirth(e.target.value)}
-                      className="w-full pl-11 pr-4 py-3 border border-[#ececec] rounded-[16px] bg-paper-white text-[16px] text-ink-black transition-all focus:outline-none focus:border-ink-black"
+                      className="w-full pl-11 pr-4 py-3 border border-white/40 dark:border-white/10 rounded-xl bg-white/40 dark:bg-black/20 backdrop-blur-md text-base text-content transition-all focus:outline-none focus:border-white/60 dark:focus:border-white/30 [color-scheme:light] dark:[color-scheme:dark]"
                     />
                   </div>
                 </div>
               </div>
 
               {error && (
-                <div className="p-4 bg-[#fff1f2] border border-[#fecdd3] text-[#e11d48] rounded-[16px] flex items-start text-[14px]">
-                  <AlertCircle className="h-5 w-5 mr-2 shrink-0" />
+                <div className="p-4 bg-danger-500/25 border border-danger-500/30 text-danger-500 rounded-xl flex items-start text-sm font-semibold">
+                  <AlertCircle className="h-5 w-5 mr-2 shrink-0 mt-0.5" />
                   <p>{error}</p>
                 </div>
               )}
@@ -332,7 +335,7 @@ export function StudentPortal() {
               <button
                 type="submit"
                 disabled={verifying}
-                className="w-full inline-flex items-center justify-center bg-ink-black text-paper-white rounded-[9999px] px-5 py-3 text-[16px] transition-all hover:opacity-90 disabled:opacity-50 cursor-pointer"
+                className="w-full inline-flex items-center justify-center bg-primary text-white rounded-xl px-5 py-3 text-base font-bold transition-all hover:opacity-90 disabled:opacity-50 cursor-pointer shadow-md shadow-primary/20"
               >
                 {verifying ? (
                   <>
@@ -348,8 +351,8 @@ export function StudentPortal() {
             </form>
           </div>
 
-          <p className="text-center text-[14px] text-slate-gray">
-            Admissions or login queries? Contact Administration at <span className="text-ink-black">09470818538</span>.
+          <p className="text-center text-sm text-content-secondary">
+            Admissions or login queries? Contact Administration at <a href="tel:+919470818538" className="text-primary font-bold hover:underline">09470818538</a>.
           </p>
         </div>
       </div>
@@ -476,7 +479,7 @@ export function StudentPortal() {
                       ))}
                     </div>
 
-                    <div className="bg-paper-white rounded-[16px] p-4 flex justify-between items-center">
+                    <div className="bg-paper-white rounded-[16px] p-4 grid grid-cols-2 sm:flex sm:justify-between sm:items-center gap-4">
                       <div>
                         <p className="text-[14px] text-slate-gray">Percentage</p>
                         <p className="text-[17px] font-medium text-ink-black">{res.marks.percentage.toFixed(1)}%</p>
@@ -720,14 +723,14 @@ export function StudentPortal() {
   };
 
   return (
-    <div className="bg-paper-white min-h-screen font-sohne text-ink-black pb-24">
+    <div className="bg-transparent min-h-screen font-display text-content pb-24">
       {/* Top Navigation */}
       <nav className="bg-transparent pt-6 pb-2 px-4 sm:px-6 lg:px-8 max-w-[1200px] mx-auto flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <ShieldCheck className="h-6 w-6 text-ink-black" />
-          <span className="font-signifier text-[20px] font-bold">Hazrat Aisha Academy</span>
+          <ShieldCheck className="h-6 w-6 text-primary" />
+          <span className="font-display text-lg font-bold text-content">Hazrat Aisha Academy</span>
         </div>
-        <button onClick={handleLogout} className="text-[16px] text-ink-black hover:underline underline-offset-4 cursor-pointer">
+        <button onClick={handleLogout} className="text-base text-content hover:text-primary transition-colors hover:underline underline-offset-4 cursor-pointer">
           Log Out
         </button>
       </nav>
@@ -737,29 +740,29 @@ export function StudentPortal() {
         <div className="mb-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div className="flex items-center gap-6">
             {student.photoUrl ? (
-              <img src={student.photoUrl} alt="profile" className="w-24 h-24 rounded-[12px] object-cover" referrerPolicy="no-referrer" />
+              <img src={student.photoUrl} alt="profile" className="w-24 h-24 rounded-[1.25rem] object-cover border border-white/40" referrerPolicy="no-referrer" />
             ) : (
-              <div className="w-24 h-24 rounded-[12px] bg-mist-gray text-ink-black flex items-center justify-center font-signifier text-[32px]">
+              <div className="w-24 h-24 rounded-[1.25rem] bg-white/40 dark:bg-black/20 border border-white/40 dark:border-white/10 text-content flex items-center justify-center font-display text-3xl font-bold">
                 {student.firstName[0]}{student.lastName[0]}
               </div>
             )}
             <div>
-              <h1 className="font-signifier text-[44px] leading-[1.1] tracking-[-0.66px] text-ink-black">
+              <h1 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-content">
                 {student.firstName} {student.lastName}
               </h1>
-              <p className="text-[17px] text-slate-gray mt-2">
+              <p className="text-base text-content-secondary mt-2 font-medium">
                 Class {student.class} {student.section} • Session {student.session || '2026-27'}
               </p>
-              <div className="flex gap-4 mt-3">
-                <span className="text-[14px] text-ash-gray">Roll No: <strong className="text-ink-black font-medium">{student.rollNumber || 'N/A'}</strong></span>
-                <span className="text-[14px] text-ash-gray">Aadhaar: <strong className="text-ink-black font-medium">{maskAadhaar(student.aadhaar || '')}</strong></span>
-                <span className="text-[14px] text-ash-gray">ID: <strong className="text-ink-black font-medium font-mono">{student.admissionNumber}</strong></span>
+              <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3">
+                <span className="text-sm text-content-tertiary">Roll No: <strong className="text-content font-bold">{student.rollNumber || 'N/A'}</strong></span>
+                <span className="text-sm text-content-tertiary">Aadhaar: <strong className="text-content font-bold">{maskAadhaar(student.aadhaar || '')}</strong></span>
+                <span className="text-sm text-content-tertiary">ID: <strong className="text-content font-bold font-mono">{student.admissionNumber}</strong></span>
               </div>
             </div>
           </div>
           
           {activeTab !== 'dashboard' && (
-            <button onClick={() => setActiveTab('dashboard')} className="inline-flex items-center justify-center bg-transparent border border-ink-black text-ink-black rounded-[9999px] px-5 py-2.5 text-[16px] hover:bg-mist-gray transition-colors cursor-pointer shrink-0">
+            <button onClick={() => setActiveTab('dashboard')} className="inline-flex items-center justify-center bg-white/40 dark:bg-black/20 border border-white/40 dark:border-white/10 text-content rounded-xl px-5 py-2.5 text-base font-bold hover:bg-white/60 dark:hover:bg-white/5 hover:border-white/60 transition-all cursor-pointer shrink-0">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Dashboard
             </button>
@@ -769,7 +772,7 @@ export function StudentPortal() {
         {/* Dynamic Content Area */}
         {loadingDetails && activeTab !== 'dashboard' ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="h-8 w-8 animate-spin text-ink-black" />
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
         ) : (
           renderActiveView()

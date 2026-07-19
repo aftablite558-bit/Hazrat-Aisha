@@ -7,10 +7,21 @@
   --font-mono: var(--font-mono);
   --font-arabic: var(--font-arabic);
   --font-urdu: var(--font-urdu);
-  --font-sans: var(--font-body);
+  --font-sans: var(--font-display);
 
   --color-primary: var(--color-primary);
   --color-primary-hover: var(--color-primary-hover);
+  --color-primary-50: var(--color-zinc-50);
+  --color-primary-100: var(--color-zinc-100);
+  --color-primary-200: var(--color-zinc-200);
+  --color-primary-300: var(--color-zinc-300);
+  --color-primary-400: var(--color-zinc-400);
+  --color-primary-500: var(--color-zinc-500);
+  --color-primary-600: var(--color-zinc-600);
+  --color-primary-700: var(--color-zinc-700);
+  --color-primary-800: var(--color-zinc-800);
+  --color-primary-900: var(--color-zinc-900);
+  --color-primary-950: var(--color-zinc-950);
   --color-accent: var(--color-accent);
   --color-glow: var(--color-glow);
 
@@ -19,6 +30,7 @@
   --color-surface-raised: var(--bg-surface-raised);
   --color-surface-overlay: var(--bg-surface-overlay);
 
+  --color-content-inverse: var(--bg-page);
   --color-content: var(--text-primary);
   --color-content-secondary: var(--text-secondary);
   --color-content-tertiary: var(--text-tertiary);
@@ -37,13 +49,13 @@
   --color-info-400: var(--color-info-400);
 
   /* Steep Tokens (Student Portal) */
-  --color-ink-black: #17191c;
-  --color-paper-white: #ffffff;
-  --color-mist-gray: #f2f2f3;
-  --color-fog-white: #fafafb;
-  --color-slate-gray: #777b86;
-  --color-ash-gray: #979799;
-  --color-smoke-gray: #a3a6af;
+  --color-ink-black: var(--color-ink-black-theme, #17191c);
+  --color-paper-white: var(--color-paper-white-theme, #ffffff);
+  --color-mist-gray: var(--color-mist-gray-theme, #f2f2f3);
+  --color-fog-white: var(--color-fog-white-theme, #fafafb);
+  --color-slate-gray: var(--color-slate-gray-theme, #777b86);
+  --color-ash-gray: var(--color-ash-gray-theme, #979799);
+  --color-smoke-gray: var(--color-smoke-gray-theme, #a3a6af);
   --color-blush-peach: #fbe1d1;
   --color-sienna-brown: #5d2a1a;
 
@@ -106,11 +118,83 @@
 @custom-variant dark (&:is([data-theme="obsidian"] *, [data-theme="midnight"] *));
 
 @layer base {
-  body {
+  html {
     background-color: var(--bg-page);
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    background-color: transparent;
     color: var(--text-primary);
-    font-family: var(--font-body);
+    font-family: var(--font-display);
     font-feature-settings: "ss01" on, "cv11" on;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Liquid Glass Animated Background */
+  body::before, body::after {
+    content: "";
+    position: fixed;
+    inset: -100px; /* Overshoot to prevent edge clipping during animation */
+    z-index: -1;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    animation: liquid-mesh 20s infinite alternate ease-in-out;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    will-change: transform;
+  }
+
+  /* Hardware acceleration and 3D stabilization for all interactive, sticky, or blurred components to prevent iOS zoom/flicker bugs during scrolling */
+  header, .sticky, [class*="backdrop-blur"] {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+  }
+
+  body::before {
+    background: 
+      radial-gradient(circle at 15% 50%, rgba(16, 185, 129, 0.35), transparent 55%),
+      radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.35), transparent 55%),
+      radial-gradient(circle at 90% 90%, rgba(167, 139, 250, 0.3), transparent 55%);
+    filter: blur(70px);
+  }
+
+  body::after {
+    background: 
+      radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.25), transparent 55%),
+      radial-gradient(circle at 20% 90%, rgba(244, 63, 94, 0.2), transparent 55%);
+    filter: blur(90px);
+    animation-delay: -10s;
+  }
+
+  [data-theme="obsidian"] body::before {
+    background: 
+      radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.18), transparent 50%),
+      radial-gradient(circle at 85% 30%, rgba(29, 78, 216, 0.22), transparent 50%),
+      radial-gradient(circle at 90% 90%, rgba(99, 102, 241, 0.18), transparent 50%);
+  }
+
+  [data-theme="obsidian"] body::after {
+    background: 
+      radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.12), transparent 50%),
+      radial-gradient(circle at 20% 90%, rgba(59, 130, 246, 0.15), transparent 50%);
+  }
+
+  @keyframes liquid-mesh {
+    0% { transform: scale3d(1, 1, 1) translate3d(0, 0, 0) rotate(0deg); }
+    33% { transform: scale3d(1.02, 1.02, 1) translate3d(1%, 1.5%, 0) rotate(0.5deg); }
+    66% { transform: scale3d(1.01, 1.01, 1) translate3d(-1%, -1%, 0) rotate(-0.2deg); }
+    100% { transform: scale3d(1.03, 1.03, 1) translate3d(0.5%, -1%, 0) rotate(0.3deg); }
   }
 
   /* Global Text Wrapping and Word Splitting Fix */
@@ -119,7 +203,7 @@
     overflow-wrap: break-word;
     hyphens: none;
   }
-
+  
   /* Preserve standard formatting for preformatted text and code elements */
   pre, code, kbd, samp {
     word-break: normal;
@@ -139,6 +223,28 @@
     width: 100%;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .public-page-header {
+    position: relative;
+    overflow: hidden;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    text-align: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, #054A38 0%, #02241B 100%); /* Deep scholarly emerald */
+  }
+
+  [data-theme="obsidian"] .public-page-header {
+    background: linear-gradient(135deg, rgba(7, 19, 43, 0.85) 0%, rgba(4, 10, 24, 0.98) 100%);
+    border-bottom: 1px solid rgba(59, 130, 246, 0.35);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
 }
 
@@ -149,6 +255,13 @@ html.theme-animating, html.theme-animating * {
 @layer utilities {
   .noor-spinner .orbit { animation: spin 1200ms linear infinite; transform-origin: center; }
   .noor-spinner .star { animation: starPulse 1200ms var(--ease-standard) infinite; transform-origin: center; }
+  
+  /* Glassmorphism for Student Portal bg-mist-gray elements */
+  .bg-mist-gray {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+  }
 }
 
 @keyframes spin {

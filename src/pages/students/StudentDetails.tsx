@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, {  useState, useEffect  } from 'react';
+import { AppSkeleton } from '../../components/ui/AppSkeleton';
 import { useNavigate, useParams } from 'react-router';
 import { useAuth } from '../../context/AuthContext';
 import { useToast } from '../../context/ToastContext';
@@ -45,9 +46,7 @@ export function StudentDetails() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin text-primary-500" />
-      </div>
+      <AppSkeleton type="profile" />
     );
   }
 
@@ -74,10 +73,10 @@ export function StudentDetails() {
           animate={{ opacity: 1, y: 0 }}
           className="md:col-span-1"
         >
-          <Card className="border-line shadow-e1">
+          <Card className="overflow-hidden">
             <CardContent className="pt-6">
               <div className="flex flex-col items-center text-center space-y-4">
-                <div className="h-32 w-32 rounded-2xl overflow-hidden border-2 border-line bg-surface-raised shadow-inner">
+                <div className="h-32 w-32 rounded-2xl overflow-hidden border-2 border-white/20 shadow-inner">
                   {student.photoUrl ? (
                     <img src={student.photoUrl} alt="Profile" className="h-full w-full object-cover" referrerPolicy="no-referrer" />
                   ) : (
@@ -97,7 +96,7 @@ export function StudentDetails() {
                     Class {student.class} - {student.section}
                   </div>
                 </div>
-                <div className="w-full pt-4 border-t border-line flex flex-col gap-3 text-sm">
+                <div className="w-full pt-4 border-t border-white/20 flex flex-col gap-3 text-sm">
                   <div className="flex items-center justify-between text-content-secondary">
                     <span className="flex items-center text-content-tertiary font-medium"><Activity className="w-4 h-4 mr-2" /> Status</span>
                     <span className={`font-semibold ${student.status === 'active' ? 'text-success-500' : 'text-content-secondary'}`}>
@@ -124,8 +123,8 @@ export function StudentDetails() {
           transition={{ delay: 0.1 }}
           className="md:col-span-2 space-y-6"
         >
-          <Card className="border-line shadow-e1">
-            <CardHeader className="pb-4 border-b border-line font-display">
+          <Card className="overflow-hidden">
+            <CardHeader className="pb-4 border-b border-white/20 font-display">
               <CardTitle className="text-lg flex items-center gap-2">
                 <User className="h-5 w-5 text-primary" />
                 Personal Information
@@ -157,8 +156,8 @@ export function StudentDetails() {
             </CardContent>
           </Card>
 
-          <Card className="border-line shadow-e1">
-            <CardHeader className="pb-4 border-b border-line font-display">
+          <Card className="overflow-hidden">
+            <CardHeader className="pb-4 border-b border-white/20 font-display">
               <CardTitle className="text-lg flex items-center gap-2">
                 <Phone className="h-5 w-5 text-primary" />
                 Guardian & Contact Info
@@ -186,14 +185,14 @@ export function StudentDetails() {
                   <dt className="text-content-tertiary font-semibold flex items-center mb-1">
                     <MapPin className="h-3.5 w-3.5 mr-1 text-primary" /> Full Address
                   </dt>
-                  <dd className="font-medium text-content mt-0.5 bg-surface-overlay p-3 rounded-lg border border-line">{student.address}</dd>
+                  <dd className="font-medium text-content mt-0.5 bg-white/5 p-3 rounded-lg border border-white/20">{student.address}</dd>
                 </div>
               </dl>
             </CardContent>
           </Card>
 
-          <Card className="border-line shadow-e1">
-            <CardHeader className="pb-4 border-b border-line font-display">
+          <Card className="overflow-hidden">
+            <CardHeader className="pb-4 border-b border-white/20 font-display">
               <CardTitle className="text-lg flex items-center gap-2">
                 <GraduationCap className="h-5 w-5 text-primary" />
                 Academic Enrollment History

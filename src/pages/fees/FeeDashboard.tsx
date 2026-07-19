@@ -41,7 +41,7 @@ export function FeeDashboard() {
           <p className="text-sm text-content-secondary mt-1">Manage fee structures, invoices, and payments.</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="secondary" onClick={() => setActiveTab('reports')} className="border-line text-content-secondary hover:text-content">
+          <Button variant="secondary" onClick={() => setActiveTab('reports')} className="border-white/20 text-content-secondary hover:text-content">
             <FileText className="h-4 w-4 mr-2" />
             Reports
           </Button>
@@ -52,14 +52,14 @@ export function FeeDashboard() {
         </div>
       </div>
 
-      <div className="border-b border-line mb-6">
+      <div className="border-b border-white/20 mb-6">
         <nav className="-mb-px flex space-x-8 font-display">
           <button
             onClick={() => setActiveTab('dashboard')}
             className={`whitespace-nowrap py-4 px-1 border-b-2 font-bold text-sm transition-all ${
               activeTab === 'dashboard'
                 ? 'border-primary text-primary'
-                : 'border-transparent text-content-tertiary hover:text-content-secondary hover:border-line'
+                : 'border-transparent text-content-tertiary hover:text-content-secondary hover:border-white/20'
             }`}
           >
             Dashboard
@@ -69,7 +69,7 @@ export function FeeDashboard() {
             className={`whitespace-nowrap py-4 px-1 border-b-2 font-bold text-sm transition-all ${
               activeTab === 'collection'
                 ? 'border-primary text-primary'
-                : 'border-transparent text-content-tertiary hover:text-content-secondary hover:border-line'
+                : 'border-transparent text-content-tertiary hover:text-content-secondary hover:border-white/20'
             }`}
           >
             Fee Collection
@@ -80,7 +80,7 @@ export function FeeDashboard() {
       {activeTab === 'dashboard' && (
         <>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 font-display">
-            <Card className="border-line shadow-e1">
+            <Card className="overflow-hidden">
               <CardContent className="p-6 flex items-center space-x-4">
                 <div className="p-3 bg-primary/10 rounded-xl">
                   <IndianRupee className="h-6 w-6 text-primary" />
@@ -91,7 +91,7 @@ export function FeeDashboard() {
                 </div>
               </CardContent>
             </Card>
-            <Card className="border-line shadow-e1">
+            <Card className="overflow-hidden">
               <CardContent className="p-6 flex items-center space-x-4">
                 <div className="p-3 bg-warning-500/10 rounded-xl">
                   <FileText className="h-6 w-6 text-warning-500" />
@@ -102,7 +102,7 @@ export function FeeDashboard() {
                 </div>
               </CardContent>
             </Card>
-            <Card className="border-line shadow-e1">
+            <Card className="overflow-hidden">
               <CardContent className="p-6 flex items-center space-x-4">
                 <div className="p-3 bg-success-500/10 rounded-xl">
                   <Download className="h-6 w-6 text-success-500" />
@@ -115,11 +115,11 @@ export function FeeDashboard() {
             </Card>
           </div>
 
-          <Card className="border-line shadow-e1">
-            <CardHeader className="border-b border-line pb-4">
+          <Card className="overflow-hidden">
+            <CardHeader className="border-b border-white/20 pb-4">
               <div className="flex justify-between items-center font-display">
                 <CardTitle className="text-lg text-content font-extrabold">Fee Structures</CardTitle>
-                <Button variant="secondary" size="sm" onClick={() => setShowStructureForm(true)} className="border-line text-content-secondary hover:text-content">
+                <Button variant="secondary" size="sm" onClick={() => setShowStructureForm(true)} className="border-white/20 text-content-secondary hover:text-content">
                   <Plus className="h-4 w-4 mr-2" />
                   New Structure
                 </Button>
@@ -136,7 +136,7 @@ export function FeeDashboard() {
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm text-left min-w-[800px]">
-                    <thead className="text-xs text-content-secondary font-bold uppercase bg-surface-overlay border-b border-line">
+                    <thead className="text-xs text-content-secondary font-bold uppercase bg-white/5 border-b border-white/20">
                       <tr>
                         <th className="px-6 py-4 font-display uppercase tracking-wider text-xs">Class</th>
                         <th className="px-6 py-4 font-display uppercase tracking-wider text-xs">Academic Year</th>
@@ -144,7 +144,7 @@ export function FeeDashboard() {
                         <th className="px-6 py-4 text-right font-display uppercase tracking-wider text-xs">Actions</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-line">
+                    <tbody className="divide-y divide-white/10">
                       {structures.length === 0 ? (
                         <tr>
                           <td colSpan={4} className="text-center py-12 text-content-secondary font-medium">
@@ -153,12 +153,12 @@ export function FeeDashboard() {
                         </tr>
                       ) : (
                         structures.map((structure) => (
-                          <tr key={structure.id} className="bg-surface hover:bg-surface-raised transition-colors duration-fast">
+                          <tr key={structure.id} className="hover:bg-white/10 transition-colors duration-fast">
                             <td className="px-6 py-4 font-semibold text-content">Class {structure.class}</td>
                             <td className="px-6 py-4 font-semibold text-content-secondary">{structure.academicYear}</td>
                             <td className="px-6 py-4 font-medium text-content-secondary">{structure.fees.length} items</td>
                             <td className="px-6 py-4 text-right">
-                              <Button variant="secondary" size="sm" className="border-line text-content-secondary hover:text-content">View</Button>
+                              <Button variant="secondary" size="sm" className="border-white/20 text-content-secondary hover:text-content">View</Button>
                             </td>
                           </tr>
                         ))

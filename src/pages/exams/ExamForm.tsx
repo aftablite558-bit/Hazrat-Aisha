@@ -120,15 +120,15 @@ export function ExamForm() {
   return (
     <div className="space-y-6 font-body">
       <div className="flex items-center gap-4">
-        <Button variant="secondary" onClick={() => navigate('/dashboard/exams')} className="border-line text-content-secondary hover:text-content font-bold font-display">
+        <Button variant="secondary" onClick={() => navigate('/dashboard/exams')} className="border-white/20 text-content-secondary hover:text-content font-bold font-display">
           <ArrowLeft className="h-4 w-4 mr-2" /> Back
         </Button>
         <h1 className="text-3xl font-extrabold tracking-tight text-content font-display">{id ? 'Edit Exam' : 'Create Exam'}</h1>
       </div>
 
       <form onSubmit={handleSubmit}>
-        <Card className="mb-6 border-line shadow-e1">
-          <CardHeader className="border-b border-line pb-4">
+        <Card className="mb-6 overflow-hidden">
+          <CardHeader className="border-b border-white/20 pb-4">
             <CardTitle className="text-lg text-content font-extrabold font-display">Exam Details</CardTitle>
           </CardHeader>
           <CardContent className="pt-6">
@@ -141,7 +141,7 @@ export function ExamForm() {
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                   placeholder="e.g. Mid Term Examination 2026"
-                  className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                  className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 />
               </div>
               <div className="space-y-2">
@@ -151,7 +151,7 @@ export function ExamForm() {
                   required
                   value={formData.academicYear}
                   onChange={(e) => setFormData({ ...formData, academicYear: e.target.value })}
-                  className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                  className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 />
               </div>
               <div className="space-y-2">
@@ -159,7 +159,7 @@ export function ExamForm() {
                 <select
                   value={formData.type}
                   onChange={(e) => setFormData({ ...formData, type: e.target.value })}
-                  className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                  className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 >
                   <option value="Mid Term">Mid Term</option>
                   <option value="Final">Final</option>
@@ -173,7 +173,7 @@ export function ExamForm() {
                   <select
                     value={formData.class}
                     onChange={(e) => setFormData({ ...formData, class: e.target.value })}
-                    className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary"
+                    className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary"
                   >
                     {['1','2','3','4','5','6','7','8','9','10','11','12'].map(c => <option key={c} value={c}>{c}</option>)}
                   </select>
@@ -183,7 +183,7 @@ export function ExamForm() {
                   <select
                     value={formData.section}
                     onChange={(e) => setFormData({ ...formData, section: e.target.value })}
-                    className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary"
+                    className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary"
                   >
                     {['A','B','C','D'].map(s => <option key={s} value={s}>{s}</option>)}
                   </select>
@@ -194,7 +194,7 @@ export function ExamForm() {
                 <select
                   value={formData.status}
                   onChange={(e) => setFormData({ ...formData, status: e.target.value as ExamStatus })}
-                  className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                  className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 >
                   <option value="draft">Draft</option>
                   <option value="scheduled">Scheduled</option>
@@ -205,11 +205,11 @@ export function ExamForm() {
           </CardContent>
         </Card>
 
-        <Card className="border-line shadow-e1">
-          <CardHeader className="border-b border-line pb-4 font-display">
+        <Card className="overflow-hidden">
+          <CardHeader className="border-b border-white/20 pb-4 font-display">
             <div className="flex justify-between items-center">
               <CardTitle className="text-lg text-content font-extrabold">Schedule & Subjects</CardTitle>
-              <Button type="button" variant="secondary" size="sm" onClick={addSubject} className="border-line text-content-secondary hover:text-content font-bold font-display">
+              <Button type="button" variant="secondary" size="sm" onClick={addSubject} className="border-white/20 text-content-secondary hover:text-content font-bold font-display">
                 <Plus className="h-4 w-4 mr-2" /> Add Subject
               </Button>
             </div>
@@ -217,7 +217,7 @@ export function ExamForm() {
           <CardContent className="pt-6">
             <div className="space-y-6">
               {subjects.map((subject, index) => (
-                <div key={subject.id} className="p-5 border border-line rounded-xl bg-surface-raised space-y-4 transition-all duration-fast hover:border-content-tertiary">
+                <div key={subject.id} className="p-5 border border-white/20 rounded-xl space-y-4 transition-all duration-fast hover:border-content-tertiary">
                   <div className="flex justify-between items-center">
                     <h4 className="text-sm font-bold text-content font-display uppercase tracking-wider">Subject {index + 1}</h4>
                     <Button type="button" variant="ghost" size="sm" onClick={() => removeSubject(index)} className="text-danger-500 hover:text-danger-600 hover:bg-danger-500/10">
@@ -232,7 +232,7 @@ export function ExamForm() {
                         required
                         value={subject.name}
                         onChange={(e) => updateSubject(index, 'name', e.target.value)}
-                        className="w-full p-2 text-sm border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-content focus:outline-none focus:border-primary"
+                        className="w-full p-2 text-sm border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-content focus:outline-none focus:border-primary"
                       />
                     </div>
                     <div className="space-y-1">
@@ -242,7 +242,7 @@ export function ExamForm() {
                         required
                         value={new Date(subject.date).toISOString().split('T')[0]}
                         onChange={(e) => updateSubject(index, 'date', new Date(e.target.value).getTime())}
-                        className="w-full p-2 text-sm border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-content focus:outline-none focus:border-primary"
+                        className="w-full p-2 text-sm border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-content focus:outline-none focus:border-primary"
                       />
                     </div>
                     <div className="space-y-1">
@@ -252,7 +252,7 @@ export function ExamForm() {
                         required
                         value={subject.startTime}
                         onChange={(e) => updateSubject(index, 'startTime', e.target.value)}
-                        className="w-full p-2 text-sm border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-content focus:outline-none focus:border-primary"
+                        className="w-full p-2 text-sm border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-content focus:outline-none focus:border-primary"
                       />
                     </div>
                     <div className="space-y-1">
@@ -262,7 +262,7 @@ export function ExamForm() {
                         required
                         value={subject.endTime}
                         onChange={(e) => updateSubject(index, 'endTime', e.target.value)}
-                        className="w-full p-2 text-sm border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-content focus:outline-none focus:border-primary"
+                        className="w-full p-2 text-sm border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-content focus:outline-none focus:border-primary"
                       />
                     </div>
                     <div className="space-y-1">
@@ -271,7 +271,7 @@ export function ExamForm() {
                         type="text"
                         value={subject.roomAllocation}
                         onChange={(e) => updateSubject(index, 'roomAllocation', e.target.value)}
-                        className="w-full p-2 text-sm border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-content focus:outline-none focus:border-primary"
+                        className="w-full p-2 text-sm border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-content focus:outline-none focus:border-primary"
                       />
                     </div>
                     <div className="space-y-1">
@@ -281,7 +281,7 @@ export function ExamForm() {
                         required
                         value={subject.maxMarks}
                         onChange={(e) => updateSubject(index, 'maxMarks', Number(e.target.value))}
-                        className="w-full p-2 text-sm border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-content focus:outline-none focus:border-primary"
+                        className="w-full p-2 text-sm border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-content focus:outline-none focus:border-primary"
                       />
                     </div>
                     <div className="space-y-1">
@@ -291,7 +291,7 @@ export function ExamForm() {
                         required
                         value={subject.passingMarks}
                         onChange={(e) => updateSubject(index, 'passingMarks', Number(e.target.value))}
-                        className="w-full p-2 text-sm border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-content focus:outline-none focus:border-primary"
+                        className="w-full p-2 text-sm border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-content focus:outline-none focus:border-primary"
                       />
                     </div>
                   </div>

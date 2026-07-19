@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, {  useState, useEffect  } from 'react';
+import { AppSkeleton } from '../../components/ui/AppSkeleton';
 import { studentService } from '../../services/student.service';
 import { attendanceService } from '../../services/attendance.service';
 import { Student } from '../../types/student';
@@ -127,15 +128,15 @@ export function StudentAttendance() {
   ];
 
   return (
-    <Card className="border-line shadow-e1">
-      <CardHeader className="border-b border-line">
+    <Card className="overflow-hidden">
+      <CardHeader className="border-b border-white/20">
         <div className="flex flex-col md:flex-row gap-4 items-end justify-between font-display">
           <div className="flex flex-wrap items-center gap-4">
             <div className="space-y-1">
               <label className="text-xs font-bold text-content-tertiary uppercase tracking-wider">Date</label>
               <input 
                 type="date" 
-                className="w-full sm:w-auto p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                className="w-full sm:w-auto p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 value={selectedDate}
                 max={new Date().toISOString().split('T')[0]}
                 onChange={(e) => setSelectedDate(e.target.value)}
@@ -144,7 +145,7 @@ export function StudentAttendance() {
             <div className="space-y-1">
               <label className="text-xs font-bold text-content-tertiary uppercase tracking-wider">Class</label>
               <select 
-                className="w-full sm:w-auto p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                className="w-full sm:w-auto p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 value={selectedClass}
                 onChange={(e) => setSelectedClass(e.target.value)}
               >
@@ -154,7 +155,7 @@ export function StudentAttendance() {
             <div className="space-y-1">
               <label className="text-xs font-bold text-content-tertiary uppercase tracking-wider">Section</label>
               <select 
-                className="w-full sm:w-auto p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                className="w-full sm:w-auto p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 value={selectedSection}
                 onChange={(e) => setSelectedSection(e.target.value)}
               >
@@ -164,7 +165,7 @@ export function StudentAttendance() {
           </div>
           
           <div className="flex gap-2">
-            <Button variant="secondary" size="sm" onClick={() => markAll('present')} className="border-line text-content-secondary hover:text-content">
+            <Button variant="secondary" size="sm" onClick={() => markAll('present')} className="border-white/20 text-content-secondary hover:text-content">
               <CheckCircle2 className="h-4 w-4 mr-2 text-success-500" />
               Mark All Present
             </Button>
@@ -177,9 +178,7 @@ export function StudentAttendance() {
       </CardHeader>
       <CardContent className="p-0 sm:p-6">
         {loading ? (
-          <div className="flex justify-center items-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-          </div>
+          <AppSkeleton type="card" />
         ) : students.length === 0 ? (
           <div className="text-center py-12">
             <p className="text-content-secondary font-medium">No active students found in this class and section.</p>
@@ -187,7 +186,7 @@ export function StudentAttendance() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left min-w-[800px]">
-              <thead className="text-xs text-content-secondary font-bold uppercase bg-surface-overlay border-b border-line">
+              <thead className="text-xs text-content-secondary font-bold uppercase bg-white/5 border-b border-white/20">
                 <tr>
                   <th className="px-6 py-4 font-display uppercase tracking-wider text-xs">Roll/Adm No.</th>
                   <th className="px-6 py-4 font-display uppercase tracking-wider text-xs">Student Name</th>
@@ -195,7 +194,7 @@ export function StudentAttendance() {
                   <th className="px-6 py-4 font-display uppercase tracking-wider text-xs">Notes</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-line">
+              <tbody className="divide-y divide-white/10">
                 {students.map((student) => {
                   const record = attendance[student.id];
                   if (!record) return null;
@@ -205,14 +204,14 @@ export function StudentAttendance() {
                       key={student.id}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
-                      className="bg-surface hover:bg-surface-raised transition-colors duration-fast"
+                      className="hover:bg-white/10 transition-colors duration-fast"
                     >
                       <td className="px-6 py-4 font-mono font-bold text-content">
                         {student.rollNumber || student.admissionNumber}
                       </td>
                       <td className="px-6 py-4 flex items-center gap-3">
                         {student.photoUrl ? (
-                          <img src={student.photoUrl} alt="" className="w-8 h-8 rounded-full object-cover border border-line" referrerPolicy="no-referrer" />
+                          <img src={student.photoUrl} alt="" className="w-8 h-8 rounded-full object-cover border border-white/20" referrerPolicy="no-referrer" />
                         ) : (
                           <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary text-xs font-black">
                             {student.firstName[0]}
@@ -232,7 +231,7 @@ export function StudentAttendance() {
                               className={`w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold transition-all border
                                 ${record.status === status.value 
                                   ? `${status.color} ring-2 ring-primary ring-offset-2 ring-offset-surface` 
-                                  : 'bg-surface-raised text-content-tertiary border-line hover:bg-surface-overlay hover:text-content-secondary'
+                                  : 'bg-white/5 text-content-tertiary border-white/20 hover:bg-white/5 hover:text-content-secondary'
                                 }`}
                               title={status.label}
                             >
@@ -245,7 +244,7 @@ export function StudentAttendance() {
                         <input
                           type="text"
                           placeholder="Optional notes..."
-                          className="w-full text-xs p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-surface-overlay text-content transition-all focus:bg-surface focus:border-primary focus:outline-none"
+                          className="w-full text-xs p-2 border border-white/20 rounded-xl bg-white/5 text-content transition-all focus:bg-white/5 focus:border-primary focus:outline-none"
                           value={record.notes || ''}
                           onChange={(e) => handleNotesChange(student.id, e.target.value)}
                         />

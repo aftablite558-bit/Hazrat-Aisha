@@ -6,6 +6,8 @@ import { attendanceService } from '../../services/attendance.service';
 import { studentService } from '../../services/student.service';
 import { staffService } from '../../services/staff.service';
 import { useToast } from '../../context/ToastContext';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export function AttendanceReports() {
   const { addToast } = useToast();
@@ -91,7 +93,7 @@ export function AttendanceReports() {
         }
       } else {
         // Simple mock for monthly to save time - in real app would aggregate dates
-        addToast('Monthly reports require data aggregation (Not fully implemented in this demo)', 'info');
+        addToast('Monthly reports require data aggregation from previous weeks. Please select the Daily view for immediate data.', 'info');
       }
     } catch (error) {
       console.error(error);
@@ -101,33 +103,144 @@ export function AttendanceReports() {
     }
   };
 
-  const exportCSV = () => {
+  const exportPDF = () => {
     if (reportData.length === 0) return;
-    
-    const headers = target === 'students' 
-      ? ['Roll No', 'Name', 'Status', 'Notes']
-      : ['Emp ID', 'Name', 'Department', 'Status', 'Notes'];
+
+    try {
+      const doc = new jsPDF();
       
-    const csvContent = [
-      headers.join(','),
-      ...reportData.map(row => {
+      const primaryColor = [4, 120, 87]; // Emerald Green
+      const secondaryColor = [217, 119, 6]; // Amber Gold
+
+      // 1. School Header Banner
+      doc.setFillColor(primaryColor[0], primaryColor[1], primaryColor[2]);
+      doc.rect(0, 0, 210, 38, 'F');
+      
+      // Accent Gold Bar
+      doc.setFillColor(secondaryColor[0], secondaryColor[1], secondaryColor[2]);
+      doc.rect(0, 38, 210, 2, 'F');
+      
+      // Text over Banner
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(18);
+      doc.text('HAZRAT AISHA ACADEMY', 15, 16);
+      
+      doc.setFont('Helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(200, 250, 230);
+      doc.text('Chak Rajopatti, Sitamarhi, Bihar - 843302 | CBSE-Aligned & Islamic Education', 15, 23);
+      doc.text('Email: info@hazrataishaacademy.com | Website: hazrataishaacademy.com', 15, 28);
+      doc.text('ATTENDANCE DEPT. REPORTING', 15, 33);
+      
+      // 2. Report Details
+      doc.setTextColor(50, 50, 50);
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(13);
+      const title = target === 'students' 
+        ? `DAILY ATTENDANCE - CLASS ${selectedClass}-${selectedSection}`
+        : 'DAILY ATTENDANCE - TEACHERS & STAFF';
+      doc.text(title, 15, 50);
+      
+      doc.setFont('Helvetica', 'normal');
+      doc.setFontSize(9);
+      doc.setTextColor(100, 100, 100);
+      const reportDateText = reportType === 'daily' 
+        ? `Report Date: ${new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`
+        : `Report Month: ${month}`;
+      doc.text(reportDateText, 15, 56);
+      doc.text(`Generated on: ${new Date().toLocaleString()}`, 15, 61);
+
+      // Summary Statistics Blocks
+      doc.setFillColor(243, 244, 246);
+      doc.rect(15, 67, 180, 15, 'F');
+      
+      doc.setFont('Helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.setTextColor(50, 50, 50);
+      
+      const statX = [20, 55, 90, 125, 160];
+      doc.text(`Present: ${summary.present}`, statX[0], 76);
+      doc.text(`Absent: ${summary.absent}`, statX[1], 76);
+      doc.text(`Late: ${summary.late}`, statX[2], 76);
+      doc.text(`Half Day: ${summary.half_day}`, statX[3], 76);
+      doc.text(`On Leave: ${summary.leave}`, statX[4], 76);
+      
+      // 3. Table Headers and Data
+      const headers = target === 'students'
+        ? [['Roll No', 'Student Name', 'Attendance Status', 'Remarks / Notes']]
+        : [['Emp ID', 'Staff Name', 'Department', 'Attendance Status', 'Remarks / Notes']];
+        
+      const data = reportData.map(row => {
         if (target === 'students') {
-          return `"${row.rollNo}","${row.name}","${row.status}","${row.notes}"`;
+          return [
+            row.rollNo || '-',
+            row.name || '-',
+            row.status ? row.status.toUpperCase() : '-',
+            row.notes || '-'
+          ];
         } else {
-          return `"${row.empId}","${row.name}","${row.department}","${row.status}","${row.notes}"`;
+          return [
+            row.empId || '-',
+            row.name || '-',
+            row.department || '-',
+            row.status ? row.status.toUpperCase() : '-',
+            row.notes || '-'
+          ];
         }
-      })
-    ].join('\n');
-    
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    const url = URL.createObjectURL(blob);
-    link.setAttribute('href', url);
-    link.setAttribute('download', `attendance_report_${date}.csv`);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+      });
+      
+      autoTable(doc, {
+        startY: 88,
+        head: headers,
+        body: data,
+        theme: 'striped',
+        headStyles: {
+          fillColor: primaryColor as any,
+          textColor: [255, 255, 255],
+          fontStyle: 'bold',
+          fontSize: 9,
+          halign: 'left'
+        },
+        bodyStyles: {
+          fontSize: 8.5,
+          textColor: [60, 60, 60]
+        },
+        columnStyles: target === 'students' ? {
+          0: { cellWidth: 20 },
+          1: { cellWidth: 60, fontStyle: 'bold' },
+          2: { cellWidth: 40, fontStyle: 'bold' },
+          3: { cellWidth: 60 }
+        } : {
+          0: { cellWidth: 25 },
+          1: { cellWidth: 50, fontStyle: 'bold' },
+          2: { cellWidth: 35 },
+          3: { cellWidth: 30, fontStyle: 'bold' },
+          4: { cellWidth: 40 }
+        },
+        didDrawPage: (data) => {
+          // Footer
+          const pageCount = (doc as any).internal.getNumberOfPages();
+          doc.setFontSize(8);
+          doc.setFont('Helvetica', 'normal');
+          doc.setTextColor(140, 140, 140);
+          
+          const pageHeight = doc.internal.pageSize.height;
+          doc.text('Official Hazrat Aisha Academy Attendance Record. Generated electronically.', 15, pageHeight - 15);
+          doc.text(`Page ${data.pageNumber} of ${pageCount}`, doc.internal.pageSize.width - 30, pageHeight - 15);
+        }
+      });
+      
+      const fileName = target === 'students'
+        ? `Attendance_Report_Class_${selectedClass}_${selectedSection}_${date}.pdf`
+        : `Attendance_Report_Staff_${date}.pdf`;
+        
+      doc.save(fileName);
+      addToast('Premium Attendance PDF report downloaded successfully', 'success');
+    } catch (err) {
+      console.error(err);
+      addToast('Failed to generate professional PDF attendance report', 'error');
+    }
   };
 
   const handlePrint = () => {
@@ -136,8 +249,8 @@ export function AttendanceReports() {
 
   return (
     <div className="space-y-6 font-body">
-      <Card className="border-line shadow-e1 print:hidden">
-        <CardHeader className="border-b border-line">
+      <Card className="overflow-hidden print:hidden">
+        <CardHeader className="border-b border-white/20">
           <CardTitle className="font-display text-lg text-content font-extrabold">Report Parameters</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4 pt-6">
@@ -145,7 +258,7 @@ export function AttendanceReports() {
             <div className="space-y-1">
               <label className="text-xs font-bold text-content-tertiary uppercase tracking-wider">Target</label>
               <select 
-                className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 value={target}
                 onChange={(e) => setTarget(e.target.value as 'students' | 'staff')}
               >
@@ -157,7 +270,7 @@ export function AttendanceReports() {
             <div className="space-y-1">
               <label className="text-xs font-bold text-content-tertiary uppercase tracking-wider">Report Type</label>
               <select 
-                className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 value={reportType}
                 onChange={(e) => setReportType(e.target.value as 'daily' | 'monthly')}
               >
@@ -171,7 +284,7 @@ export function AttendanceReports() {
                 <label className="text-xs font-bold text-content-tertiary uppercase tracking-wider">Date</label>
                 <input 
                   type="date" 
-                  className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                  className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
                 />
@@ -181,7 +294,7 @@ export function AttendanceReports() {
                 <label className="text-xs font-bold text-content-tertiary uppercase tracking-wider">Month</label>
                 <input 
                   type="month" 
-                  className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                  className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                   value={month}
                   onChange={(e) => setMonth(e.target.value)}
                 />
@@ -193,7 +306,7 @@ export function AttendanceReports() {
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-content-tertiary uppercase tracking-wider">Class</label>
                   <select 
-                    className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                    className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                     value={selectedClass}
                     onChange={(e) => setSelectedClass(e.target.value)}
                   >
@@ -203,7 +316,7 @@ export function AttendanceReports() {
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-content-tertiary uppercase tracking-wider">Section</label>
                   <select 
-                    className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                    className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                     value={selectedSection}
                     onChange={(e) => setSelectedSection(e.target.value)}
                   >
@@ -221,8 +334,8 @@ export function AttendanceReports() {
       </Card>
 
       {reportData.length > 0 && (
-        <Card className="border-line shadow-e1 print:shadow-none print:border-none">
-          <CardHeader className="flex flex-row items-center justify-between border-b border-line pb-4 font-display">
+        <Card className="overflow-hidden print:shadow-none print:border-none">
+          <CardHeader className="flex flex-row items-center justify-between border-b border-white/20 pb-4 font-display">
             <div>
               <CardTitle className="text-lg text-content font-extrabold">Attendance Report</CardTitle>
               <p className="text-sm text-content-secondary">
@@ -230,19 +343,19 @@ export function AttendanceReports() {
               </p>
             </div>
             <div className="flex gap-2 print:hidden">
-              <Button variant="secondary" size="sm" onClick={exportCSV} className="border-line text-content-secondary hover:text-content">
+              <Button variant="secondary" size="sm" onClick={exportPDF} className="border-white/20 text-content-secondary hover:text-content">
                 <FileDown className="h-4 w-4 mr-2" />
-                Excel / CSV
+                Export PDF
               </Button>
-              <Button variant="secondary" size="sm" onClick={handlePrint} className="border-line text-content-secondary hover:text-content">
+              <Button variant="secondary" size="sm" onClick={handlePrint} className="border-white/20 text-content-secondary hover:text-content">
                 <Printer className="h-4 w-4 mr-2" />
-                Print / PDF
+                Print Report
               </Button>
             </div>
           </CardHeader>
           <CardContent className="pt-6">
             <div className="grid grid-cols-2 md:grid-cols-6 gap-4 mb-6 font-display">
-              <div className="bg-surface-raised border border-line p-3.5 rounded-xl text-center shadow-sm">
+              <div className="bg-white/5 border border-white/20 p-3.5 rounded-xl text-center shadow-sm">
                 <div className="text-2xl font-extrabold text-content font-mono">{summary.total}</div>
                 <div className="text-xs font-semibold text-content-tertiary">Total</div>
               </div>
@@ -264,37 +377,37 @@ export function AttendanceReports() {
                 <div className="text-2xl font-extrabold text-primary font-mono">{summary.half_day}</div>
                 <div className="text-xs font-semibold text-primary/80">Half Day</div>
               </div>
-              <div className="bg-content-secondary/10 border border-line p-3.5 rounded-xl text-center shadow-sm">
+              <div className="bg-content-secondary/10 border border-white/20 p-3.5 rounded-xl text-center shadow-sm">
                 <div className="text-2xl font-extrabold text-content-secondary font-mono">{summary.leave}</div>
                 <div className="text-xs font-semibold text-content-tertiary">Leave</div>
               </div>
             </div>
 
-            <div className="overflow-x-auto border border-line rounded-lg">
+            <div className="overflow-x-auto border border-white/20 rounded-lg">
               <table className="w-full text-sm text-left min-w-[800px]">
-                <thead className="text-xs text-content-secondary font-bold uppercase bg-surface-overlay border-b border-line print:bg-surface-raised">
+                <thead className="text-xs text-content-secondary font-bold uppercase bg-white/5 border-b border-white/20 print:bg-white/5">
                   <tr>
                     {target === 'students' ? (
                       <>
-                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-line">Roll No</th>
-                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-line">Name</th>
-                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-line">Status</th>
-                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-line">Notes</th>
+                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-white/20">Roll No</th>
+                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-white/20">Name</th>
+                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-white/20">Status</th>
+                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-white/20">Notes</th>
                       </>
                     ) : (
                       <>
-                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-line">Emp ID</th>
-                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-line">Name</th>
-                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-line">Department</th>
-                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-line">Status</th>
-                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-line">Notes</th>
+                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-white/20">Emp ID</th>
+                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-white/20">Name</th>
+                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-white/20">Department</th>
+                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-white/20">Status</th>
+                        <th className="px-6 py-4 font-display uppercase tracking-wider text-xs border-b border-white/20">Notes</th>
                       </>
                     )}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-line">
+                <tbody className="divide-y divide-white/10">
                   {reportData.map((row) => (
-                    <tr key={row.id} className="bg-surface hover:bg-surface-raised transition-colors duration-fast print:bg-white print:border-b">
+                    <tr key={row.id} className="hover:bg-white/10 transition-colors duration-fast print:bg-white print:border-b">
                       {target === 'students' ? (
                         <>
                           <td className="px-6 py-4 font-mono font-bold text-content">{row.rollNo}</td>

@@ -1,26 +1,70 @@
 rules_version = '2';
+
 service firebase.storage {
   match /b/{bucket}/o {
-    // Staff photos
+    
+    // Helper function to check if the user has an Admin or Principal role
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.role == 'admin' || 
+        request.auth.token.role == 'principal' ||
+        // Optional fallback for school email domains
+        request.auth.token.email.matches('.*@hazrataisha\\.com')
+      );
+    }
+
+    // Helper function to check if the user has a Teacher role
+    function isTeacher() {
+      return request.auth != null && (
+        request.auth.token.role == 'teacher' ||
+        request.auth.token.email.matches('.*@hazrataisha\\.com')
+      );
+    }
+
+    // Staff photographs: Readable by everyone, writable only by Admins/Principals
     match /staff/{allPaths=**} {
-      allow read: if request.auth != null;
-      // Verifying role via custom claims instead of firestore.get since we use Realtime DB
-      allow write: if request.auth != null && (request.auth.token.role == 'admin' || request.auth.token.role == 'principal');
+      allow read: if true;
+      allow write: if isAdmin();
     }
     
-    // Gallery is public read, but restricted write
+    // Student photographs: Readable by everyone, writable only by Admins/Principals
+    match /students/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Public admission documents (Pending approval):
+    // Allows public uploads during application submission, readable/manageable only by Admins/Principals
+    match /admissions-pending/{applicationId}/{allPaths=**} {
+      allow read: if isAdmin();
+      allow write: if true; // Public upload permitted for new online admissions
+    }
+
+    // Processed/archived admission documents: Restricted to Admins and Principals
+    match /admissions/{allPaths=**} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+    
+    // Media Gallery assets: Readable by public, write restricted to Admins/Principals
     match /gallery/{allPaths=**} {
       allow read: if true;
-      allow write: if request.auth != null && (request.auth.token.role == 'admin' || request.auth.token.role == 'principal');
+      allow write: if isAdmin();
     }
     
-    // Documents are restricted based on roles
+    // School documents, announcements PDFs, notices resources: Readable by public, writable only by Admins/Principals
     match /documents/{allPaths=**} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null && (request.auth.token.role == 'admin' || request.auth.token.role == 'principal' || request.auth.token.role == 'teacher');
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Classroom Homework: Readable by public/students, writes allowed for Teachers and Admins/Principals
+    match /homework/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAdmin() || isTeacher();
     }
     
-    // Default deny
+    // Default fallback rule: Deny all other access paths
     match /{allPaths=**} {
       allow read, write: if false;
     }

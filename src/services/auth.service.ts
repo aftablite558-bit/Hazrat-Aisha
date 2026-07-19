@@ -10,9 +10,8 @@ import {
   browserSessionPersistence
 } from "firebase/auth";
 import { auth, database, isConfigured } from "../lib/firebase";
-import { ref, set } from "firebase/database";
+import { ref, set, update } from "firebase/database";
 import { UserRole } from "../types";
-
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { firebaseConfig } from "../lib/firebase";
@@ -35,7 +34,7 @@ export const authService = {
       await updateProfile(user, { displayName });
       
       const userRef = ref(database, `users/${user.uid}`);
-      await set(userRef, {
+      await update(userRef, {
         email,
         displayName,
         role,
@@ -53,7 +52,7 @@ export const authService = {
   /**
    * Create a new user in Firebase Auth and database
    */
-  async createUser(email: string, password: string, displayName: string, role: UserRole = "teacher") {
+  async createUser(email: string, password: string, displayName: string, role: UserRole = "student") {
     if (!isConfigured || !auth || !database) throw new Error("Firebase Auth is not configured");
     
     // Create the user in Firebase Auth
@@ -65,7 +64,7 @@ export const authService = {
 
     // Store user data in Realtime Database
     const userRef = ref(database, `users/${user.uid}`);
-    await set(userRef, {
+    await update(userRef, {
       email,
       displayName,
       role,
@@ -79,7 +78,7 @@ export const authService = {
    * Register a new user with email and password
    */
   async register(email: string, password: string, displayName: string) {
-    const user = await this.createUser(email, password, displayName, "teacher");
+    const user = await this.createUser(email, password, displayName, "student");
     
     // Send verification email
     await sendEmailVerification(user);

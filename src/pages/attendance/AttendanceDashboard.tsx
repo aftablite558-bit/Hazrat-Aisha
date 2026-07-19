@@ -20,14 +20,14 @@ export function AttendanceDashboard() {
         </p>
       </div>
 
-      <div className="border-b border-line font-display">
+      <div className="border-b border-white/20 font-display">
         <nav className="-mb-px flex space-x-8" aria-label="Tabs">
           <button
             onClick={() => setActiveTab('students')}
             className={`whitespace-nowrap py-4 px-1 border-b-2 text-sm transition-all duration-fast ${
               activeTab === 'students'
                 ? 'border-primary text-primary font-bold'
-                : 'border-transparent text-content-secondary hover:text-content hover:border-line font-semibold'
+                : 'border-transparent text-content-secondary hover:text-content hover:border-white/20 font-semibold'
             }`}
           >
             Student Attendance
@@ -39,7 +39,7 @@ export function AttendanceDashboard() {
               className={`whitespace-nowrap py-4 px-1 border-b-2 text-sm transition-all duration-fast ${
                 activeTab === 'staff'
                   ? 'border-primary text-primary font-bold'
-                  : 'border-transparent text-content-secondary hover:text-content hover:border-line font-semibold'
+                  : 'border-transparent text-content-secondary hover:text-content hover:border-white/20 font-semibold'
               }`}
             >
               Staff Attendance
@@ -51,7 +51,7 @@ export function AttendanceDashboard() {
             className={`whitespace-nowrap py-4 px-1 border-b-2 text-sm transition-all duration-fast ${
               activeTab === 'reports'
                 ? 'border-primary text-primary font-bold'
-                : 'border-transparent text-content-secondary hover:text-content hover:border-line font-semibold'
+                : 'border-transparent text-content-secondary hover:text-content hover:border-white/20 font-semibold'
             }`}
           >
             Reports

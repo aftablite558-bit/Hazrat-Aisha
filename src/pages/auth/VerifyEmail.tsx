@@ -123,7 +123,7 @@ export function VerifyEmail() {
         </Button>
       </div>
 
-      <div className="pt-4 border-t border-line">
+      <div className="pt-4 border-t border-white/20">
         <button 
           onClick={handleLogout}
           className="inline-flex items-center text-sm font-semibold text-content-secondary hover:text-content transition-colors"

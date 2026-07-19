@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AppSkeleton } from '../../components/ui/AppSkeleton';
 import { useNavigate } from 'react-router';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
@@ -68,8 +69,8 @@ export function AdmissionForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        <Card className="border-line shadow-e1">
-          <CardHeader className="border-b border-line font-display">
+        <Card className="overflow-hidden">
+          <CardHeader className="border-b border-white/20 font-display">
             <CardTitle>Academic Details</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 pt-6">
@@ -81,7 +82,7 @@ export function AdmissionForm() {
                   required
                   value={formData.appliedClass}
                   onChange={handleChange}
-                  className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                  className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 >
                   {['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map(c => (
                     <option key={c} value={c}>Class {c}</option>
@@ -96,15 +97,15 @@ export function AdmissionForm() {
                   value={formData.previousSchool || ''}
                   onChange={handleChange}
                   placeholder="Leave empty if none"
-                  className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                  className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-line shadow-e1">
-          <CardHeader className="border-b border-line font-display">
+        <Card className="overflow-hidden">
+          <CardHeader className="border-b border-white/20 font-display">
             <CardTitle>Student Personal Information</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 pt-6">
@@ -117,7 +118,7 @@ export function AdmissionForm() {
                   required
                   value={formData.studentName}
                   onChange={handleChange}
-                  className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                  className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 />
               </div>
               <div className="space-y-1.5">
@@ -128,7 +129,7 @@ export function AdmissionForm() {
                   required
                   value={formData.dateOfBirth}
                   onChange={handleChange}
-                  className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                  className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 />
               </div>
               <div className="space-y-1.5">
@@ -138,7 +139,7 @@ export function AdmissionForm() {
                   required
                   value={formData.gender}
                   onChange={handleChange}
-                  className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                  className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 >
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
@@ -152,15 +153,15 @@ export function AdmissionForm() {
                   name="bloodGroup"
                   value={formData.bloodGroup || ''}
                   onChange={handleChange}
-                  className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                  className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 />
               </div>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-line shadow-e1">
-          <CardHeader className="border-b border-line font-display">
+        <Card className="overflow-hidden">
+          <CardHeader className="border-b border-white/20 font-display">
             <CardTitle>Parent / Guardian Details</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 pt-6">
@@ -173,7 +174,7 @@ export function AdmissionForm() {
                   required
                   value={formData.fatherName}
                   onChange={handleChange}
-                  className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                  className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 />
               </div>
               <div className="space-y-1.5">
@@ -184,7 +185,7 @@ export function AdmissionForm() {
                   required
                   value={formData.motherName}
                   onChange={handleChange}
-                  className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                  className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 />
               </div>
               <div className="space-y-1.5">
@@ -195,7 +196,7 @@ export function AdmissionForm() {
                   required
                   value={formData.contactNumber}
                   onChange={handleChange}
-                  className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                  className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 />
               </div>
               <div className="space-y-1.5">
@@ -205,7 +206,7 @@ export function AdmissionForm() {
                   name="email"
                   value={formData.email || ''}
                   onChange={handleChange}
-                  className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                  className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 />
               </div>
             </div>
@@ -217,7 +218,7 @@ export function AdmissionForm() {
                 rows={3}
                 value={formData.address}
                 onChange={handleChange}
-                className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] resize-none"
+                className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)] resize-none"
               ></textarea>
             </div>
           </CardContent>

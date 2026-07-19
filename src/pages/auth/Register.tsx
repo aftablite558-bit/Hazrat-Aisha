@@ -4,9 +4,8 @@ import { Eye, EyeOff, Mail, Lock, User } from 'lucide-react';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
-import { authService } from '../../services/auth.service';
+import { UserService } from '../../services/user.service';
 import { useToast } from '../../context/ToastContext';
-import { FirebaseError } from 'firebase/app';
 
 export function Register() {
   const [name, setName] = useState('');
@@ -15,6 +14,7 @@ export function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
+  const [isSubmitted, setIsSubmitted] = useState(false);
   
   const navigate = useNavigate();
   const { addToast } = useToast();
@@ -46,34 +46,18 @@ export function Register() {
     setIsLoading(true);
 
     try {
-      await authService.register(email, password, name);
-      addToast('Account created successfully. Please verify your email.', 'success');
-      navigate('/verify-email');
-    } catch (error) {
-      if (error instanceof FirebaseError) {
-        switch (error.code) {
-          case 'auth/email-already-in-use':
-            addToast('An account with this email already exists', 'error');
-            break;
-          case 'auth/invalid-email':
-            addToast('Invalid email address', 'error');
-            break;
-          case 'auth/weak-password':
-            addToast('Password is too weak', 'error');
-            break;
-          default:
-            addToast('Failed to create account. Please try again.', 'error');
-        }
-      } else {
-        addToast('An unexpected error occurred', 'error');
-      }
+      await UserService.submitRegistrationRequest(email, password, name, 'student');
+      addToast('Registration request submitted successfully!', 'success');
+      setIsSubmitted(true);
+    } catch (error: any) {
+      addToast(error.message || 'Failed to submit registration request', 'error');
     } finally {
       setIsLoading(false);
     }
   };
 
   const getStrengthColor = () => {
-    if (passwordStrength === 0) return 'bg-line';
+    if (passwordStrength === 0) return 'bg-white/10 dark:bg-black/20';
     if (passwordStrength === 1) return 'bg-danger-500';
     if (passwordStrength === 2) return 'bg-warning-500';
     if (passwordStrength === 3) return 'bg-info-500';
@@ -87,6 +71,30 @@ export function Register() {
     if (passwordStrength === 3) return 'Good';
     return 'Strong';
   };
+
+  if (isSubmitted) {
+    return (
+      <div className="w-full space-y-6 text-center font-body py-4">
+        <div className="w-16 h-16 bg-emerald-500/10 dark:bg-sky-500/10 text-emerald-600 dark:text-sky-400 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-emerald-500/20 dark:border-sky-500/20">
+          <User className="w-8 h-8 animate-pulse" />
+        </div>
+        <div className="space-y-2">
+          <h1 className="text-xl sm:text-2xl font-display font-bold text-content">
+            Request Submitted!
+          </h1>
+          <p className="text-sm text-content-secondary max-w-sm mx-auto leading-relaxed">
+            Aapki registration request submit ho chuki hai. Admin ya Principal ke approve karne ke baad aap login kar sakenge.
+          </p>
+        </div>
+
+        <div className="pt-4">
+          <Button onClick={() => navigate('/login')} className="w-full" size="lg">
+            Go to Login
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full space-y-6">
@@ -165,7 +173,7 @@ export function Register() {
                   <div
                     key={level}
                     className={`h-full flex-1 rounded-full transition-colors duration-300 ${
-                      passwordStrength >= level ? getStrengthColor() : 'bg-line/40'
+                      passwordStrength >= level ? getStrengthColor() : 'bg-white/10 dark:bg-black/20/40'
                     }`}
                   />
                 ))}

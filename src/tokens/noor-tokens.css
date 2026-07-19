@@ -76,7 +76,7 @@
   --radius-pill: 999px;
 
   /* Typography */
-  --font-display: "Sora", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-display: "Poppins", "Sora", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-body: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
   --font-arabic: "Amiri", serif;
@@ -150,68 +150,64 @@
 
 
 /* Theme definitions */
-:root, [data-theme="obsidian"] {
-  --bg-page: #0B111A;
-  --bg-surface: #131A24;
-  --bg-surface-raised: #1C2633;
-  --bg-surface-overlay: #222E3D;
-  --border-default: #2A3644;
-  --border-strong: #3B4B5E;
-  --text-primary: #F3F4F6;
-  --text-secondary: #9CA3AF;
-  --text-tertiary: #6B7280;
-  --text-disabled: #4B5563;
-  
-  --color-primary: #D4AF37;
-  --color-primary-hover: #F2CA47;
-  --color-accent: #E5E7EB;
-  --color-glow: rgba(212, 175, 55, 0.25);
-  
-  --glass-bg: rgba(19, 26, 36, .7);
-  --glass-border: rgba(212, 175, 55, .15);
-  --shadow-color: rgba(0, 0, 0, .8);
-}
-
-[data-theme="daylight"] {
-  --bg-page: #FCFAf5;
+:root, [data-theme="daylight"] {
+  --bg-page: #FAFAFA;
   --bg-surface: #FFFFFF;
-  --bg-surface-raised: #FFFFFF;
-  --bg-surface-overlay: #F6F3EB;
-  --border-default: #EFEBE0;
-  --border-strong: #DCD4C2;
-  --text-primary: #1A1614;
-  --text-secondary: #5C4F48;
-  --text-tertiary: #8C7C73;
-  --text-disabled: #A89B93;
+  --bg-surface-raised: #F4F4F5;
+  --bg-surface-overlay: #FFFFFF;
+  --border-default: #E4E4E7;
+  --border-strong: #D4D4D8;
+  --text-primary: #09090B;
+  --text-secondary: #52525B;
+  --text-tertiary: #A1A1AA;
+  --text-disabled: #D4D4D8;
   
-  --color-primary: #D4AF37;
-  --color-primary-hover: #B8912F;
-  --color-accent: #2C251F;
-  --color-glow: rgba(212, 175, 55, 0.15);
+  --color-primary: #18181B;
+  --color-primary-hover: #27272A;
+  --color-accent: #059669;
+  --color-glow: rgba(0, 0, 0, 0.04);
   
-  --glass-bg: rgba(255, 255, 255, .7);
-  --glass-border: rgba(212, 175, 55, .15);
-  --shadow-color: rgba(44, 37, 31, .08);
+  --glass-bg: rgba(255, 255, 255, 0.4);
+  --glass-border: rgba(255, 255, 255, 0.4);
+  --shadow-color: rgba(0, 0, 0, 0.04);
+
+  /* Student Portal Overrides - Daylight (Liquid Glass UI) */
+  --color-ink-black-theme: #09090B;
+  --color-paper-white-theme: transparent;
+  --color-mist-gray-theme: rgba(255, 255, 255, 0.4);
+  --color-fog-white-theme: rgba(255, 255, 255, 0.2);
+  --color-slate-gray-theme: #52525B;
+  --color-ash-gray-theme: #71717A;
+  --color-smoke-gray-theme: #A1A1AA;
 }
 
-[data-theme="midnight"] {
-  --bg-page: #000000;
-  --bg-surface: #0A0A0A;
-  --bg-surface-raised: #121212;
-  --bg-surface-overlay: #1A1A1A;
-  --border-default: #262626;
-  --border-strong: #3A3A3A;
-  --text-primary: #F2F2F2;
-  --text-secondary: #B3B3B3;
-  --text-tertiary: #808080;
-  --text-disabled: #4D4D4D;
+[data-theme="obsidian"] {
+  --bg-page: #040A18;
+  --bg-surface: #07132B;
+  --bg-surface-raised: #0A1C40;
+  --bg-surface-overlay: #07132B;
+  --border-default: rgba(59, 130, 246, 0.3);
+  --border-strong: rgba(59, 130, 246, 0.5);
+  --text-primary: #F0F9FF;
+  --text-secondary: #BAE6FD;
+  --text-tertiary: #38BDF8;
+  --text-disabled: #0EA5E9;
   
-  --color-primary: #34F5C5;
-  --color-primary-hover: #6EF7D6;
-  --color-accent: #D4AF37;
-  --color-glow: rgba(52, 245, 197, 0.4);
+  --color-primary: #38BDF8;
+  --color-primary-hover: #7DD3FC;
+  --color-accent: #0EA5E9;
+  --color-glow: rgba(56, 189, 248, 0.15);
   
-  --glass-bg: rgba(18, 18, 18, .55);
-  --glass-border: rgba(52, 245, 197, .18);
-  --shadow-color: rgba(0, 0, 0, .8);
+  --glass-bg: rgba(4, 10, 24, 0.4);
+  --glass-border: rgba(59, 130, 246, 0.4);
+  --shadow-color: rgba(59, 130, 246, 0.2);
+
+  /* Student Portal Overrides - Obsidian */
+  --color-ink-black-theme: #F0F9FF;
+  --color-paper-white-theme: transparent;
+  --color-mist-gray-theme: rgba(4, 10, 24, 0.4);
+  --color-fog-white-theme: rgba(4, 10, 24, 0.2);
+  --color-slate-gray-theme: #BAE6FD;
+  --color-ash-gray-theme: #38BDF8;
+  --color-smoke-gray-theme: #0EA5E9;
 }

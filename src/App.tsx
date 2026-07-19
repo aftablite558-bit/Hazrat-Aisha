@@ -10,7 +10,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 import { ToastContainer } from './components/ui/toast-container';
 import { Layout } from './components/layout/Layout';
-import { Loader2 } from 'lucide-react';
+import { Loader2, MessageSquare, Image, Download } from 'lucide-react';
 import { OfflineIndicator } from './components/ui/OfflineIndicator';
 
 // Routing
@@ -24,9 +24,11 @@ import { AuthLayout } from './components/layout/AuthLayout';
 import { PublicLayout } from './pages/public/PublicLayout';
 
 // Loading Fallback
+import { AppSkeleton } from './components/ui/AppSkeleton';
+
 const LoadingFallback = () => (
-  <div className="flex h-screen w-full items-center justify-center">
-    <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
+  <div className="flex h-screen w-full items-center justify-center p-8 bg-[var(--bg-page)]">
+    <AppSkeleton type="dashboard" className="w-full max-w-4xl" />
   </div>
 );
 
@@ -44,6 +46,9 @@ const Unauthorized = lazy(() => import('./pages/auth/Unauthorized').then(m => ({
 const StudentList = lazy(() => import('./pages/students/StudentList').then(m => ({ default: m.StudentList })));
 const StudentForm = lazy(() => import('./pages/students/StudentForm').then(m => ({ default: m.StudentForm })));
 const StudentDetails = lazy(() => import('./pages/students/StudentDetails').then(m => ({ default: m.StudentDetails })));
+const StudentNotices = lazy(() => import('./pages/students/StudentNotices').then(m => ({ default: m.StudentNotices })));
+const StudentGallery = lazy(() => import('./pages/students/StudentGallery').then(m => ({ default: m.StudentGallery })));
+const StudentDownloads = lazy(() => import('./pages/students/StudentDownloads').then(m => ({ default: m.StudentDownloads })));
 
 // Staff Pages
 const StaffList = lazy(() => import('./pages/staff/StaffList').then(m => ({ default: m.StaffList })));
@@ -87,7 +92,7 @@ const SecuritySettings = lazy(() => import('./pages/settings/SecuritySettings').
 
 export default function App() {
   return (
-    <ThemeProvider defaultTheme="obsidian">
+    <ThemeProvider defaultTheme="daylight">
       <ToastProvider>
         <ToastContainer />
         <AuthProvider>
@@ -128,46 +133,94 @@ export default function App() {
                 <Route path="/unauthorized" element={<Unauthorized />} />
               </Route>
 
-              {/* Protected admin routes */}
-              <Route element={<ProtectedRoute requireVerified allowedRoles={['admin', 'principal', 'teacher']} />}>
-                <Route path="/dashboard/*" element={<Layout />}>
+              {/* Protected dashboard routes */}
+              <Route element={<ProtectedRoute requireVerified allowedRoles={['admin', 'principal', 'teacher', 'student']} />}>
+                <Route path="/dashboard" element={<Layout />}>
                   <Route index element={<Dashboard />} />
-                  <Route path="students">
-                    <Route index element={<StudentList />} />
-                    <Route path="new" element={<StudentForm />} />
-                    <Route path=":id" element={<StudentDetails />} />
-                    <Route path=":id/edit" element={<StudentForm />} />
-                  </Route>
-                  <Route path="staff">
-                    <Route index element={<StaffList />} />
-                    <Route path="new" element={<StaffForm />} />
-                    <Route path=":id" element={<StaffDetails />} />
-                    <Route path=":id/edit" element={<StaffForm />} />
-                  </Route>
                   <Route path="attendance" element={<AttendanceDashboard />} />
-                  <Route path="admissions">
-                    <Route index element={<AdmissionDashboard />} />
-                    <Route path="new" element={<AdmissionForm />} />
-                  </Route>
-                  <Route path="fees/*" element={<FeeDashboard />} />
+                  <Route path="notices" element={<StudentNotices />} />
+                  <Route path="gallery" element={<StudentGallery />} />
+                  <Route path="downloads" element={<StudentDownloads />} />
+                  
                   <Route path="exams">
                     <Route index element={<ExamDashboard />} />
-                    <Route path="new" element={<ExamForm />} />
-                    <Route path=":id/edit" element={<ExamForm />} />
                     <Route path=":id/marks" element={<MarksEntry />} />
-                    <Route path=":id/publish" element={<ResultPublish />} />
                     <Route path=":examId/report-card/:studentId" element={<ReportCard />} />
+                    
+                    {/* Admin & Principal only exam management */}
+                    <Route element={<ProtectedRoute allowedRoles={['admin', 'principal']} />}>
+                      <Route path="new" element={<ExamForm />} />
+                      <Route path=":id/edit" element={<ExamForm />} />
+                      <Route path=":id/publish" element={<ResultPublish />} />
+                    </Route>
                   </Route>
-                  <Route path="academics" element={<div className="p-8">Academics module coming soon</div>} />
-                  <Route path="calendar" element={<div className="p-8">Calendar module coming soon</div>} />
-                  <Route path="messages" element={<div className="p-8">Messages module coming soon</div>} />
-                  <Route path="settings" element={<SettingsDashboard />}>
-                    <Route index element={<Navigate to="general" replace />} />
-                    <Route path="general" element={<GeneralSettings />} />
-                    <Route path="users" element={<UserManagement />} />
-                    <Route path="security" element={<SecuritySettings />} />
-                    <Route path="backups" element={<BackupRestore />} />
-                    <Route path="logs" element={<SystemLogs />} />
+
+                  {/* Admin & Principal only management routes */}
+                  <Route element={<ProtectedRoute allowedRoles={['admin', 'principal']} />}>
+                    <Route path="students">
+                      <Route index element={<StudentList />} />
+                      <Route path="new" element={<StudentForm />} />
+                      <Route path=":id" element={<StudentDetails />} />
+                      <Route path=":id/edit" element={<StudentForm />} />
+                    </Route>
+                    <Route path="staff">
+                      <Route index element={<StaffList />} />
+                      <Route path="new" element={<StaffForm />} />
+                      <Route path=":id" element={<StaffDetails />} />
+                      <Route path=":id/edit" element={<StaffForm />} />
+                    </Route>
+                    <Route path="admissions">
+                      <Route index element={<AdmissionDashboard />} />
+                      <Route path="new" element={<AdmissionForm />} />
+                    </Route>
+                    <Route path="fees/*" element={<FeeDashboard />} />
+                    <Route path="academics" element={
+                      <div className="p-8 max-w-4xl">
+                        <div className="rounded-3xl border border-emerald-500/10 dark:border-sky-500/10 bg-white/40 dark:bg-zinc-950/40 backdrop-blur-md p-8 md:p-12 shadow-sm text-center">
+                          <div className="w-16 h-16 mx-auto rounded-2xl bg-emerald-500/10 dark:bg-sky-500/10 flex items-center justify-center text-emerald-600 dark:text-sky-400 mb-6 font-semibold">
+                            Academics
+                          </div>
+                          <h1 className="text-2xl md:text-3xl font-display font-bold text-emerald-950 dark:text-white mb-4">Academics Portal</h1>
+                          <p className="text-emerald-800/60 dark:text-sky-200/40 max-w-lg mx-auto leading-relaxed">
+                            The comprehensive Academics module is being developed. Soon you will be able to manage courses, syllabi, study materials, and learning tracks.
+                          </p>
+                        </div>
+                      </div>
+                    } />
+                    <Route path="calendar" element={
+                      <div className="p-8 max-w-4xl">
+                        <div className="rounded-3xl border border-emerald-500/10 dark:border-sky-500/10 bg-white/40 dark:bg-zinc-950/40 backdrop-blur-md p-8 md:p-12 shadow-sm text-center">
+                          <div className="w-16 h-16 mx-auto rounded-2xl bg-emerald-500/10 dark:bg-sky-500/10 flex items-center justify-center text-emerald-600 dark:text-sky-400 mb-6 font-semibold animate-pulse">
+                            📅
+                          </div>
+                          <h1 className="text-2xl md:text-3xl font-display font-bold text-emerald-950 dark:text-white mb-4">Academic Calendar</h1>
+                          <p className="text-emerald-800/60 dark:text-sky-200/40 max-w-lg mx-auto leading-relaxed">
+                            The interactive academic calendar planner is under active design. Scheduling of holidays, exams, admissions, and event reminders will be available soon.
+                          </p>
+                        </div>
+                      </div>
+                    } />
+                    <Route path="messages" element={
+                      <div className="p-8 max-w-4xl">
+                        <div className="rounded-3xl border border-emerald-500/10 dark:border-sky-500/10 bg-white/40 dark:bg-zinc-950/40 backdrop-blur-md p-8 md:p-12 shadow-sm text-center">
+                          <div className="w-16 h-16 mx-auto rounded-2xl bg-emerald-500/10 dark:bg-sky-500/10 flex items-center justify-center text-emerald-600 dark:text-sky-400 mb-6 font-semibold">
+                            💬
+                          </div>
+                          <h1 className="text-2xl md:text-3xl font-display font-bold text-emerald-950 dark:text-white mb-4">Teacher-Parent Communication</h1>
+                          <p className="text-emerald-800/60 dark:text-sky-200/40 max-w-lg mx-auto leading-relaxed">
+                            The secure parent-teacher communication channel is currently being set up. This will enable streamlined notifications and message logs directly to guardians.
+                          </p>
+                        </div>
+                      </div>
+                    } />
+                    <Route path="settings" element={<SettingsDashboard />}>
+                      <Route index element={<Navigate to="general" replace />} />
+                      <Route path="general" element={<GeneralSettings />} />
+                      <Route path="users" element={<UserManagement />} />
+                      <Route path="security" element={<SecuritySettings />} />
+                      <Route path="backups" element={<BackupRestore />} />
+                      <Route path="logs" element={<SystemLogs />} />
+                    </Route>
                   </Route>
                 </Route>
               </Route>

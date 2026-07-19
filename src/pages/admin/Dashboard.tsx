@@ -112,7 +112,7 @@ export function AdminDashboard() {
       >
         {overviewStats.map((stat) => (
           <motion.div key={stat.name} variants={itemVariants}>
-            <Card className="h-full hover:shadow-e2 transition-all duration-[var(--duration-normal)] border-line hover:border-line-strong">
+            <Card className="h-full hover:shadow-e2 transition-all duration-[var(--duration-normal)] border-white/30 hover:border-white/50">
               <CardContent className="p-4 sm:p-6 flex flex-col justify-between h-full">
                 <div className="flex items-start justify-between">
                   <div className="space-y-1">

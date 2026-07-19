@@ -14,7 +14,7 @@ export function Layout() {
   const { user } = useAuth();
 
   return (
-    <div className="flex h-screen overflow-hidden bg-surface-page text-content font-sans antialiased transition-colors duration-300">
+    <div className="flex h-screen overflow-hidden bg-transparent text-content font-sans antialiased transition-colors duration-300">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-[var(--color-primary)] focus:text-[var(--bg-page)] focus:font-bold focus:rounded-[var(--radius-md)] focus:shadow-e3 focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)] transition-all"

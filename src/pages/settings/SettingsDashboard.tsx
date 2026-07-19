@@ -19,9 +19,8 @@ export function SettingsDashboard() {
   const navItems = user?.role === 'admin' 
     ? adminNavItems 
     : [
-        // Principals or teachers might only see general settings or none.
-        // For this demo, let's say non-admins only see general settings in read-only mode,
-        // or just don't have access at all. We will redirect in a real scenario.
+        // Principals or teachers see general settings in read-only mode,
+        // or just don't have access at all.
         { name: 'General Settings', path: 'general', icon: Settings }
       ];
 

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { AppSkeleton } from '../../components/ui/AppSkeleton';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Button } from '../../components/ui/button';
 import { feeService } from '../../services/fee.service';
@@ -66,8 +67,8 @@ export function FeeStructureForm({ onSuccess, onCancel }: FeeStructureFormProps)
   const categories = ['admission', 'monthly', 'exam', 'transport', 'library', 'hostel', 'custom'];
 
   return (
-    <Card className="border-line shadow-e1 font-body">
-      <CardHeader className="border-b border-line pb-4">
+    <Card className="overflow-hidden font-body">
+      <CardHeader className="border-b border-white/20 pb-4">
         <CardTitle className="text-lg text-content font-extrabold font-display">Create Fee Structure</CardTitle>
       </CardHeader>
       <CardContent className="pt-6">
@@ -78,7 +79,7 @@ export function FeeStructureForm({ onSuccess, onCancel }: FeeStructureFormProps)
               <select
                 value={formData.class}
                 onChange={(e) => setFormData({ ...formData, class: e.target.value })}
-                className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
               >
                 {['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'].map(c => (
                   <option key={c} value={c}>Class {c}</option>
@@ -91,7 +92,7 @@ export function FeeStructureForm({ onSuccess, onCancel }: FeeStructureFormProps)
                 type="text"
                 value={formData.academicYear}
                 onChange={(e) => setFormData({ ...formData, academicYear: e.target.value })}
-                className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
+                className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content transition-all focus:outline-none focus:border-primary focus:shadow-[0_0_0_3px_rgba(52,245,197,0.18)]"
                 placeholder="e.g. 2026-2027"
               />
             </div>
@@ -100,19 +101,19 @@ export function FeeStructureForm({ onSuccess, onCancel }: FeeStructureFormProps)
           <div className="space-y-4">
             <div className="flex justify-between items-center">
               <h4 className="text-sm font-bold text-content font-display uppercase tracking-wider">Fee Items</h4>
-              <Button type="button" variant="secondary" size="sm" onClick={addFeeItem} className="border-line text-content-secondary hover:text-content font-bold font-display">
+              <Button type="button" variant="secondary" size="sm" onClick={addFeeItem} className="border-white/20 text-content-secondary hover:text-content font-bold font-display">
                 <Plus className="h-4 w-4 mr-2" /> Add Item
               </Button>
             </div>
 
             {fees.map((fee, index) => (
-              <div key={index} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 p-4 border border-line rounded-xl bg-surface-raised transition-all duration-fast">
+              <div key={index} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 p-4 border border-white/20 rounded-xl transition-all duration-fast">
                 <div className="flex-1 space-y-1">
                   <label className="text-[10px] font-bold text-content-tertiary uppercase tracking-wider font-display">Category</label>
                   <select
                     value={fee.category}
                     onChange={(e) => updateFeeItem(index, 'category', e.target.value)}
-                    className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary"
+                    className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary"
                   >
                     {categories.map(c => (
                       <option key={c} value={c} className="capitalize">{c}</option>
@@ -126,7 +127,7 @@ export function FeeStructureForm({ onSuccess, onCancel }: FeeStructureFormProps)
                     min="0"
                     value={fee.amount}
                     onChange={(e) => updateFeeItem(index, 'amount', Number(e.target.value))}
-                    className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content focus:outline-none focus:border-primary"
+                    className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content focus:outline-none focus:border-primary"
                   />
                 </div>
                 <div className="flex-1 space-y-1">
@@ -134,7 +135,7 @@ export function FeeStructureForm({ onSuccess, onCancel }: FeeStructureFormProps)
                   <select
                     value={fee.frequency}
                     onChange={(e) => updateFeeItem(index, 'frequency', e.target.value)}
-                    className="w-full p-2 border border-[var(--border-default)] rounded-[var(--radius-sm)] bg-[var(--bg-surface)] text-sm text-content-secondary focus:outline-none focus:border-primary"
+                    className="w-full p-2 border border-white/20 rounded-xl bg-white/10 dark:bg-black/20 backdrop-blur-md text-sm text-content-secondary focus:outline-none focus:border-primary"
                   >
                     <option value="one_time">One Time</option>
                     <option value="monthly">Monthly</option>
@@ -150,8 +151,8 @@ export function FeeStructureForm({ onSuccess, onCancel }: FeeStructureFormProps)
             ))}
           </div>
 
-          <div className="flex justify-end gap-4 pt-4 border-t border-line">
-            <Button type="button" variant="secondary" onClick={onCancel} className="border-line text-content-secondary hover:text-content font-bold font-display">Cancel</Button>
+          <div className="flex justify-end gap-4 pt-4 border-t border-white/20">
+            <Button type="button" variant="secondary" onClick={onCancel} className="border-white/20 text-content-secondary hover:text-content font-bold font-display">Cancel</Button>
             <Button type="submit" disabled={loading} className="font-bold font-display">
               {loading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Save className="h-4 w-4 mr-2" />}
               Save Structure

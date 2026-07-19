@@ -1,4 +1,4 @@
-import { database, storage } from '../lib/firebase';
+import { database, storage, auth } from '../lib/firebase';
 import { ref, get, set, push, update, query, orderByChild, equalTo } from 'firebase/database';
 import { ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { AdmissionApplication, AdmissionStatus } from '../types/admission';
@@ -94,7 +94,10 @@ class AdmissionService {
   async uploadDocument(id: string, file: File, docType: string): Promise<string> {
     if (!storage) throw new Error('Storage not initialized');
     const ext = file.name.split('.').pop();
-    const fileRef = storageRef(storage, `admissions/${id}/${docType}_${Date.now()}.${ext}`);
+    
+    // For unauthenticated/anonymous admissions, we upload to the admissions-pending path
+    // which has an allow write: if true; rule in Firebase Storage, but restricted read.
+    const fileRef = storageRef(storage, `admissions-pending/${id}/${docType}_${Date.now()}.${ext}`);
     await uploadBytes(fileRef, file);
     return getDownloadURL(fileRef);
   }

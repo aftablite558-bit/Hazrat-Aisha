@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, {  useState, useEffect  } from 'react';
+import { AppSkeleton } from '../../components/ui/AppSkeleton';
 import { SettingsService } from '../../services/settings.service';
 import { BackupRecord } from '../../types/settings';
 import { Button } from '../../components/ui/button';
@@ -106,7 +107,7 @@ export function BackupRestore() {
   }
 
   if (loading) {
-    return <div className="p-8 flex justify-center"><Loader2 className="w-8 h-8 animate-spin text-indigo-600" /></div>;
+    return <div className="p-8"><AppSkeleton type="dashboard" /></div>;
   }
 
   return (
